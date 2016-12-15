@@ -1,0 +1,234 @@
+
+\title{Riepilogo Elettronica Applicata e Misure}
+\author{Jacopo Nasi\\
+        Ingegneria Informatica\\
+        Politecnico di Torino}
+\date{I Periodo - 2016}
+
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{mathtools}
+% Misure Documento
+\geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
+
+\begin{document}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=10cm]{images/polito.pdf}
+\end{figure}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+``L'immaginazione è più importante del sapere, l'intuizione è l'unica via per nuove scoperte. Ma non hai veramente capito una cosa se non sei in grado di spiegarla a tua nonna.''\\
+\rightline{{\rm --- Albert Einstein}}
+\newpage
+\section{Elettronica Applicata}
+% Parte B
+\subsection{Parte B}
+% PARTE B1 - ELAPMISB1
+\subsubsection{Parte B1}\label{b1}
+I circuiti logici digitali sono caratterizzati da una tensione di alimentazione che varia dal GND a Val. I segnali di ingresso possono essere ricevuti in modo seriale o parallelo.\\
+Gli stati logici di uscita sono rappresentati da tensioni, solitamente la tensione alta ($V_{al}$) corrisponde al valore logico 1 e prende il nome di $V_{h}$, mentre la tensione bassa (GND) corrisponde al valore logico 0 e prende il nome di $V_{l}$.\\
+La capacità di riconoscimento dell’ingresso da parte di una porta logica è legata al confronto con una soglia. Per poter garantire il corretto funzionamento di un circuito vengono specificati dei campi di accettabilità degli ingressi. Se essi vengono rispettati ($V_{ol}$ $<$ $V_{il}$ e $V_{oh}$ $>$ $V_{ih}$) la dall’uscita precedente allora non vi saranno problemi di compatibilità tra le porte questo è infatti il principale vantaggio del mondo digitale, usando un semplice comparatore di soglia siamo in grado di rigenerare il segnale alla perfezione. I margini di rumore sono le fasce dove il segnale di entrata potrà ancora essere riconosciuto correttamente, esse sono commisurate al tipo di applicazione del circuito, le auto avranno NM molto ampi.
+\paragraph{Transistor}
+I circuiti di tipo CMOS (MOS complementari) hanno una diversa resistenza di uscita nel caso in cui si parli di uscita alta o bassa, anche la tensione di uscita Vo è consistente solo in base ai valori di Io. Questo tipo di circuiti prevede solamente due tipi di uscita H o L. Nel circuito a tre stati abbiamo anche l’opzione Z = alta impedenza utile in casi in cui all’uscita non si voglia avere ne un valore H ne un valore L, questo tipo di circuito può essere implementato anche con un doppio switch. Molto considerazioni fatte tralasciano il fattore realtà infatti dobbiamo tenere in considerazione alcuni fattori. I segnali reali hanno fronti con pendenza finita e quindi il riconoscimento del nuovo stato logico non è immediato, allo stesso modo anche le variazioni di tensioni o correnti nei moduli stessi non lo possono essere. La combinazione di tutti questi parametri limita la velocità di operatività e porta a ritardi di propagazione.\\
+Il tempo di propagazione è il tempo necessario, per un segnale in ingresso a propagarsi nel modulo fino alla sua uscita. Questo valore non sempre è uguale per le due transizioni, lo è nel caso di strutture simmetriche come i CMOS, non lo è nel caso di uscita R-SW (dove abbiamo un transitorio in carica molto lento). Il FAN OUT rappresenta il massimo numero di ingressi che possono essere collegati ad una uscita.
+\paragraph{Segnali Differenziali}
+I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai disturbi, o meglio essendo un doppia canale tutti e due vengono disturbati allo stesso modo mantenendo così il valore differenziale uguale. Ci permettono inoltre di usare una differenza di tensione molto più bassa aumentando così la velocità e riducendo i consumi.
+
+\paragraph{Domande}
+(vedi slide)\\
+1) Perché il digitale ci permette di compensare facilmente il rumore.\\
+2) Dobbiamo fare in modo che vengano rispettate le compatibilità sia delle correnti che delle tensioni.\\
+3) Le uscite a tre stati vengono utilizzate quando il nostro dispositivo deve rimanere in una situazione in cui non trasmette ne zero ne uno.\\
+4) Il FAN-OUT dipende direttamente dalle caratteristiche del circuito ed è il numero di porte logiche che potremmo connettere all’uscita mantenendo un funzionamento corretto.\\
+5) Il principale vantaggio dei segnali differenziali è legato alla loro resistenza ai disturbi.
+
+% PARTE B2 - ELAPMISB2
+\subsubsection{Parte B2}\label{b2}
+I circuiti combinatori sono funzioni combinatorie degli ingressi applicati e non hanno bisongno di elementi di memoria a differenza dei circuiti sequenziali i quali sono funzioni anche della precedente storia del circuito.
+\paragraph{Elementi di memoria}
+Il primo elemento di memoria è l'anello di inverter ma il suo svantaggio è legato al fatto che una volta assegnatoli in valore non è possibile modificarlo senza rimuovere l'alimentazione. Altra questione di interesse in questo elemento è legata alla situazione di metastabilità (stato temporaneo intermedio) da evitare. Da questo si passa subito al FF Set Reset. Esso presenta l'anello di inverte con due porte NOR che fungono da commutatori nel circuito. Le situazioni possibili sono 4 modificando in modo complementare SET e RESET si modifica il valore, con SET a 1 Qa=1 ecc... Nel caso in cui tutti e due i comandi siano a 0 si crea l'anello di inverter, entrando in stato di memoria. L'ultima condizione (TUTTI 1) è una situazioni proibita dove rischio di mandare in stallo (uscite uguali o metastabilità) il sistema. Una possibile soluzione al problema dello stallo è quella di assegnare i comando S ed R allo stesso segnale opportunamente invertito in un caso. Il sistema può essere volendo convertito (legge di De Morgan) con porte NAND.
+\paragraph{Sync o Async}
+I Circuiti possono essere sincroni o asincroni, i primi sono molto più semplici da realizzare (CAD Automatici) e possono cambiare il loro stato solo in presenza di un comando specifico (CLK). Viene aggiunto un segnali di crontrollo LE (Latch Enabled) per controllare le situazioni in cui può effettivamente variare lo stato.\\
+I FF Master-Slave sono costituiti da una cascata di FF latch con abilitazione complementare su base CLK, se =0 abilito il primo e blocco il secondo, mentre se =1 l'opposto.\\
+Riepilogo:
+\begin{itemize}
+  \item Latch: (Attivo su livello)
+  \begin{itemize}
+    \item \textbf{LE = 1} Trasparenza
+    \item \textbf{LE = 0} Memoria
+  \end{itemize}
+  \item FF D (Master-Slave): (Attivo su fronte)
+  \begin{itemize}
+    \item Uscita variante su fronti del CLK
+    \item Non fronte = Memoria
+  \end{itemize}
+\end{itemize}
+FF JK è basato su un SR MS con reazione incrociata, la principale differenza è legata alla sua possibilità di sfruttare la situazione normalmente proibita.\\
+Tutti questi cricuiti essendo reali presentano non idealità dovute principalmente ai ritardi di propagazione dei segnali. Bisogna quindi tenere in considerazione anche queste cose (La frequenza di CLK viene determianta sulla base di questi ritardi).\\
+I principali sono:
+\begin{itemize}
+  \item \textbf{Tsetup} = Minimo tempo necessario tra il cambio di stato di D ed ilrise del CLK.
+  \item \textbf{Trise} = Tempo di salita del fronte di CLK.
+  \item \textbf{Thold} = Minimo tempo necessario dopo il rise del clock, ma prima del successivo cambio di stato.
+  \item \textbf{Tfall} = Tempo di discesa del fronte di CLK.
+\end{itemize}
+
+% PARTE B3 - ELAPMISB3
+\subsubsection{Parte B3}\label{b3}
+I segnali possono essere trattati in due forme, seriale o parallela.\\
+ Nel trasferiemento seriale uno alla volta i segnali vengono cadenzati da un segnale di CLK (1 bit x volta). In quello parallelo invece vengono trasferiti N bit per volta in un singolo segnale di CLK. Potrebbe sembrare che la seconda sia sempre più veloce, nella realtà potendo sfruttare una frequenza decisamente alta le connessioni seriali sono più veloci (vedi USB).
+\paragraph{Registri}
+I registri sono le componenti grazie alle quali possiamo mantenere i dati. Essi sono costituiti semplicemente da FF uniti di tipo L o Edge-Triggered dove viene utilizzata una sola uscita. Vi sono differenti tipi di registri:
+\begin{itemize}
+  \item \textbf{PIPO}: Parallel In / Parallel Out
+  \item \textbf{Shift-Register}: Serial In / Serial Out
+  \item \textbf{SIPO}: Serial In / Parallel Out
+  \item \textbf{PISO}: Parallel In / Serial Out
+\end{itemize}
+\paragraph{Contatori}
+Circuiti logici in grado di generare sulle uscite una sequenza di conteggio binario incrementata ad ogni colpo di CLK. Possono essere si crescenti che decrescenti.\\
+I divisori invece sono costituiti da FF in cascata dove l'uscita di uno diventa il CLK del successivo. Questo permette di modulare (dividere) la frequenza di CLK. Chiaramente in tutti questi componenti non possiamo trascurare la questione ritardi. Se usiamo contatori sincroni il ritardo non sarà nullo, ma semplicemente sarà uguale per tutte le componenti facendole rimanere sincronizzate. Nel caso di CLK concatenato tra le porte la questione sarà molto più difficile da gestire andato di fatto a generare un circuito asincrono. In qualsiasi caso valgono tutte le regole di sincronizzazione.
+\paragraph{Temporizzazione}
+Nel calcolare la massima frequenza di operatività del circuito devo tenere in considerazione molte variabili:
+\begin{itemize}
+  \item Ritardo introdotto dal FF (Uscita dalla porta del segnale entrato).
+  \item Ritardi introdotti dalla logica combinatoria (porte AND in questo caso).
+  \item Tempo di SETUP richiesto dal FF.
+\end{itemize}
+Per poter ridurre i ritardi in questione non mi conviene usare strutture a riporto (Ripple) ma quelle dirette (Look Ahead) che mi permettono di risolvere tutti i problemi dovuti alla logica combinatoria. Il principale svantaggio di queste strutture è legato alla complessita di progettazione.
+% PARTE B4 - ELAPMISB4
+\subsubsection{Parte B4}\label{b4}
+I comparatori di soglia sono elementi fondamentali nell'elettronica digitale, il primissimo compito è quello di pulizia dei segnali in modo da riportarli al loro valore privo di disturbi.
+\paragraph{Comparatori con A.O.}
+Questo tipo di comparatori presenta alcune controindicazioni dovute a:
+\begin{itemize}
+  \item Guadagno \textbf{Ad} ad anello aperto molto grande.
+  \item Escursione della \textbf{Vu} limitata.
+  \item Zona lineare molto ridotta.
+\end{itemize}
+Il comparatore può essere realizzato sia con AO invertente che non, con una semplice inversione del segnale di uscita. Il problema principale di questa soluzione, con una sola soglia di confronto, è che un segnale "rumoroso" potrebbe creare un'uscita pessima con tantissimi cambi di valore.\\
+In queste situazioni:
+\begin{itemize}
+  \item Fuori linearità.
+  \item Elevata tensione differenziale tra gli ingressi.
+  \item Eventuale tensione di modo comune.
+\end{itemize}
+\paragraph{Comparatore con Isteresi}
+La differenza principale è legata all'utilizzo di due soglie invece che una singola, questo permette di avere un sistema più resistente al rumore infatti il valore di uscita commuterà solo al passaggio della soglia più esterna. Questa è un sistema con isteresi. Anche questa soluzione può essere implementata con tutti e due i tipi di AO. Per ottenere uno sdoppiamento della soglia è sufficente creare un partitore di tensione (utilizzando resistenze) tra l'uscita ed una tensione di riferimento.
+\paragraph{Comparatori Integrati}
+Esistono componenti più specifici con uscite più flessibili, maggiore velocità o non idealità meno importanti. Uno di questi è il trigger di Schmitt con soglie fisse e inverter con ingresso a trigger. Il circuito è semplice, un condensatore a massa, componente e resistenza in parallelo e si misura la tensione di uscita rispetto a GND.
+\paragraph{Convertitori}
+Il comparatore di sogli trasforma una grandezza analogica in una numerica (su 1 bit). In generale per convertire un segnale A/D avremo bisongo un numeri di comparatori $2^n-1$ (n: numero di bit). Eventualmente si possono conbinare comparatori in cascata.
+
+% PARTE B5 - ELAPMISB5
+\subsubsection{Parte B5}\label{b5}
+Gli oscillatori ed i generatori di segnali sono utili strumenti nel campo dell'elettronica.
+\paragraph{Generatori di Segnali}
+Ci possono essere diversi tipi di generatori di segnali, continui o ad impulsi.\\
+I principali parametri da tenere in considerazione in un segnale, a seconda del tipo sono:
+\begin{itemize}
+  \item Livelli: $V_{H}, V_{L}$
+  \item Periodo: $T = T_{H} + T_{L}$
+  \item Frequenza: $1/T$
+  \item Duty Cycle: $DC = T_{H}/T$
+  \item Ampienzza: A
+\end{itemize}
+Il generatore di onda quadra generale un segnale rettangolare con DC specificato. Il generatore di impulso è un circuito monostabile generante un singolo impulso di larghezza W.\\
+I vari segnali possono essere ritardati, per farlo possono essere usate diverse soluzioni, nei circuiti analogici con celle RC o LRC. Nei circuiti digitali con contatori, o soluzioni ad hoc. Con il software la soluzione è molto più semplice.
+\paragraph{Generatori di Onda Quadra}
+Il segnale O.Q. può essere ottenuto concatenando due parti: una rete RC passa-basso comandata da un segnale BINARIO sfruttando la carica e scarica del condensatore, un comparatore con isteresi. Se il comparatore pilota la rete RC otteniamo proprio un onda quadra in quanto il nostro condensatore si caricherà e scaricherà tra le due soglie ($V_{S1}, V_{S2}$).\\
+I principali limiti operativi sono legati alla resistenza di reazione. Con una grande resistenza non riusciremo a far circolare la corrente necessaria, valori troppo bassi invece limitano la dinamica di uscita. Allo stesso modo il condensatore non deve avere un valore troppo basso altrimenti introdurrebbe una capacità parassita.\\
+In modo analogo è possibile ottenre un generatoe di onda triangolare.\\
+Il valore del periodo: $T_{1} = (R*C*(V_{S2}-V_{S1}))/V_{UH}$ è modificabile variando il valore della resistenza di reazione. La variazione di DC è più complessa e necessità dell'utilizzo di due diodi.\\
+\paragraph{Oscillatori sinusoidali}
+Per realizzare questo componente spesso vengono utilizzati quarzi o altri materiali piezoelettrici in grado di deformarsi in presenza di un campo elettrico o di generare tensione se sottoposti a sollecitazioni meccaniche. Altra possibile soluzione è sfruttando circuiti con reazione, reti RC e porte.
+
+% PARTE B6 - ELAPMISB6
+\subsubsection{Parte B6}\label{b6}
+Ad oggi l'industria elettronica non si occupa della produzione di un'oggetto nella sua interezza, si utilizzano componenti costruiti da altre aziende principalmente perchè ridurre il tempo di progettoed abbassare i NRE Cost (Non-Recurrent Engineering Cost). Le problematiche legate a questa soluzione sono correlate alla più difficile comprensione delle componenti (datasheet complessi). In generale ci sono 3 tipi di industrie:
+\begin{itemize}
+  \item Progetto di \textbf{Sistemi} (Nokia, Apple, Marelli, ...)
+  \begin{itemize}
+    \item Possono includere la produzione.
+    \item Poco specializzate, molte migliaia di aziende.
+  \end{itemize}
+  \item Progetto di \textbf{Circuiti integrali} (Intel, Texas Instruments, ...)
+  \begin{itemize}
+    \item Produzione quasi assente.
+    \item Specializzate nella produzione di maschere per i CI.
+  \end{itemize}
+  \item Fabbricazione di \textbf{Circuiti Integrati} (Intel, Samsung, TSMC, ...)
+  \begin{itemize}
+    \item Molto specializzate, meno di 10 al mondo, per gli altissimi costi di ammortamento degli impianti.
+  \end{itemize}
+\end{itemize}
+\paragraph{Tempo di progetto}
+Il tempo di progetto è fondamentale, il ritardo di ingresso si trasferisce quadraticamente sui ricavi.
+\paragraph{Costi}
+I contribuenti al costro per prodotto sono molti: NRE (una tantum), Cu (costo unitario di produzione escludente i costi di progetto).\\
+$C_{p} = (NRE/N) + Cu$\\
+Le diverse scelte dipendono principalmente dal numero di unità prodotte N.
+\paragraph{Stili di progetto}
+Vi possono essere differenti stili dai quali dipenderanno molto i costi. Si può partire costruenti circuiti direttamente con le porte fino ad arrivare ad HW generico sfruttante funzioni definite lato SW.
+\begin{itemize}
+  \item \textbf{FULL CUSTOM}: Necessitano moltissimi step progettuali con altissima flessibilità, il tutto altissimi NRE cost.
+  \item \textbf{SEMI CUSTOM}: Sfruttano librerie di progetto, rimangono comunque complessi da sviluppare garantendo una discreta flessibilità ma comunque con alti costi.
+  \item \textbf{Cir. Programmabili}: Presentano IN/OUT programmabili, senza nessuna funzione nativa ma con bassi NRE ed alti costi unitari.
+\end{itemize}
+\paragraph{Logiche Programmabili}
+La semplicitià di queste componenti le rende molto diffuse e di facile utilizzo. La loro struttura è basata su matrici di IN/OUT dove i collegamenti risultano definibili dagli utenti. Le principali logiche sono PAL o PLA. Altri tipi di memorie programmabili sono PROM (eventualmente a sola lettura come nei computer), FPGA (complesse fino a decine di milioni di porte), EEPROM (basate su MOS floating gate).
+
+\clearpage
+% PARTE C
+\subsection{Parte C}
+% PARTE C1 - ELAPMISC1
+\subsubsection{Parte C1}\label{c1}
+Le tecnologie attuali permettono di avere un numero di transisto $>10^9$ per chip (Intel i7). Il principale bottle neck rimanere la distribuzione dei segnali e l'energia. I circuiti usano simboli binari, ma nella realtà sono tensioni e correnti.
+\paragraph{Ritardi}
+Tenendo in considerazioni tutte le questioni legate all'interfacciamento delle componenti viste nella parte B andiamo a considerare ulteriori imprecisioni. Le più importanti sono il Clock Jitter $T_{J}$ (variazione $\pm$ del periodo) ed il Clock Skew $T_{K}$ (sfasamento $\pm$ tra clock).
+\paragraph{Interconnessioni}
+A livello ideali l'uscita logica del driver (TX) e l'ingresso logico del receiver (RX) presentano una connessione perfetta, senza ritardi e disturbi, chiaramente solo in prima approssimazione.\\
+Se cerchiamo di ottenere una più precisa approssimazione dobbiamo andare ad analizzare il circuito come una linea di comunicazione dopo il collegamente D-R viene modellato come una cella RC passa-basso. Conseguentemente, al segnale in uscita dal driver avremo una risposta esponenziale con costante di tempo $\tau = CR$. Il ritardo con cui viene rilevata una variazione di stato logico prende il nome di TEMPO DI TRASMISSIONE ($t_{TX}$). Questo tempo varia anche tra connessioni nominalmente allinetate e la differenza tra i due casi ($t_{TXmax}-t_{TXmin}$) prende il nome di SKEW.
+
+% PARTE C2 - ELAPMISC2
+\subsubsection{Parte C2}\label{c2}
+L'approssimazione con celle RC è discretamente valida, vi sono anche le approssimazioni a parametri concentrati. Idealmente aumentando il numero di celle ad infinito si ottiene una linea di trasmissione reale.\\
+Ogni linea presenta dei parametri caratteristici:
+\begin{itemize}
+  \item Parametri Fisici:
+  \begin{itemize}
+    \item Lu: Impedenza unitaria
+    \item Cu: Capacità unitaria
+  \end{itemize}
+  \item Parametri Elettrici:
+  \begin{itemize}
+    \item Impedenza caratteristica: $Z_{\infty}$ (10...1000 $\Omega$)
+    \item Velocità di propagazione: P=(0.6-0.8)*C
+    \item Tempo di propagazione: (tempo di spostamento sul conduttore) $t_{p}=L/P$
+  \end{itemize}
+\end{itemize}
+\paragraph{Linea Pilotata}
+Il primo gradino si sposta lungo tutto il conduttore senza subire distorsioni ed impiega un $t_{p}$ a propagarsi fino all'ingresso del receiver su una linea senza perdite.\\
+Se $R_{t}=Z_{\infty}$ allora in rapport $V/I$ non varia e non si hanno discontinuità. Se invece $R_{t} \neq Z_{\infty}$ il rapporto $V/I$ varia, generando una progressiva variazione del gradino (onda progressiva o incidente), le variazioni genereranno un'onda riflessa (regressiva) con propagazione inversa a prima.\\
+L'ampiezza dell'onda riflessa sarà determinata dal coefficente di riflessione $\Gamma_{T}$ con $V_{r}=\Gamma_{T}V_{p}$.\\
+Questo coefficente assume valori differenti:
+\begin{itemize}
+  \item \textbf{Linea Chiusa}: $R_{t}=Z_{\infty}$ allora $\Gamma_{T}=0$
+  \item \textbf{Linea Aperta}: $R_{t}\rightarrow\infty$ allora $\Gamma_{T}=1$
+  \item \textbf{Linea in Corto}: $R_{t}=0$ allora $\Gamma_{T}=-1$
+\end{itemize}
+L'andamento del sistema viene spesso schematizzato utilizzando un diagramma a traliccio. In tutto questo dobbiamo ricordare che le variazioni di stato logico sono riconosciute quando viene attraversata la soglia $V_{TH}$; questo può richiedere riflessioni multiple del segnale, e introduce un ritardo $t_{TX}$ (tempo di trasmissione) tra attivazione del segnale e la rilevazione della variazione al ricevitore.
+
+% PARTE C3 - ELAPMISC3
+\subsubsection{Parte C3}\label{c3}
+
+\bibliographystyle{abbrv}
+\bibliography{simple}
+
+\end{document}
