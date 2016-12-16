@@ -8,8 +8,10 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
-\usepackage{mathtools}
-\usepackage{graphicx}
+\usepackage{mathtools} % Math library
+\usepackage{graphicx} % Graphics Library
+\usepackage{indentfirst} % First line indent
+
 % Misure Documento
 \geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
 
@@ -25,13 +27,13 @@
 \tableofcontents
 \newpage
 ``The most compelling reason for most people to buy a computer for the home will be to link it to a nationwide communications network. We’re just in the beginning stages of what will be a truly remarkable breakthrough for most people– –as remarkable as the telephone.''\\
-\rightline{{\rm --- Steve Jobs, Feb. 1th 1985}}
+\rightline{{\rm --- \textbf{Steve Jobs}, Feb. 1th 1985}}
 \newpage
-\section{Struttura}
-\subsection{Concetti Generali}\label{subsubsec}
+
+\section{Concetti Generali}\label{subsubsec}
 Introduzione alle Reti di Calcolatori dal punto di vista strutturale.
-\subsubsection{Definizioni}
-La maggior parte delle definizioni derivano dal "Blue Book" del CCITT o IUT-T oggi.\\
+\subsection{Definizioni}
+La maggior parte delle definizioni derivano dal "Blue Book" del CCITT o IUT-T oggi.
 \begin{itemize}
   \item \textbf{Comunicazione}: Trasferimento di informazioni secondo convenzioni prestabilite.\\
   \item \textbf{Telecomunicazione}: Qualsiasi trasmissione e ricezione di segnali che rappresentano informazioni di qualsiasi natura, attraverso cavi, radio o altri sistemi ottici e elettromagnetici.\\
@@ -53,7 +55,7 @@ La maggior parte delle definizioni derivano dal "Blue Book" del CCITT o IUT-T og
     \item Throughput $\leq$ Traffico Offerto
   \end{itemize}
 \end{itemize}
-\subsubsection{Topologia}
+\subsection{Topologia}
 La topologia rappresenta un insieme di nodi e canali che fornisce un collegamento tra due o più punti per permettere la telecomunicazione tra essi.\\
 Prende il nome di \textbf{Nodo} un punto in cui avviene la commutazione, mentre si chiama \textbf{Canale} un mezzo di trasmissione, sia nel caso uni che bi-direzionale.
 \paragraph{Tipi di Canale} I canali posso essere di due tipi:
@@ -76,7 +78,7 @@ Considerando N=$|V|$ e C=$|A|$ le principali topologie sono:
 \end{itemize}
 Si possono distinguere due tipi di topologia, quella fisica e quella logica. La prima tiene conto dei mezzi trasmissivi mentre la seconda definisce le interconnessioni tra nodi mediante canali. Chiaramente la scelta di una topologia influisce direttamente sulle prestazioni della rete. Il traffico smaltibile da una rete dipende dalla media della distanza tra ogni coppia di nodi della rete, pesata dalla quantità di traffico scambiata tra i due nodi. Nel caso di traffico uniforme e topologie regolari il throughput è inversamente proporzionale alla distanza media.
 
-\subsubsection{Servizi di Telecomunicazione}
+\subsection{Servizi di Telecomunicazione}
 Un servizio di telecomunicazione è ciò che viene offerto da un gestore pubblico o privato ai propri clienti al fine di soddisfare una specifica esigenza di telecomunicazione.\\
 Diretta conseguenza di questa definizione sono i tipi di reti, esse possono essere DEDICATE (singolo servizio: radio, TV) o INTEGRATE (multi servizio: internet).\\
 I servizi possono essere classificati in questo modo:
@@ -92,7 +94,7 @@ I client sono attivati solo nel momento in cui viene richiesto un servizio a dif
 \paragraph{Peer-to-Peer}
 Questo modello è stato introdotto nel mondo di internet più recentemente ed è principalmente pensato per le interazioni tra gruppi di utenti dopo tutti gli applicativi sono paritetici ovvero mettono a disposizione informazioni condivise.
 
-\subsubsection{Tipi di trasmissione}
+\subsection{Tipi di trasmissione}
 L'informazione può essere condivisa principalmente in due modi, in modo ANALOGICO o in modo NUMERICO (DIGITAL).
 \paragraph{Analogico}
 La trasmissione viene trasferita per mezzo di un segnale elettrico, di conseguenza sarà continuo, limitato e di infiniti valori. La rappresentazione deriverà dalle variazioni del segnale, ad esempio la trasmissione del segnale audio sul cavo connettore delle cuffie.
@@ -101,7 +103,7 @@ Anche in questo caso l'informazione viene trasferita attraverso un segnale elett
 Nelle reti telematiche l'informazione viene trasferita in forma digitale usando segnali analogici e digitali. Nel caso in cui la sorgente si presenti in maniera analogica essa viene preventivamente capionata in modo da porterla trasformare in una controparte digitale. Questo processo potrebbe presentare delle perdite se non vengono rispettate determinate condizioni.\\
 Il livello successivo alla caratterizazione del segnale riguardo la sua trasmissione vera e propria che può essere gestita in due modi, SERIALE o PARALLELA. Il principale problema di tutte e due è legato alla sincronizzazione. Questo problema può essere gestito in due modalità, SINCRONA ed ASINCRONA. Ma questo corso non si occupa nello specifico di questi argomenti.
 
-\subsubsection{Condivisione di Canale}
+\subsection{Condivisione di Canale}
 La convisione di canale può essere di due tipologie, si parla di:
 \begin{itemize}
   \item \textbf{Multiplazione}: Se tutti i flussi sono disponibili in un unico punto.
@@ -123,7 +125,7 @@ Questo tipo di divisone si ottiene usando codici differenti che devono essere ri
 Le reti permettono di sfruttare la diversità spaziale del sistema per far coesistere più flussi di informazione in punti diversi. Questa possibilità può essere sfruttata per aumentare la capacità di una rete.\\
 Tutte queste soluzioni possono essere applicate in modo predeterminato o in maniera statistica in modo da permettere una flessibilità relativa alla situazione.
 
-\subsubsection{Commutazione di circuito}
+\subsection{Commutazione di circuito}
 Usata sin dagli albori della telefonia, usa le risorse disponibili per allocare un circuito (collegamento fisico) a ogni richiesta di servizio. Il circuito stabilito rimarrà ad uso esclusivo degli utenti per tutta la durata della loro connessione, le risorse verranno infatti rilasciate solo al termine della comunicazione. L'esempio principe è la rete telefonica.\\
 I vantaggi principali sono:
 \begin{itemize}
@@ -139,7 +141,7 @@ Gli svantaggi invece:
   \item Tariffazione in base al tempo di allocazione.
 \end{itemize}
 Generalmente questa pratica risulta utile solo nel caso in cui il canale allocato risulti completamente sfruttato, altrimenti sarà sicuramente più vantaggioso lo smistamento.
-\subsubsection{Commutazione di pacchetto}
+\subsection{Commutazione di pacchetto}
 L'idea principale di questo tipo di tecnologia è quella di non predeterminare l'allocazione, sopratutto per l'uso esclusivo da parte di due o più utenti. Questa tecnica può essere paragonata al sistema postale.\\
 L'informazione da trasferire viene organizzata in unità dati (PDU) che comprendono informazioni di utente e protocollo.
 \begin{itemize}
@@ -176,14 +178,97 @@ La seconda soluzione si differenzia per la suddivisione in tre fasi:
   \item Chiusura Connessione (segnalazione)
 \end{enumerate}
 Dopo aver stabilitò un'accordo tra i due interlocutori ed il fornitore i pacchetti seguiranno tutti lo stesso percorso a differenza del datagram dove i paccheti potrebbero tranquillamente seguire percorsi differenti. La soluzione a CV rimane comunque differente da quella a commutazione di circuito perchè non vengono allocate staticamente ed esclusivamente delle risorse.\\
+Nel caso di datagram occorre identificare in ogni pacchetto SRC/DEST utilizzando identificatori globali. Nel caso di VC sarà sufficente individuare il percorso (sfruttando gli indicatori locali), le informazione SRC/DEST verrano utilizzate solo per stabilire il circuito. Questo tipi di circuiti può essere PVC (permanente) o SVC (commutato) ovvero create su richeista dell'utente trammite segnalazione della rete.
 \begin{figure}[h!]
   \includegraphics[width=\linewidth]{images/vc.png}
   \caption{Virtual Circuits}
   \label{fig:vc}
+\end{figure} % 15 Dicembre 2016
+\paragraph{Identificatori}
+Un connessione su un canale è logicamente identificata trammite una etichetta, spesso una coppia di identificatori, questa soluzione permette di aggregare i flussi.\\
+
+\subsection{Segnalazione}
+Le segnalazioni possono essere di più tipologie, ci sono quelle di utente (scambio di informazioni tra utente e nodo), quelle internodali (con svambio di informazioni tra nodi), quelle associate al canale o quelle a canale comune.
+\paragraph{Associata al canale}
+Spesso usato nelle reti telefoniche stabilisce una corrispondenza biunivoca tra canale controllante (info segnalazione) e canale controllato (info utente). Nella versione fuori banda questa corrispondenza non c'è.
+\paragraph{Canale comune}
+Un canale di segnalazione controllo più canali di informazioni di utente mentre lavora a pacchetto.
+
+\subsection{Tecniche di gestione}
+Il network management consiste di diverse funzioni:
+\begin{itemize}
+  \item Configuration
+  \item Performance
+  \item Fault
+  \item Security
+  \item Accounting (tariffazione)
+\end{itemize}
+
+\subsection{QoS: Quality of Service}
+La qualità di un servizio offerto dipende dalla disponibilità di risorse nella rete e dalle tecniche di allocazione. L'analisi e il progetto di reti TLC si basa su modelli quantitativi in grado di stimare la qualità partendo da ipotesi relative alle risorse.\\
+Supponendo un certa richiesta da soddisfare con un determinato numero di risorse si potrà determinare la qualità del servizio. Le sorgenti di informazione da trattare possono essere, come al solito, di tipo analogico o numeri, a velocità variabile o costante.\\
+I principali indici di qualità sono:
+\begin{itemize}
+  \item Ritardi
+  \item Velocità
+  \item Probabilità errore
+  \item Probabilità perdita
+  \item Probabilità blocco
+\end{itemize}
+Un'esempio può essere la rete telefonica classica con una bassa latenza (qualceh decimo di secondo), una velocità di canale fino a 64 kb/s, una probabilità di errore non superiore a quale \% ed una scarsa probabilità di blocco.
+
+\section{Architetture e Protocolli}
+La comunicazione ha come unica pretesa la \textbf{COOPERAZIONE}. Le regole stabilite (convenzioni) che definiscono l'interazione tra elementi di una rete si chiamano protocolli.
+\subsection{Protocolli}
+``Sono la descrizione formale delle procedure adottate per assicurare la comunicazione tra due o più oggetti dello stello livello gerarchico.''\\
+\rightline{{\rm --- \textbf{CCITT}}}
+La definizione di protocolli prevede tre parti:
+\begin{itemize}
+  \item \textbf{Semantica}: Insieme di comandi e risposte.
+  \item \textbf{Sintassi}: Struttura di comandi e risposte.
+  \item \textbf{Temporizzazione}: Sequenze temporali di comandi e risposte.
+\end{itemize}
+Un'architettura di rete definisce il processo di comunicazione, le realazioni tra le parti coinvolte, le funzioni necessarie e le modalità organizzative.
+\paragraph{Architetture stratificate}
+Esse sono molto utili perchè ci garantiscono una semplicità di progetto, facilità di gestione, standardizzazione e separazione delle funzioni.
+
+\subsection{Modello OSI}
+Il modello OSI (Figure \ref{fig:osimodel}) (Open System Interconnection) è storicamente il primo modello a strati definito (1983) da ISO ec accettato da CCITT/ITU-T. Questo modello è la base di moltissime architettura ma non per questo devono rispettarlo nella sua interezza, internet ne usa solo alcuni strati per esempio.
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\linewidth]{images/osimodel.jpg}
+  \caption{OSI Model}
+  \label{fig:osimodel}
 \end{figure}
-% 15 Dicembre 2016
+\paragraph{Implementazione}
+A livello astratto possiamo immaginare una rete come composta da sistemi (terminali, nodi...) collegati tra loro da mezzi trasmissivi. Ogni sistema è composto da sottosistemi ed ognugno di essi realizza le funzioni del proprio strato tramite delle entità. Ogni strato fornisce servizi allo strato superiore usando servizi dello strato inferiore. Le entità sono gli elementi attivi di un sottosistema e svolgono le funzioni ed interagiscono all'interno di uno strato.\\
+I sevizi possono essere:
+\begin{itemize}
+  \item \textbf{connection-oriented}: si stabilsice un'accordo preliminare tra rete e interlocutori, poi si trasferiscono i dati ed infine si rilascia la connessione.
+  \item \textbf{connectionless}: i dati vengono immessi in rete senza accordi e sono trattati in modo indipendente.
+\end{itemize}
+
+\paragraph{SAP: Service Access Point}
+La comunicazione tra due entità passa attraverso un punto di accesso al servizio (SAP).
+
+\subsection{Creazione PDU} % 16 Dicembre 2016
+
+
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
 
 \end{document}
+
+% \begin{center}
+% \begin{tabular}{ |c|c|c| }
+%  \hline
+%  Column1 & Column2 & Column3 \\
+%  \hline
+%  \hline
+%  cell4 & cell5 & cell6 \\
+%  \hline
+%  cell7 & cell8 & cell9 \\
+%  \hline
+% \end{tabular}
+% \end{center}
