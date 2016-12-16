@@ -251,9 +251,56 @@ I sevizi possono essere:
 \paragraph{SAP: Service Access Point}
 La comunicazione tra due entità passa attraverso un punto di accesso al servizio (SAP).
 
-\subsection{Creazione PDU} % 16 Dicembre 2016
+\paragraph{Creazione PDU}
+In un sistema a strati i dati utenti prensenti ad un N-esimo livello prendono il nome di N-SDU allora stesso modo anche la N-PCI che insieme andranno a formare la N-PDU. Ogni strato inferiore tratta la PDU di quello superiore come una busta chiusa a cui aggiungere solo la propria intestazione. Il sistema è paragonabile ad un palazzo dove al piano più alto scrivono la lettera e scendendo via via la imbusteranno, ci metteranno l'etichetta e verrà spedita. Il processo viene chiaramente svolto anche nel sistema ricevente ma in modo inverso.
 
-
+\subsection{Livelli OSI}
+Il sistema a strati definito precendetemente si divide in 7 livelli:
+\begin{enumerate}
+  \item \textbf{Physical Layer}:
+  \begin{itemize}
+    \item Fornisce i mezzi meccanici, fisici, funzionali e procedurali per attivare, mantenere e disattivare le connessioni fisiche.
+    \item Trasferisce le cifre binarie scambiate tra le entità di strato collegamento.
+    \item Definizione di codifiche di linea, connettori e livelli di tensione.
+  \end{itemize}
+  \item \textbf{Data link Layer}:
+  \begin{itemize}
+    \item Fornisce i mezzi funzionali per il trasferimento di informazioni tra le entità di strato rete e per fronteggiare malfunzionamenti di S1.
+    \item Ha il compito di rilevare e recuperare gli errori, controllare il flusso e delimitare le unità dati.
+  \end{itemize}
+  \item \textbf{Network Layer}:
+    \begin{itemize}
+      \item Fornisce i mezzi per instaurare, mantenere ed abbattere le connessioni di rete tra entità dello strato trasporto.
+      \item Gestisce instradamento, controllo di flusso/congestione e tariffazione.
+    \end{itemize}
+  \item \textbf{Transport Layer}:
+    \begin{itemize}
+      \item Colma le carenze di QoS dello strato rete.
+      \item Controllo errore, sequenza e flusso.
+      \item Multipla e demultipla le connessioni.
+      \item Segmenta e ricompone i pacchetti.
+    \end{itemize}
+  \item \textbf{Session Layer}:
+    \begin{itemize}
+      \item Assicura alle entità di presentazione una connessione di sessione.
+      \item Organizza la comunicazione tra enetità presentazione.
+      \item Struttura lo scambio dati in modo da poterne avere una completa gestione
+      \item Maschera le interruzioni del servizio di trasporto
+      \item Spesso integrato nei livelli superiori.
+    \end{itemize}
+  \item \textbf{Presentation Layer}:
+    \begin{itemize}
+      \item Risolve i problemi di compatibilità nella rappresentazione dei dati.
+      \item Risolve i problemi relativi alla trasformazione della sintasi dei dati.
+      \item Può eventualmente fornire servizi di cifratura.
+      \item Spesso integrato nei livelli superiori.
+    \end{itemize}
+    \item \textbf{Application Layer}:
+      \begin{itemize}
+        \item Fornisce ai processi applicativi i mezzi per accedere ad OSI.
+        \item es: Mail, terminale virtuale, FTP, ecc...
+      \end{itemize}
+\end{enumerate} % 16 Dicembre 2016
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
