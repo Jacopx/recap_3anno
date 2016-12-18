@@ -9,6 +9,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
 \usepackage{mathtools} % Math library
+%\usepackage{amssymb}
 \usepackage{graphicx} % Graphics Library
 \usepackage{indentfirst} % First line indent
 
@@ -301,6 +302,123 @@ Il sistema a strati definito precendetemente si divide in 7 livelli:
         \item es: Mail, terminale virtuale, FTP, ecc...
       \end{itemize}
 \end{enumerate} % 16 Dicembre 2016
+
+\section{Protocolli a Finestra}
+Sono i protocolli più frequenti nelle reti telematiche anche contemporanee. Usate in L2 ed L4. Si occupano principalmente di recupero degli errori di trasmissione, controllo del flusso e di sequenza.
+\subsection{Errori di tramissione}
+La trasmissione su qualsiasi canale non può mai essere esente da errori, la probabilità varia tra $10^-12$ (Optical Fiber) e $10^-3$ (Canale radio disturbato). Essendo però trasmessa una mole di dati dobbiamo comunque tenere in considerazione questi numeri e sviluppare tecniche per rilevare e correggere gli errori.
+\paragraph{Codifica di canale} Per quanto un tecnica possa essere efficace comunque non ci potrà garantire una completa risoluzione dagli errori. Tra le più semplici (usate in molti ambiti diversi) ci sono:
+\begin{itemize}
+  \item \textbf{Parity BIT}: Aggiungo un numero che rappresenta se il numero di 1 (o 0) in una sequenza è pari (o dispari).
+  \item \textbf{Codice a ripetizione}: Viene trasmessa più volte la stessa sequenza e si deciderà, la sequenza corretta, confrontandole.
+  \item \textbf{Parity Righe/Colonne}: Analoga al parity bit ma la verifica viene fatta er ogni riga e per ogni colonna.
+\end{itemize}
+I bit di parità vengono sempre inseriti tra le informazioni di controllo (PCI) della PDU.
+\paragraph{Correzione e Recupero}
+Vi sono più soluzioni da adottare per l'utilizzo dei parity in base alla quanità.
+\begin{itemize}
+  \item \textbf{FEC} (Forward Error Correction): I tanti bit di parità vengono usati per cercare di corregge gli errori in ricezione senza la ritrasmissione del pacchetto.
+  \item \textbf{ARQ} (Automatic Retransmission reQuest): I pochi bit di parità sono usati per rilevare gli errori e permettere al ricevitore di chiedere la ritrasmissione della PDU.
+\end{itemize}
+La tecnica migliore dipende dal contesto in cui andiamo ad operare.
+
+\subsection{ARQ: Auto Retransmission}
+Questa tecnica sfrutta un controllo congiunto su errore, flusso e sequenza. Dovremo andare ad aggiungere un campo di numerazione (sequenza) all'interno delle PDU.\\
+Vi sono 3 tecniche di implementazione:
+\begin{enumerate}
+  \item Stop \& Wait (Alternating Bit)
+  \item Go back N
+  \item Selective repeat
+\end{enumerate}
+Un'altro parametro da aggiungere prima di illustrare le tecniche è il \textbf{RTT} (Round Trip Time) una funzione del tempo che rappresenta il tempo necessario ad un pacchetto per essere inviato ed aver ricevuto la conferma, esso terrà conto dei ritardi introdotti da ogni elemento.\\
+\paragraph{Semantica ACK}
+Ogni protocollo ha la sua semantica per gli ACK, ovviamente TX ed RX devono preventivamente accordarsi su essa.\\
+I più conosciuti sono:
+\begin{itemize}
+  \item \textbf{Cumulativo}: Si notifica la corretta ricezione di tutti i pacchetti con no. sequenza inferiore a quello specificato.\\
+  AKC(n): ``\textit{Ho ricevuto tutto in sequenza fino ad n escluso}''
+  \item \textbf{Selettivo}: Si notifica la corretta ricezione di un particolare pacchetto.\\
+  ACK(n): ``\textit{Ho ricevuto il pacchetto n, ma non ti dono informazioni sui pacchetti precedenti o successivi}''
+  \item \textbf{Negativo} (NAK): Si notifica la richiesta di ritrasmissione di un singolo pacchetto.\\
+  NAK(n): ``\textit{Ritrasmetti il pacchetto n}''
+  \item \textbf{Piggybacking}: Per risparmiare ACK, nel caso di comunicazioni bidirezionali, si permette di scrivere un riscontro ACK nella PDU di un'altro pacchetto.
+\end{itemize}
+
+\subsubsection{STOP \& WAIT}
+Questa algoritmo prevede semplicemente che il trasmettiroe dopo aver inviato la PDU resti in attesa (WAIT) dell'ACK di conferma da parte del ricevitore, nel caso qualcosa non vada secondo i piani si procederà alla ritrasmissione. Più precisamente prevede i seguenti step al \textbf{TRASMETTITORE}:
+\begin{itemize}
+  \item Invio PDU (e salvo copia)
+  \item Avvio tempo di timeout
+  \item Attendo ACK (acknowledgment)
+  \item Se il $T_{out}$ scade ritrasmetto la PDU
+\end{itemize}
+Trasmettitore dopo aver ricevuto l'ACK:
+\begin{itemize}
+  \item Check correttezza ACK
+  \item Check sequenza
+  \item Se corretto, abilito l'invio della nuova PDU
+\end{itemize}
+Il \textbf{RICEVITORE} invece:
+\begin{itemize}
+  \item Check PDU
+  \item Check sequenza
+  \item Se corretta, invio ACK e consegno PDU a LV superiori
+\end{itemize}
+Durante l'utilizzo di questo algoritmo dobbiamo tenere in considerazione la numerazione delle PDU per due motivi. Primo sono indispensabili per il controllo di sequenza e secondo perchè la numerazione prevede un finito numero di bit. Può anche essere risolto con 1 solo bit ma la questione diventerebbe molto delicata, in generale avremo $2^n$ numeri prima di dover riprendere.\\
+Altro fattore molto critico riguarda il tempo di timeout, la necessità è quella di scegliere un valore non troppo alto in modo da evitare inutili ritardi, ma allo stesso tempo non può essere troppo breve altrimenti la consegna dell'ACK potrebbe non avvenire in tempo.\\
+Ulteriore improvement per S\&W potrebbe essere quello di utilizzare un time-to-live per ogni pacchetto.
+
+\subsubsection{Go back N}
+La differenza principale rispetto al precedente è che non attenderemo ACK dopo ogni invio, la invieremo N PDU prima di rimanere in attesa delle conferme.\\
+Dato il multiplo invio dobbiamo introdurre il concetto di finestra.
+\paragraph{Finestra TX}
+$W_{T}$ , rappresenta: ``\textit{La quantità massima di PDU che il trasmettitore è autorizzato ad inviare in rete senza aver ricevuto riscontro.}'', $W_{T}$ rappresenterà di conseguenza anche il massimo numero di PDU contemporaneamente presenti sul canale.\\
+La sua dimensione sarà $1<W_{T}\leq2^k$, il primo estremo non è compreso altrimenti sarebbe uguale a Stop \& Wait.
+\paragraph{Finestra RX}
+$W_{R}$ è: ``\textit{La sequenza di PDU che il ricevitore è disposto ad accettare e memorizzare.}'' ed è direttamente dipendente dalla memoria allocata alla ricezione.\\
+Il TRASMETTITORE con finestra N:
+\begin{itemize}
+  \item Invia un numero di PDU corrispondenti alla $W_{T}$ facendo di ognugno la copia
+  \item Avvia SOLO 1 contatore, per tutta le N*PDU, per il $T_{out}$
+  \item Attende ACK
+  \item Se scade $T_{out}$ ripeto la trasmissione di TUTTE le PDU
+\end{itemize}
+Il RICEVITORE invece:
+\begin{itemize}
+  \item Check PDU
+  \item Check sequenza
+  \item Se corretta, invio ACK e consegno PDU a LV superiori
+\end{itemize}
+Come per S\&W la $W_{R}$=1. Chiaramente la logica a TX sarà più complessa per via della finestra ampia.
+
+\subsubsection{Selective Repeat}
+Possiamo definire questi algoritmi come uno sviluppo del precedente. In Go back N, il limite era dato dalla possibilità per il ricevitore di accettare solo PDU in sequenza. SR va proprio a compensare questo limite con $W_{R}>1$ solitamente di dimensioni pari. In generale $W_{T}+W_{R}\leq2^k$.\\
+Può essere implementata in diversi modi con ACK Cumulativi o selettivi, timer su singole PDU o alla finestra e con vari comportamenti di TX ed RX. Si descrive il caso con ACK cumulativi e timer a finestra.
+I compiti del TRASMETTITORE saranno:
+\begin{itemize}
+  \item Invia un numero di PDU corrispondenti alla $W_{T}$ facendo di ognugno la copia
+  \item Avvia SOLO 1 contatore, per tutta le N*PDU, per il $T_{out}$
+  \item Attende ACK
+  \item Se scade $T_{out}$ ripeto la trasmissione di TUTTE le PDU
+\end{itemize}
+Il RICEVITORE invece:
+\begin{itemize}
+  \item Check PDU
+  \item Check sequenza
+  \item Se corretto
+  \begin{itemize}
+    \item \textbf{in sequenza} $\rightarrow$ consegna PDU a LV superiori
+    \item \textbf{non in sequenza}:
+    \begin{itemize}
+      \item \textbf{in $W_{R}$} $\rightarrow$ Memorizzo
+      \item \textbf{out $W_{R}$} $\rightarrow$ Scarto
+    \end{itemize}
+  \end{itemize}
+  \item Invio ACK relativo all'ultima PDU in sequenza
+\end{itemize}
+Nel caso di singola perdita l'algoritmo si comporta come Go back N a livello di throughput ed occupazione del canale. Abbiamo vantaggi invece quando RTT $<$ $Tx_{Wr}$ perchè il nuovo ACK permetterà lo shift della finestra o in caso di perdite ripetute in quanto sarà necessaria una sola copia del pacchetto al RX. Se TX ritrasmettesse solo il primo pacchetto perso nella finestra ci sarebber un'ulteriore improvement come con gli ACK selettivi.
+
+\section{Strato Fisico} % 18 Dicembre 2016
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
