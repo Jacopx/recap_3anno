@@ -1,5 +1,5 @@
 
-\title{Riepilogo Reti di Calcolatori}
+\title{Riepilogo Reti di Calcolatori (12CDUOA)}
 \author{Jacopo Nasi\\
         Ingegneria Informatica\\
         Politecnico di Torino}
@@ -12,6 +12,7 @@
 %\usepackage{amssymb}
 \usepackage{graphicx} % Graphics Library
 \usepackage{indentfirst} % First line indent
+\usepackage{placeins}
 
 % Misure Documento
 \geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
@@ -24,9 +25,13 @@
 \end{figure}
 
 \maketitle
+\bigskip
+\bigskip
+\noindent \textbf{No responsibility is carried about the contents of this document; the document can only be circulated among the students of the course. Use at your own risk. Please do not contact the author with any requests.}
 \newpage
 \tableofcontents
-\newpage
+\bigskip
+\bigskip
 ``The most compelling reason for most people to buy a computer for the home will be to link it to a nationwide communications network. We’re just in the beginning stages of what will be a truly remarkable breakthrough for most people– –as remarkable as the telephone.''\\
 \rightline{{\rm --- \textbf{Steve Jobs}, Feb. 1th 1985}}
 \newpage
@@ -258,18 +263,18 @@ In un sistema a strati i dati utenti prensenti ad un N-esimo livello prendono il
 \subsection{Livelli OSI}
 Il sistema a strati definito precendetemente si divide in 7 livelli:
 \begin{enumerate}
-  \item \textbf{Physical Layer}:
+  \item \textbf{Physical Layer - Par. \ref{LV1}} :
   \begin{itemize}
     \item Fornisce i mezzi meccanici, fisici, funzionali e procedurali per attivare, mantenere e disattivare le connessioni fisiche.
     \item Trasferisce le cifre binarie scambiate tra le entità di strato collegamento.
     \item Definizione di codifiche di linea, connettori e livelli di tensione.
   \end{itemize}
-  \item \textbf{Data link Layer}:
+  \item \textbf{Data link Layer - Par. \ref{LV2}}:
   \begin{itemize}
     \item Fornisce i mezzi funzionali per il trasferimento di informazioni tra le entità di strato rete e per fronteggiare malfunzionamenti di S1.
     \item Ha il compito di rilevare e recuperare gli errori, controllare il flusso e delimitare le unità dati.
   \end{itemize}
-  \item \textbf{Network Layer}:
+  \item \textbf{Network Layer - Par. \ref{LV3}}:
     \begin{itemize}
       \item Fornisce i mezzi per instaurare, mantenere ed abbattere le connessioni di rete tra entità dello strato trasporto.
       \item Gestisce instradamento, controllo di flusso/congestione e tariffazione.
@@ -418,7 +423,268 @@ Il RICEVITORE invece:
 \end{itemize}
 Nel caso di singola perdita l'algoritmo si comporta come Go back N a livello di throughput ed occupazione del canale. Abbiamo vantaggi invece quando RTT $<$ $Tx_{Wr}$ perchè il nuovo ACK permetterà lo shift della finestra o in caso di perdite ripetute in quanto sarà necessaria una sola copia del pacchetto al RX. Se TX ritrasmettesse solo il primo pacchetto perso nella finestra ci sarebber un'ulteriore improvement come con gli ACK selettivi.
 
-\section{Strato Fisico} % 18 Dicembre 2016
+\section{Physical Layer - LV1} \label{LV1} % 18 Dicembre 2016
+In questa sezione verranno presentati i mezzi trasmissivi dal punto di vista fisico e delle loro caratteristiche in ambito di utilizzo reale.
+\subsection{Mezzi Trasmissivi}
+I mezzi di trasmissione si distinguono grazie alle proprie caratteristiche. I mezzo ottimale presenterà resistenza, capacità parassite e impedenze basse, buona resistenza alla trazione, flessibilità e facilità di collegamento. Queste caratteristiche dipendono da moltissimi parametri come geometria, distanza, isolante, ecc...
+\paragraph{Paramentri fisici}
+Due importantissimi paramentri sono:
+\begin{itemize}
+  \item \textbf{Attenuazione}: Cresce linearmente, in dB, con la distanza e la $\sqrt{f}$
+  \item \textbf{Diafonia o Cross-Talk}: Misura del disturbo introdotto da un cavo vicino. Cresce con la distanza fino a stabilizzarsi.
+\end{itemize}
+Si riporta una loro rappresentazione in figura \ref{fig:diaf_att}
+
+\begin{figure}[!hp]
+  \centering
+  \includegraphics[width=\linewidth]{images/diaf_att.png}
+  \caption{Rappresentazione Diafonia e Attenuazione}
+  \label{fig:diaf_att}
+\end{figure}
+Le mezzi più comunemente utilizzati sono:
+\begin{itemize}
+  \item \textbf{Doppino} (Pair): Derivato dalla telefonia calssica e costituito da due fili di rame twisted per ridurre le interferenze elettromagnetiche. Economico, semplice e molto robusto. Usato nella sua versione non schermata UTP.
+  \item \textbf{Coassiale}: Composto da un connettore centrale ed una o più calze di schermo per sfruttare la gabbia di Faraday e ridurre le interferenze. E' abbastanza costoso e non troppo semplice da installare ma più veloce del doppino. Usato molto con il connettore a T.
+  \item \textbf{Fibra Ottica} (Optical fiber): Minuscolo e flessibile filo di vetro costituito da due parti (core e cladding) con diversi indici di rifrazione. Totale immunità a disturbi elettro/magnet, altissima capacità trasmissiva, bassissima attenuazione e dimensione/costi contenuti. Collegamenti non proprio semplici e poca flessibilità.
+  \item \textbf{Canale Radio}: Notto anche some etere sfrutta la propagazione tra TX ed RX mediante l'uso di antenne. Garantisce di raggiungere grandi distanze (vedi satelliti). Molto dipendente dai fenomeni atmosferici e dagli ostacoli generanti riflessioni e rifrazioni (fading e shadowing).
+\end{itemize}
+
+\subsection{Codifiche di linea}
+Per poter rappresentare segnali digitali mediante segnali digitali su mezzi elettrici e ottici abbiamo bisogno di codifice in modo da permettere a TX ed RX di comprendersi.
+\paragraph{Unipolari}
+Semplici, usano un livello di tensione per ogni valore, nulla per 0 e massima per 1. Il principale problema è legato alla continuita del segnale ed alla perdità di sincronismo in lunge trasmissioni con lo stesso simbolo.
+\paragraph{Polari}
+Sfruttano due livelli di tensione con polarità opposte in modo da ridurre la componente DC, vi sono 3 tipologie:
+\begin{itemize}
+  \item \textbf{NRZ}: Non c'è transizione da 0 da bit consecutivi.
+  \item \textbf{RZ}: Tensione 0 tra due bit consecutivi.
+  \item \textbf{Bifase}: Bit rappresentato da due livelli di tensione (es. Manchester).
+\end{itemize}
+\paragraph{Bipolari}
+Chiamate anche AMI (\textit{Alternate Mark Inversion}) usano tensione nulla per 0 e due polarità opposte per 1 usate in alternativa. Permettono l'uso dei simboli ternari per ridurre i problemi di sincronismo con caratteri speciali di delimitazione e di scelta sulle parole di codice.
+\paragraph{Modulazioni digitali}
+Molto utilizzate per la rappresentazione di informazioni digitali mediante segnali analogici sui mezzi radio, ottici o elettrici dove l'informazioni viene impressa su di un segnale sinusoidale con variazioni di frequenza, fase o ampiezza per la distinzione dei segnali. % 19 Dicembre 2016
+
+\subsection{Reti di Accesso}
+L'utente si collega ad una rete di telecomunicazioni sfruttando sia la rete di accesso che quella di trasporto. La prima comprendo tutti gli apparati dall'utente al nodo di accesso, la seconda invece è costituita dai mezze appartenenti ad uno o più gestori di servizi di TLC destinati al transito su due nodi.\\
+La gestione dell'ultimo miglio di rete, conosciuta anche come local loop, può essere gestita in più modi, con reti DSL, PON, HFC, ecc... Andremo ad analizzarle singolarmente.
+\paragraph{DSL}
+\textit{Digital Subscriber Line} è una famiglia di tecnologie in grado di fornire servizio dati ad alta velocità sulla rete. La più diffusa è quella asimmetrica (download maggiore di upload). In questo caso la vicinanza alla centrale è fondamentale.\\
+L'accesso alla rete viene fatto attraverso un modem (MOdulatore DEModulatore) che ha il compito di trasformare il segnale da analogico a digitale e viceversa in modo da permettere la coesistenza del segnale dati e di quello voce per garantire la divisione in frequenza. La VDSL è una versione ``potenziata'' della ADSL in grado di garantire bitrate molto più elevati sfruttando bande di frequenza superiore.
+\paragraph{PON}
+\textit{Passive Optical Network} architettura per la connettività di last mile in fibra ottica senza componenti attivi. E' un'architettura poco diffusa in EU, molto invece in Asia, sostituisce direttamente FTTH ed integra VDSL.
+\paragraph{HFC}
+\textit{Hybrid Fiber Coax} sfruttano lo stesso meccaniscmo della TV via cavo, inzialmente erano unidirezionali, è strutturata sfruttando una topologia ad albero. Le differenze principali con ADSL sono legate alla condivisione degli apparati tra utenti della stessa zona residenzale, che ADSL sfrutta la rete telefonica senza richiesta di posa di cavi ad hoc a differenza di HFC. Il vantaggio principale è che non risente della distanza.\\
+\paragraph{Cellulari}
+Offrono servizi di voce e dati in mobilità. Il principio è quello di una copertura capillare tramite antenne con portata limitata. Si introducono i termini \textbf{Roaming} (rintracciabilità sul territorio) ed \textbf{Handover} (continuità di connessione nel passaggio tra celle).\\
+Nel tempo sono passate alcune generazioni:
+\begin{itemize}
+  \item \textbf{1G}: Analogica, solo telefonia, grandi celle, bassa qualità ed efficenza.
+  \item \textbf{2G} GSM: Digitale, FDMA/TDMA, celle contenute, criptata. Servizio dati con GPRS ed EDGE.
+  \item \textbf{3G} UMTS: Servizi integrati dati e voce, FDMA/CDMA, celle stratificate, evoluta in HSPA.
+  \item \textbf{4G} LTE: OFDMA con microcanali per brevi periodi, antenne MIMO.
+\end{itemize}
+\paragraph{Satellitari}
+Ci son 3 tipologie di orbite, GEO usate per trasmissioni broadcast, MEO per GPS e LEO usati per telefonia satellitare.
+
+\subsection{Reti di trasporto}
+La rete di trasporto viene gestita da più operatori telefonici o dati (ISP) in competizione, alcuni sono anche proprietari delle infrastrutture (TIM), offrendo servizi o affittando gli apparati.\\
+La trasmissione si è evoluta dalla rete telefonica tradizionale con multiplazione a divisione tempo.
+\paragraph{Sincronizzazione}
+Tutti i sistemi si sono evoluti dalla PDH (\textit{Plesiochronous Digital Hierarchy}) pensata per canali vocali, senza Store-and-Forward e con velocità limitate. Oggi si preferiscono infrastrutture sincrone come:
+\begin{itemize}
+  \item \textbf{SONET} \textit{Syncronous Optical NETwork}: Segnali otti multipli della velocità base.
+  \item \textbf{SDH} \textit{Syncronous Digital Hierarchy}: Equivalente europeo di SONET.
+  \item \textbf{STS} \textit{Syncronous Transport Signal}: Standard corrispondente per segnali elettrici.
+\end{itemize}
+Per questioni di affidabilità vengono preferite strutture ad anello. Lo schema di divisone solitamente è temporale (TDM) ed ogni trama include una PCI con informazioni per la sincronizzazione, canali di servizio e gestione guasti.
+
+\section{Data Link Layer - LV2} \label{LV2}
+Le principali funzioni di questo strato, sfruttate poi dal superiore sono:
+\begin{itemize}
+  \item Delimitazione di trama
+  \item Multiplazione
+  \item Indirizzamento locale
+  \item Rilevazione errore
+  \item Controllo di flusso sull'interfaccia
+  \item Correzione errore
+\end{itemize}
+Derivano dal protocollo SDLC utilizzato inizialmente da IBM SNA, standardizzato poi da ISO come HDLC. Da esso derivano molti altri protocolli come LAPB, LAPD, ecc... Si è poi aggiunto un sottostrato MAC nelle reti locali.\\
+I protocolli di LV2 sono usati sia dalle \textbf{reti pubbliche} per gestire le connessioni tra utente e nodo, sia nelle \textbf{reti private} per connettere tra di loro apparati in ambienti circoscritti.
+\paragraph{Trasferimento}
+Un caratteristica comune ai due tipi di rete rimane la PDU composta come in tabella:
+\begin{center}
+  \begin{tabular}{ |c||c|c|c|c|c|c| }
+    \hline
+    \textbf{Dato} & 01111110 & Indirizzo & Controllo & Dati & CRC & 01111110 \\
+    \hline
+    \textbf{Size} & 8 & 8 & 8/16 & $\geq 0$ & 16 & 8\\
+    \hline
+  \end{tabular}
+\end{center}
+Una considerazione da fare riguardo il flag di controllo che è importante non confondere con parte di dati, per farlo si usano tecniche come Bit o Byte Stuffing. Esse sfruttano un singolo bit dopo ogni sequenza di 5 uni tranne che nel flag, oppure una sequenza di escape da scartare prima del flag.
+\subsection{Point to Point Protocol - PPP}
+Utilizzato nei collegamenti telefonici o ADSL. Le caratteristiche speciali di questo protoccolo sono:
+\begin{itemize}
+  \item Negoziazine dell'indirizzi di LV1
+  \item Trasparenza del contenuto
+  \item Semplicità
+  \item Rilevazione senza recupero degli errori
+\end{itemize}
+I campi della PDU sono simili a quelli classici con flag, address (compatibilità HDLC), control (compatibilità HDLC) e protocol (procotollo di livello superiore a cui consegnare i dati).\\
+Questo standard inizia dallo stato di dead, cercherà di stabilire una connessione e nel caso di successo configurerà la rete per essere utilizzata. Dopo l'eventuale autenticazione interviene NCP che definirà le modalità di trasferimento e negozierà l'assegnazione di un indirizzo.
+
+\subsection{Frame Relay}
+Standard per costruire reti a pacchetto con circuiti virtuali (vedi figura \ref{fig:vc}) su scala geografica. Il nome è la tecnologia, mentre il protocollo è LAPF. Ancora usato per collegare di nodi degli ISP.\\
+LAPF è suddiviso in due parti, DL$-$CORE (utilizzato da tutti i nodi della rete) DL$-$CONTROL (utilizzato solo dal mittente e dal destinatario).
+
+\subsection{Asynchronous Trasfer Mode - ATM}
+Rete integrata nata durante l'evoluzione di ISDN, chiamata B-ISDN. Anche essa è una rete a pacchetto con servizi di VC su scala geografica.\\
+ Il servizio sarebbe stato ottimo ma non è molto diffuso a livello utente per la necessità di sostituire tutti gli apparati esistenti. I vataggi di questa tecnologia riguardano principalmente le velocità elevate, bassa latenza ed uso di PDU di dimensione fissa (53 byte, 48 B di dati). Interessante l'analisi dell''intestazione della cella, composta da:
+ \begin{itemize}
+   \item \textbf{GFC - 4b}: Contiene informazioni riguardanti il numero di celle immettibili nella rete.
+   \item \textbf{VPI - 8/12b}: Percorso definito tra più commutatori ATM.
+   \item \textbf{VCI - 16b}: Singolo circuito interno a VP.
+   \item \textbf{PT - 3b}: Classifica il tipo di informazione contenuta nel payload. Ha siginificato in AAL5.
+   \item \textbf{CLP - 1b}: Cell Loss Priority.
+   \item \textbf{HEC - 8b}: Header Error Code.
+ \end{itemize}
+La struttura AAL (\textit{ATM Adaption Layer}) integra il trasporto ATM per offrire differenti servizi ai livelli superiori. In particolare viene usato AAL5 usato per gestire la segmentazione di PDU a LV3.
+
+\subsection{Logical Link Protocol - LLC}
+Il LV2 viene suddiviso in 2 sottolivelli, LLC (derivato da HDLC) e MAC (Medium Access Controll).\\
+E' un protocollo standard (ISO 8802/2 e IEEE 802.2) di caratteristiche tipo:
+\begin{itemize}
+  \item Orientato al byte.
+  \item Senza delimitatori (demandato al MAC).
+  \item Non check errori (non esiste il campo CRC).
+  \item PDU con indirizzi SRC e DEST.
+  \item PDU di dimensione variabile.
+\end{itemize}
+
+\section{Protocolli Reti Locali - LAN}
+La rete locale solitamente è una ridotta estensione geografica dove abbiamo necessità di trasmissioni simultane tra più utenti, per questo motivo è necessario gestire la condivisone del canale.\\
+Una possibile soluzione è quella di convisione rigida del canale o per frequenza, codice o tempo. Il problema è che un'allocazione statica porterebbe a grosse limitazioni vista la natura del traffico, devo quindi emulare una multiplazione statistica. Vi sono 3 principali famiglie, a contesa (Ethernet, Wi$-$Fi), ad accesso ordinato (Token Ring o bus ed FDDI) o con slot a prenotazione (DQDB).
+\subsection{Accesso Casuale}
+In questa soluzione quando un nodo deve trasmettere lo fa alla velocità R senza coordinarsi con altri nodi, con possibilità di collisione.\\
+Il primo esempio è \textbf{Aloha} (di \textit{Norm Abramson} 1970). Soluzione semplice senza sincronizzazione, la trasmissione viene iniziata in qualunque istante, la conferma viene ricevuta su un canale separato, nel caso non venga ricevuta dopo un tempo di timeout ritrasmetto dopo un tempo casuale (in caso di ulteriore collisione raddopio il tempo casuale). Chiaramente con questa soluzione la probabilità di collisione è elevata.\\
+Lo \textbf{Slotted Aloha} invece divide il tempo in slot, solo ad inzio slot potrà essere avviata una trasmissione, se si verifica collisione ritrasmetto sempre con il criterio di prima. L'efficenza non è molto alta (18-37\%) e non è nemmeno stabile. La distribuzione viene rappresentata in figura \ref{fig:eff_lan}
+
+\begin{figure}[!hp]
+  \includegraphics[width=\textwidth]{images/eff_lan.png}
+  \caption{Efficenza reti LAN (Linea ROSSA ideale)}
+  \label{fig:eff_lan}
+\end{figure}
+
+\subsection{Carrier Sense Multiple Access - CSMA}
+La bassa efficenza di Aloha è dovuta dall'accesso casuale ai canali. Per aumentare il throughput e diminuire le collisioni posso eseguire semplicemente una verifica della liberà o no del canale.\\
+Vengono utilizzate le seguenti strategie di ritardo trasmissione:
+\begin{itemize}
+  \item \textbf{1-persistent}: Aspetto che il canale si liberi e trasmetto immediatamente.
+  \item \textbf{non-persistent}: Riprovo a sentire il canale dopo un tempo casuale, se libero ritrasmetto.
+  \item \textbf{p-persistent}: Aspetto che il canale si liberi e trasmetto con probabilità p o rimando la trasmissione con probabilità (1-p).
+\end{itemize}
+Anche in questa soluzione si avranno collisioni, sono inevitabili, perchè direttamente correlati al tempo di propagazione sul canale. Un possibile modo per compensare queste mancanze si ha con le versioni CD (collision detection) o CA (collision avoidance).
+\paragraph{Collision Detection}
+La stazione monitora il canale durante la trasmissione:
+\begin{itemize}
+  \item Se sente sola la propria prosegue.
+  \item Se sente collisione, interrompe la propria.
+\end{itemize}
+Devo comunque considerare un margine di errore, se una trasmissione termina pochi istanti dopo che un'altra è iniziata potrei non rilevare la collisione. Le performance di questa soluzione migliorano su reti piccole, su reti piccole rispetto alla dimensione della trama e con velocità di trasmissione bassa. Si preferisce la soluzione 1-persistent perchè migliore a basso carico, non è facile la gestione delle priorità. Soluzione adottata in \textbf{Ethernet}.
+\paragraph{Collision Avoidance}
+Non è possibile usare la versione CD su canali radio, per tanto preferisco prevenire le collisioni.\\
+La procedura è strutturata in questo modo:
+\begin{itemize}
+  \item Ascolto per un tempo DIFS e se rimane libero per tutto il tempo inzio trasmissione.
+  \item Se durante questo spazio DIFS il canale si occupa, avvio un timer di \textit{backoff} e finito esseo rieseguirò il punto precedente.
+\end{itemize}
+La ricezione invece prevede la verifica della correttezza di trama per l'invio di un ACK ovviamente, nel caso in cui TX non ricevesse ACK ripartirà la procedura di trasmissione. Le collissioni si possono comunque verificare ma con una probabilità minore. Questo procollo viene usato nelle reti \textbf{WiFi 802.11}.
+
+\section{Standard Reti Locali - LAN}
+L'inizio della standardizzazione di questi protocolli è degli anni \`80 dal progetto IEEE 802, con definizioni da 802.1 (Itroduzione all'internet working di LAN), fino ad 802.17 (resilient packet ring). Le principali funzioni di LV2 sono già state presentate in nel capitolo \ref{LV2}.\\
+Introduciamo ora il concetto di indirrizi LLC, ovvero di indirizzi che permetto la multiplazione di più protocolli di strato superiore, e di indirizzi MAC i quali permettono di identificare la scheda (TX o RX) trai i nodi della LAN.
+\subsection{Indirizzi MAC}
+Sono numeri di 6 byte, inizialmente scritti in una ROM della scheda, ora modificabili anche via software, sono composti di due parti. I primi 3 byte MS sono un lotto di indirizzi assegnati al costruttore (Organization Unique ld.), gli ultimi 3 rappresentano una numerazione progressica interna decisa dal costruttore. \textit{Esempio:} \textbf{EC:22:80}:07:9A:4D \textit{è una scheda DLink.}\\
+Possono essere di 3 tipi:
+\begin{itemize}
+  \item \textbf{UNICAST}: Singola stazione.
+  \item \textbf{MULTICAST}: Gruppi di stazioni.
+  \begin{itemize}
+    \item \textbf{Solicitation}: Richiesta di servizio ad un gruppo multicast.
+    \item \textbf{Advertisement}: Periodica diffusione di informazioni di appartenenza ad un gruppo M.
+  \end{itemize}
+  \item \textbf{BROADCAST}: Riferiti a tutte le stazioni.
+\end{itemize}
+Una volta ricevuto un pacchetto la scheda si occuperà di verificare se il MAC coincide, in caso positivo la invierà a livelli superiori, in caso non lo sia verra scartato (possibile eventuale override software).
+
+\subsection{Ethernet}
+\paragraph{Ethernet vs IEEE 802.3}
+Le differenze tra questi due standard sono solo di tipo tecnico relative al livello MAC e fisico, vedi figura \ref{fig:eth} e \ref{fig:ieee8023} .
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/eth.png}
+    \caption{Ethernet}
+    \label{fig:eth}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ieee8023.png}
+    \caption{IEEE 802.3}
+    \label{fig:ieee8023}
+  \end{minipage}\hfill
+\end{figure}
+Se stazioni sono nello stesso dominio di collisione, il tempo minimo di trasmissione di una trama non può essere inferiore al massimo RTT. Da questa affermazione deriva che la velocità di trasmissione e le dimensioni della rete determinano la lunghezza minima della trama.\\
+Le principali caratteristiche di questa rete sono:
+\begin{itemize}
+  \item Non caricare troppo per mantenere buona efficenza.
+  \item Semplice e totalmente distribuito.
+  \item Non adatto ad applicativi real-time.
+  \item Piccoli ritardi a basso carico
+  \item Molto diffuso.
+  \item Nessuna conferma di ricezione.
+  \item No priorità.
+\end{itemize}
+\subsection{Apparati}
+Le reti locali sono sempre più efficenti, veloci ed affidabili. Si cerca di aumentarne sempre di più estensione, numero di utenti e sicurezza.
+\paragraph{HUB}
+Sono apparati multiporta che operano a LV1 (paragravo \ref{LV1}) sono quindi passivi, non riconosce le trame e non separa di domini di collisione.
+\paragraph{Switch}
+Sono apparati multiporta operanti a LV2 (paragravo \ref{LV2}) attivi con funzioni di store-and-forward (riconosce trame) in grado di garantire prestazioni superiori agli hub.\\
+Il vataggio principale rispetto al primo dispositivo è quello di separare i domini di collisione, creandoli ad hoc per ogni connessione punto-punto, eliminando così di fatto le collisioni (CSMA/CD non più necessario) e trasformando ETH in un protocollo ``framing'' di LV2.\\
+Questi dispositivi non dovrebbero modificare la struttura della rete, è necessario però che ogni apparato abbiamo un indirizzo di LV2 unico all'interno della LAN estesa. Il funzionamento è basato sulla conoscenza topologica della rete per tanto vi son 3 tecniche di switching:
+\begin{itemize}
+  \item \textbf{Address Learning}: Per ogni trama viene letto e memorizzato l'indirizzo MAC sorgente ed asseganto alla porta.
+  \item \textbf{Frame Forwarding}: Dopo aver ricevuto un packet cerca se la destinazione è presente nel database, se la trova invia alla porta precisa altrimetni invia a tutti tranne a quella sorgente.
+  \item \textbf{Spanning Tree}: Genera un'albero logico in modo da eliminare anelli, abitando solo alcune porte.
+\end{itemize}
+\paragraph{Vantaggi di interconnesione}
+Questo ampliamento degli apparati di rete genera molti vantaggi:
+\begin{itemize}
+  \item Partizionamento della rete in K reti locali.
+  \item Diminuzione o rimozione di collisione.
+  \item Trasforma la rete da classica a commutazione di pacchetto.
+  \item Gestibilità e sicurezza.
+\end{itemize}
+\paragraph{VLAN: Virtual LAN}
+Sono LAN costituite da host fisicamente collegati allo stesso segmento di rete ma logicamente partizionati in LAN separate. E' un costrutto di LV2 che deve quindi essere supportato dallo switch.
+
+\subsection{WiFi}
+\paragraph{WiFi vs IEEE 802.11}
+``WiFi'' è una certificazione di interoperabilità e aderenza allo standar, rilasciata da una associazione di produttoti (WiFi Alliance). La definizione di IEEE invece è il nome di una famiglia di standar che copre la tecnologia delle reti locali wireless dal punto di vista fisico, MAC, interconnessione e sicurezza.\\
+La rete può essere creata senza struttura WiFi Direct (comunicazione diretta tra terminali) o tramite AP (Access Point), eventualmente collegato ad internet, funzionalmente analogo ad uno switch a livello MAC.
+\paragraph{Strato Fisico}
+802.11 lavora su bande NON LICENZIATE esse infatti sono condivise dal moltissimi strumenti come Bluetooth, Cordless, forni MW, ecc... Le frequenze in questione sono 2.4 GHz (14 channel) e 5 GHz (23 channel).
+\paragraph{Strato MAC}
+A questo livello la struttura si basa su DCF (\textit{Distributed Coordination Function}) direttamente derivato da CSMA/CA. Le differenze sono legate alla contesa, per una stazione, del possesso del canale. Essendo stazioni half-duplex il ricevitore dovra confermare con ACK la ricezione. Datenere in considerazione la collisione in caso di terminale nascosto, risolvibile però con handshaking, invianto una piccola trama contenente la durata del trasferimento.
+% TERMINE ARGOMENTI DI STRUTTURA - 20 Dicembre 2016
+% ------------------------------------------------------------------------------------ %
+
+% ARGOMENTI PROTOCOLLI - 20 Dicembre 2016
+
+\section{Network Layer - LV3} \label{LV3}
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
