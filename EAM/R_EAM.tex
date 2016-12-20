@@ -1,5 +1,5 @@
 
-\title{Riepilogo Elettronica Applicata e Misure}
+\title{Riepilogo Elettronica Applicata e Misure (03MOAOA)}
 \author{Jacopo Nasi\\
         Ingegneria Informatica\\
         Politecnico di Torino}
@@ -21,18 +21,21 @@
 \end{figure}
 
 \maketitle
+\bigskip
+\bigskip
+\noindent \textbf{No responsibility is carried about the contents of this document; the document can only be circulated among the students of the course. Use at your own risk. Please do not contact the author with any requests.}
 \newpage
 \tableofcontents
-\newpage
+\bigskip
+\bigskip
 ``L'immaginazione è più importante del sapere, l'intuizione è l'unica via per nuove scoperte. Ma non hai veramente capito una cosa se non sei in grado di spiegarla a tua nonna.''\\
 \rightline{{\rm --- Albert Einstein}}
 \newpage
 
-\section{Elettronica Applicata}
 % Parte B
-\subsection{Parte B}
+\section{Parte B}
 % PARTE B1 - ELAPMISB1
-\subsubsection{Parte B1}\label{b1}
+\subsection{Parte B1}\label{b1}
 I circuiti logici digitali sono caratterizzati da una tensione di alimentazione che varia dal GND a Val. I segnali di ingresso possono essere ricevuti in modo seriale o parallelo.\\
 Gli stati logici di uscita sono rappresentati da tensioni, solitamente la tensione alta ($V_{al}$) corrisponde al valore logico 1 e prende il nome di $V_{h}$, mentre la tensione bassa (GND) corrisponde al valore logico 0 e prende il nome di $V_{l}$.\\
 \begin{wrapfigure}{R}{0.38\textwidth}
@@ -58,7 +61,7 @@ I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai dist
 5) Il principale vantaggio dei segnali differenziali è legato alla loro resistenza ai disturbi.
 
 % PARTE B2 - ELAPMISB2
-\subsubsection{Parte B2}\label{b2}
+\subsection{Parte B2}\label{b2}
 I circuiti combinatori sono funzioni combinatorie degli ingressi applicati e non hanno bisongno di elementi di memoria a differenza dei circuiti sequenziali i quali sono funzioni anche della precedente storia del circuito.
 
 \paragraph{Elementi di memoria}
@@ -97,7 +100,7 @@ In figura \ref{fig:timingdff} una rappresentazione completa del timing di un D-F
 \end{figure}
 
 % PARTE B3 - ELAPMISB3
-\subsubsection{Parte B3}\label{b3}
+\subsection{Parte B3}\label{b3}
 I segnali possono essere trattati in due forme, seriale o parallela.\\
  Nel trasferiemento seriale uno alla volta i segnali vengono cadenzati da un segnale di CLK (1 bit x volta). In quello parallelo invece vengono trasferiti N bit per volta in un singolo segnale di CLK. Potrebbe sembrare che la seconda sia sempre più veloce, nella realtà potendo sfruttare una frequenza decisamente alta le connessioni seriali sono più veloci (vedi USB).
 
@@ -124,7 +127,7 @@ Nel calcolare la massima frequenza di operatività del circuito devo tenere in c
 Per poter ridurre i ritardi in questione non mi conviene usare strutture a riporto (Ripple) ma quelle dirette (Look Ahead) che mi permettono di risolvere tutti i problemi dovuti alla logica combinatoria. Il principale svantaggio di queste strutture è legato alla complessita di progettazione.
 
 % PARTE B4 - ELAPMISB4
-\subsubsection{Parte B4}\label{b4}
+\subsection{Parte B4}\label{b4}
 I comparatori di soglia sono elementi fondamentali nell'elettronica digitale, il primissimo compito è quello di pulizia dei segnali (vedi figura \ref{fig:comparator}) in modo da riportarli al loro valore privo di disturbi.
 \begin{figure}[!hp]
   \includegraphics[width=\textwidth]{images/comparator.png}
@@ -157,7 +160,7 @@ Esistono componenti più specifici con uscite più flessibili, maggiore velocit�
 Il comparatore di sogli trasforma una grandezza analogica in una numerica (su 1 bit). In generale per convertire un segnale A/D avremo bisongo un numeri di comparatori $2^n-1$ (n: numero di bit). Eventualmente si possono conbinare comparatori in cascata.
 
 % PARTE B5 - ELAPMISB5
-\subsubsection{Parte B5}\label{b5}
+\subsection{Parte B5}\label{b5}
 Gli oscillatori ed i generatori di segnali sono utili strumenti nel campo dell'elettronica.
 
 \paragraph{Generatori di Segnali}
@@ -195,7 +198,7 @@ Il valore del periodo: $T_{1} = (R*C*(V_{S2}-V_{S1}))/V_{UH}$ è modificabile va
 Per realizzare questo componente spesso vengono utilizzati quarzi o altri materiali piezoelettrici in grado di deformarsi in presenza di un campo elettrico o di generare tensione se sottoposti a sollecitazioni meccaniche. Altra possibile soluzione è sfruttando circuiti con reazione, reti RC e porte.
 
 % PARTE B6 - ELAPMISB6
-\subsubsection{Parte B6}\label{b6}
+\subsection{Parte B6}\label{b6}
 Ad oggi l'industria elettronica non si occupa della produzione di un'oggetto nella sua interezza, si utilizzano componenti costruiti da altre aziende principalmente perchè ridurre il tempo di progettoed abbassare i NRE Cost (Non-Recurrent Engineering Cost). Le problematiche legate a questa soluzione sono correlate alla più difficile comprensione delle componenti (datasheet complessi). In generale ci sono 3 tipi di industrie:
 \begin{itemize}
   \item Progetto di \textbf{Sistemi} (Nokia, Apple, Marelli, ...)
@@ -233,9 +236,9 @@ Vi possono essere differenti stili dai quali dipenderanno molto i costi. Si può
 La semplicitià di queste componenti le rende molto diffuse e di facile utilizzo. La loro struttura è basata su matrici di IN/OUT dove i collegamenti risultano definibili dagli utenti. Le principali logiche sono PAL o PLA. Altri tipi di memorie programmabili sono PROM (eventualmente a sola lettura come nei computer), FPGA (complesse fino a decine di milioni di porte), EEPROM (basate su MOS floating gate).
 
 % PARTE C
-\subsection{Parte C}
+\section{Parte C}
 % PARTE C1 - ELAPMISC1
-\subsubsection{Parte C1}\label{c1}
+\subsection{Parte C1}\label{c1}
 Le tecnologie attuali permettono di avere un numero di transisto $>10^9$ per chip (Intel i7). Il principale bottle neck rimanere la distribuzione dei segnali e l'energia. I circuiti usano simboli binari, ma nella realtà sono tensioni e correnti.
 
 \paragraph{Ritardi}
@@ -252,7 +255,7 @@ Se cerchiamo di ottenere una più precisa approssimazione dobbiamo andare ad ana
 \end{figure}
 
 % PARTE C2 - ELAPMISC2
-\subsubsection{Parte C2}\label{c2}
+\subsection{Parte C2}\label{c2}
 L'approssimazione con celle RC è discretamente valida, vi sono anche le approssimazioni a parametri concentrati. Idealmente aumentando il numero di celle ad infinito si ottiene una linea di trasmissione reale.\\
 Ogni linea presenta dei parametri caratteristici:
 \begin{itemize}
@@ -288,7 +291,7 @@ L'andamento del sistema viene spesso schematizzato utilizzando un diagramma a tr
 \end{figure}
 
 % PARTE C3 - ELAPMISC3
-\subsubsection{Parte C3}\label{c3} % 15 Dicembre 2016
+\subsection{Parte C3}\label{c3} % 15 Dicembre 2016
 Il tempo di trasmissione $t_{TX}$, il ritardo di attraversamento della soglia, dipende da molti parametri. Le variazioni di $t_{TX}$ portano allo skew $t_{K}$ o disallineamento.
 
 \paragraph{skew}
@@ -298,7 +301,126 @@ Diretta conseguenza è la modifica delle relazioni temporali tra i segnali. E' i
   \item Propagazione: riflessioni, terminazioni, discontinuità, diafonia, ecc...
   \item Carico (in particolare capacitivi)
   \item Rumore di massa (Ground Bounce) e di commutazione
-\end{itemize} %18 Dicembre 2016 -- Pag. 5
+\end{itemize} %18 Dicembre 2016
+\paragraph{Tipi di commutazione}
+Il tipo di commutazione della nostra linea dal rapporto $R_{O}/Z_{\infty}$ oppure dal tipo di corrente:
+\begin{itemize}
+  \item \textbf{BASSO Rapporto} $R_{O}<Z_{\infty}$: $\rightarrow$ I gradino ampio.\\ La soglia viene attraversata, commutazione su onda incidente (IWS), basso $t_{TX}$ e veloce. Richiede terminazione (adatto a BUS). Vedi figura \ref{fig:iws}
+  \item \textbf{ALTO Rapporto} $R_{O}>Z_{\infty}$: $\rightarrow$ I gradino basso.\\ Soglia non attraversata, commutazione su onda riflessa (RWS), alto $t_{TX}$ e lento. Non sono necessarie terminazione (adatto per sistemi lenti). Vedi figura \ref{fig:rws}
+  \item \textbf{BASSA Corrente}, con $R_{O}$ alta, la soglia viene attraversata dopo riflessioni multiple (vedi figura \ref{fig:att_mult}) con un funzionamento lento.
+\end{itemize}
+
+\begin{figure}[!hp]
+  \centering
+  \begin{minipage}{.3\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/iws.png}
+    \caption{IWS}
+    \label{fig:iws}
+  \end{minipage}\hfill
+  \begin{minipage}{.3\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/rws.png}
+    \caption{RWS}
+    \label{fig:rws}
+  \end{minipage}\hfill
+  \begin{minipage}{.3\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/att_mult.png}
+    \caption{Attr. Multiplo}
+    \label{fig:att_mult}
+  \end{minipage}
+\end{figure}
+
+% PARTE C4 - ELAPMISC4
+\subsection{Parte C4}\label{c4}
+Le operazioni a livello ciclo hanno lo scopo di garantire il corretto trasferimento delle informazioni trasferite dal livello fisico. La temporizzazione di un sistema non è banale, spesos i ritardi sono funzioni del tempo, difficili quindi da prevedere con esattezza.
+\paragraph{Trasferimento Informazioni}
+Vi sono due tipi di trasferimento dei dati:
+\begin{itemize}
+  \item Attivato dalla \textbf{sorgente} $\rightarrow$ Scrittura. Direzione controllo = informazione.
+  \item Attivato dalla \textbf{destinazione} $\rightarrow$ Lettura. Direzione controllo  $\neq$ informazione.
+\end{itemize}
+Con tre tecniche di \textit{temporizzazione} per realizzarli:
+\begin{itemize}
+  \item \textbf{Fissa} \textit{(Sync)} $\rightarrow$ Worst-Case
+  \item \textbf{Adattiva} \textit{(Async)}: $\rightarrow$ ACK di conferma
+  \item \textbf{Semisincrona}: $\rightarrow$ Temporizzazione fissa salvo WAIT request.
+\end{itemize}
+\paragraph{Temporizzazione Fissa} Questa soluzione prevede di eseguire le operazioni rispettando i ritardi di worst-case in modo da garantirne l'affidabilità. Il problema di questa soluzione è che si potrebbero andare a generare inutili ritardi. Ottima invece in sistemi molto instabili.
+\paragraph{Temporizzazione Adattiva}
+Nel caso di circuiti asincroni l'unica soluzione è quella di lavorare con una conferma di ricezione da parte del modulo ricevente a quello inviante. In questo caso non sarà necessario ipotizzare le tempistiche nel nostri sistema in quanto esso si adatterà alla velocità della destinazione.
+\paragraph{Cicli Source-Synchronous}
+La caratteristica principale riguarda lo spostamento in accordo da INF e STB da Master a Slave. Il principale vantaggio sarà legato alla velocità, la temporizzazione dipenderà solamente da \textbf{latenza} dell'informazione (attesa ottenimento INF) e la \textbf{durata del ciclo}.
+
+% PARTE C5 - ELAPMISC5
+\subsection{Parte C5}\label{c5} % 19 Dicembre 2016
+I sistemi a bus sono mezzi trasmissivi in grado di trasferire dati tra più terminali selezionando le interfacce che partecipano al trasferimento. Il selezionamento delle interfacce non è immediato, prevede una procedura ben definita:
+\begin{itemize}
+  \item Allocazione del canale dal master.
+  \item Indirizzamento dallo slave.
+  \item Trasferimento...
+\end{itemize}
+\paragraph{Allocazione}
+L'allocazione del bus deve tenere conto delle possibili collisioni per tanto andremo ad allocare un canale prima di utilizzarlo. I meccanismi possono essere di 3 tipi:
+\begin{itemize}
+  \item \textbf{Toke Passing}: Gettone unico, spostato tra i master senza valutare le richieste.
+  \item \textbf{Collision Detection}: GRANT a tutti quelli che richiedono e in caso di collisione nuovo tentativo.
+  \item \textbf{Arbitrazione}: Valutazione delle request ed emissione di un solo GRANT, nessuna collisione.
+\end{itemize}
+\paragraph{Indirizzamento}
+Questa fase prevede prima una selezione ed infine l'indirizzamento. La prima può essere Codificata (selezione diretta con indirizzo) oppure Decodificata (selezione dei registri e successiva selezione dopo il decoder di indirizzo). La fase di indirizzamento invece può essere Logico (dipende dal nome dello slave) oppure Geografico (dipende dalla posizione).
+\paragraph{Gestione}
+In caso di più persone parlanti in un canale devo comunque evitare le collisioni, vi sono 3 tecniche di gestione anche qui:
+\begin{itemize}
+  \item \textbf{Riunione}: GRANT assegnato a turno, rifiutabile e passabile.
+  \item \textbf{Gruppo non regolato}: Possibilità di prendere parola a canale libero, evita le collisioni con CSMA-CD.
+  \item \textbf{Gruppo gestito}: Un arbitro riceve le richieste ed assegna un singolo GRANT.
+  \begin{itemize}
+    \item FCFS (simile a FIFO): Non va bene nel caso di eventi non ``sequenziabili''.
+    \item Livelli Priorità: Definisce un rango tra i processi, utilizza starvation per bloccare processi meno prioritari, devo comunque garantire un tempo di risoluzione anche dei meno prioritari (fairness).
+  \end{itemize}
+\end{itemize}
+
+% PARTE C6 - ELAPMISC6
+\subsection{Parte C6}\label{c6}
+I trasferimenti possono avvenire principalmente in forma seriale o parallela.\\
+Inizialmente i collegamenti paralleli potrebbero sembrare migliori, ma in realtà hanno molti limiti infatti:
+\begin{itemize}
+  \item Velocità limitata e skew (conpensabile con SS ma non per lo skew).
+  \item Richiesta di terminazioni in strutture multi-punto (potenza).
+  \item Problemi elettromagnetici nell'incremento di throughput.
+\end{itemize}
+La soluzione a tutti questi problemi è migrare verso collegamenti seriali.
+\paragraph{Connessioni Seriali}
+Questo tipo di connessioni sembrerebbe meno efficace per via della richiesta di N cicli per trasferire N bit di informazioni ma in realtà i vantaggi sono notevoli:
+\begin{itemize}
+  \item Pochi conduttori.
+  \item Semplificazione di routing.
+  \item Riduzione consumi.
+  \item Migliore su lunghe distanze e/o alte velocità.
+\end{itemize}
+Le uniche considerazioni da fare sono però:
+\begin{itemize}
+  \item 1bit per ciclo.
+  \item Sincronizzazione.
+  \item Controllo di flusso.
+\end{itemize}
+Il segnale trasmesso è una sequenza di simboli, essi possono rappresentare uno o più bit. Due codifiche molto comuni sono NRZ (0=L e 1=H) o RZ (0=L e 1=Impulso). Altra considerazione importante riguarda i problemi di cross-talk ovvero la possibilità per un segnale di trasferirsi da un conduttore agli altri generando disturbi.
+\paragraph{Sincronismo}
+La sincronizzazione è fondamentale per la comprensione tra sistemi.\\
+Le tecniche si basano su sincronismo di:
+\begin{itemize}
+  \item \textbf{BIT}: Garantisce il corretto campionamento del singolo bit. Generato da:
+  \begin{itemize}
+    \item TX: Source Synchronous (come WRITE).
+    \item RX: Asincrono (come READ).
+    \item Generatori indipendenti (problema legato alla differenza di frequenza).
+    \item CDR: Estratto dal sengale.
+  \end{itemize}
+  \item \textbf{CARATTERE}: Garantisce il corretto riconoscimento di MSB ed LSB.
+\end{itemize} % 20 Dicembre 2016 -- Pag. 28
+
 
 
 \bibliographystyle{abbrv}
