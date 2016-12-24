@@ -421,7 +421,59 @@ Le tecniche si basano su sincronismo di:
   \item \textbf{CARATTERE}: Garantisce il corretto riconoscimento di MSB ed LSB.
 \end{itemize} % 20 Dicembre 2016 -- Pag. 28
 
+\paragraph{Seriali Asincroni}
+La linea a riposo si presenta in stato alto, la trasmissione di un carattere può essere avviata in qualsiasi moemento tramite un simbolo di START, il quale verrà poi sfruttato dal ricevitore per la sincronizzazione. Sfortunatamente questa sincronizzazione non potrà essere mantenuta per sempre quindi, periodicamente, dovrò risincronizzare. Il termine della tramsissione verrà sancito da uno STOP symbol. Un'esempio possono essere gli UART.
 
+\paragraph{Seriali Sincroni}
+Questo protocollo mantiene per tutta la durata della trasmissione la sincronizzazione tra TX ed RX, grazie all'estrazione del clock dal segnale inviato. Da qui derivano poi molte codifiche come NRZ, RZ, BxBy, Manchester, ecc...\\
+I codici multilivello sono gli unici particolare in quanto prevedono questa logica:
+\begin{itemize}
+  \item \textbf{0}: NO VARIAZIONE
+  \item \textbf{1}: VARIAZIONE
+  \begin{itemize}
+    \item Se lo stato precedente era \textbf{+ o -}, passo a 0.
+    \item Se lo stato precedente era \textbf{0}, passa a + o - (opposto al precedente).
+  \end{itemize}
+\end{itemize}
+Riferimenti nelle figure: \ref{fig:nrz},\ref{fig:rz},\ref{fig:manch},\ref{fig:mlt}
+
+\begin{figure}[!hp]
+  \includegraphics[width=\textwidth]{images/nrz.png}
+  \caption{Non-Return-Zero}
+  \label{fig:nrz}
+  \includegraphics[width=\textwidth]{images/rz.png}
+  \caption{Return-Zero}
+  \label{fig:rz}
+  \includegraphics[width=\textwidth]{images/manch.png}
+  \caption{Manchester Encoding}
+  \label{fig:manch}
+  \includegraphics[width=\textwidth]{images/mlt.png}
+  \caption{MultiLevel}
+  \label{fig:mlt}
+\end{figure}
+
+% PARTE C7 - ELAPMISC7
+\subsection{Parte C7}\label{c7}
+L'integrità del segnale è fondamentale che venga mantenuta al fine di una corretta comprensione tra driver.\\
+I disturbi più comuni sono:
+\begin{itemize}
+  \item \textbf{Crosstalk}: Passaggio di segnale tra due ``canali''.
+  \item \textbf{Tra conduttori diversi}: Accoppiamenti induttivi o capacitivi.
+  \item \textbf{Su stesso conduttore}: GND $\rightarrow$ Segnali + Alimentazione.
+  \item \textbf{Dominio tempo}: Interferenza simbolica.
+\end{itemize}
+\paragraph{Somma dei crosstalk}
+Si possono generare due tipi di diafonia, quella \textbf{diretta} dove i disturbi vengono via via generati all'avanzare del gradino con un disturbo di durata costante ma di ampiezza variabile, oppure quella \textbf{inversa} dove i disturbi si affiancano nel tempo, con un disturbo di ampiezza costante ma durata variabile. Sulla linea compare la sempre la somma dei due.
+\paragraph{Riduzione crosstalk}
+Il disturbo è legato principalmente alla velocità dei fronti, agli accoppiamenti ed ai margini di rumore del receiver. Per riddurre questo contributo possiamo quindi rallentare i fronti, ridurre la capacità o le induttanze di accoppiamento o usare segnali differenziali.
+\paragraph{Rumore di commutazione}
+Le correnti di alimentazione relative a parti diverse del circuito possono avere percorsi comuni provocando quindi ground bounce o commutazione simultanea di più uscite.\\
+Il nostro obbiettivo di ridurre questi disturbi può essere raggiunto utilizzando condensatori di disaccoppiamento pilotanti carichi a bassa induttanza (in modo da compensare le correnti impulsive) e ricaricati in tempi lunghi.
+
+% Parte D
+\section{Parte D}\label{d}
+% PARTE D1 - ELAPMISD1
+\subsection{Parte D1}\label{d1} % 21 Dicembre 2016
 
 \bibliographystyle{abbrv}
 \bibliography{simple}

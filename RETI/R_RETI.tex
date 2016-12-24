@@ -685,6 +685,55 @@ A questo livello la struttura si basa su DCF (\textit{Distributed Coordination F
 % ARGOMENTI PROTOCOLLI - 20 Dicembre 2016
 
 \section{Network Layer - LV3} \label{LV3}
+\subsection{Introduzione}
+Il livello 2 (\ref{LV2}) presenta alcuni problemi come la bassa efficenza nella gestione dei collegamenti, ecc... Il livello 3 cerca di compensare alcune di queste carenze.\\
+Questo livello di occupa di trasportare i pacchetti dal TX ad RX, di incapsulare i pacchetti (lato TX) e di consegnarli al LV4 (lato RX). Questo livello è presente in ogni tipo di dispositivo che sia esso Host o Router.\\
+Le due principali funzioni di questo strato sono quella di \textbf{routing} e di \textbf{forwarding}. La prima, per analogia, equivale a ``\textit{Pianificare un viaggio dalla sorgente alla destinazione}'' mentre la seconda a ``\textit{L'attraversamento di ogni singolo incrocio}''.
+
+\subsection{Datagram o VC}
+La soluzione con datagram fornisce un servizio di networks \textit{connectionless} mentre i virtual-circuit ne forniscono uno \textit{connection}.\\
+Ricampitolando le principali differenze sono:
+\begin{itemize}
+  \item \textbf{Datagram}:
+  \begin{itemize}
+    \item Scambi tra host molto elastici.
+    \item Molte tipologie (alcuni problemi di uniformità).
+    \item Terminali molto SMART, \textbf{complexity at ``edge''}.
+  \end{itemize}
+  \item \textbf{VC}:
+  \begin{itemize}
+    \item Evoluta dalla telefonia.
+    \item Precisa temporizzazione per garantire il servizio.
+    \item Terminali ``stupidi'', \textbf{complexity ``inside''}.
+  \end{itemize}
+\end{itemize}
+
+\subsection{IP Datagram}
+Il LV3 contribuisce alla formazione del pacchetto da trasferire per una totale comprensione. I campi del datagram (IPv4), rappresentati in figura \ref{fig:ipdata}, sono:
+\begin{itemize}
+  \item \textbf{Versione}: IPv4 o IPv6.
+  \item \textbf{Header Lenght}: Dimensione dell'header in 32 B.
+  \item \textbf{Type of Service}: Tipo di dato, usato per prioritizzare il traffico.
+  \item \textbf{Length}: Lunghezza complessiva del datagram.
+  \item \textbf{16-bit ID}: Utilizzato per frammentazione e riassemblaggio.
+  \item \textbf{Flags}: Utilizzato per frammentazione e riassemblaggio.
+  \item \textbf{Fragment Offset}: Utilizzato per frammentazione e riassemblaggio.
+  \item \textbf{TTL}: Numero di rimanenti passaggi (hops).
+  \item \textbf{Upper Layer}: Protocollo di livello superiore per la consegna del payload.
+  \item \textbf{Header Checksum}
+  \item \textbf{32 bit IP SRC}: Indirizzo IP di sorgente.
+  \item \textbf{32 bit IP DEST}: Indirizzo IP della destinazione.
+  \item \textbf{Options}: Timestamp, record route, list of router, ecc... Non sempre presente.
+  \item \textbf{Payload}: Dati di pacchetto, tipicamente segmenti TCP o UDP.
+\end{itemize}
+
+\begin{figure}[!hp]
+  \includegraphics[width=\textwidth]{images/ipheader.png}
+  \caption{IPv4 Datagram}
+  \label{fig:ipdata}
+\end{figure}
+
+Tutto questo header si aggiunge ai quelli dei precedenti e successivi. % 24 Dicembre 2016
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
