@@ -7,9 +7,12 @@
 
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
 \usepackage{geometry}
+\usepackage{indentfirst} % First line indent
 \usepackage{mathtools}
 \usepackage{wrapfig}
+\usepackage[usenames, dvipsnames]{color}
 % Misure Documento
 \geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
 
@@ -46,14 +49,11 @@ Gli stati logici di uscita sono rappresentati da tensioni, solitamente la tensio
 \end{wrapfigure}
 La capacità di riconoscimento dell’ingresso da parte di una porta logica è legata al confronto con una soglia. Per poter garantire il corretto funzionamento di un circuito vengono specificati dei campi di accettabilità degli ingressi. Se essi vengono rispettati ($V_{ol}$ $<$ $V_{il}$ e $V_{oh}$ $>$ $V_{ih}$) la dall’uscita precedente allora non vi saranno problemi di compatibilità tra le porte questo è infatti il principale vantaggio del mondo digitale, usando un semplice comparatore di soglia siamo in grado di rigenerare il segnale alla perfezione. I margini di rumore sono le fasce dove il segnale di entrata potrà ancora essere riconosciuto correttamente, esse sono commisurate al tipo di applicazione del circuito, le auto avranno NM molto ampi. Una rappresentazione grafica della compatibilità si può vedere in figura \ref{fig:compat}
 
-\paragraph{Transistor}
-I circuiti di tipo CMOS (MOS complementari) hanno una diversa resistenza di uscita nel caso in cui si parli di uscita alta o bassa, anche la tensione di uscita Vo è consistente solo in base ai valori di Io. Questo tipo di circuiti prevede solamente due tipi di uscita H o L. Nel circuito a tre stati abbiamo anche l’opzione Z = alta impedenza utile in casi in cui all’uscita non si voglia avere ne un valore H ne un valore L, questo tipo di circuito può essere implementato anche con un doppio switch. Molto considerazioni fatte tralasciano il fattore realtà infatti dobbiamo tenere in considerazione alcuni fattori. I segnali reali hanno fronti con pendenza finita e quindi il riconoscimento del nuovo stato logico non è immediato, allo stesso modo anche le variazioni di tensioni o correnti nei moduli stessi non lo possono essere. La combinazione di tutti questi parametri limita la velocità di operatività e porta a ritardi di propagazione.\\
+\paragraph{Transistor} I circuiti di tipo CMOS (MOS complementari) hanno una diversa resistenza di uscita nel caso in cui si parli di uscita alta o bassa, anche la tensione di uscita Vo è consistente solo in base ai valori di Io. Questo tipo di circuiti prevede solamente due tipi di uscita H o L. Nel circuito a tre stati abbiamo anche l’opzione Z = alta impedenza utile in casi in cui all’uscita non si voglia avere ne un valore H ne un valore L, questo tipo di circuito può essere implementato anche con un doppio switch. Molto considerazioni fatte tralasciano il fattore realtà infatti dobbiamo tenere in considerazione alcuni fattori. I segnali reali hanno fronti con pendenza finita e quindi il riconoscimento del nuovo stato logico non è immediato, allo stesso modo anche le variazioni di tensioni o correnti nei moduli stessi non lo possono essere. La combinazione di tutti questi parametri limita la velocità di operatività e porta a ritardi di propagazione.\\
 Il tempo di propagazione è il tempo necessario, per un segnale in ingresso a propagarsi nel modulo fino alla sua uscita. Questo valore non sempre è uguale per le due transizioni, lo è nel caso di strutture simmetriche come i CMOS, non lo è nel caso di uscita R-SW (dove abbiamo un transitorio in carica molto lento). Il FAN OUT rappresenta il massimo numero di ingressi che possono essere collegati ad una uscita.
-\paragraph{Segnali Differenziali}
-I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai disturbi, o meglio essendo un doppia canale tutti e due vengono disturbati allo stesso modo mantenendo così il valore differenziale uguale. Ci permettono inoltre di usare una differenza di tensione molto più bassa aumentando così la velocità e riducendo i consumi.
+\paragraph{Segnali Differenziali} I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai disturbi, o meglio essendo un doppia canale tutti e due vengono disturbati allo stesso modo mantenendo così il valore differenziale uguale. Ci permettono inoltre di usare una differenza di tensione molto più bassa aumentando così la velocità e riducendo i consumi.
 
-\paragraph{Domande}
-(vedi slide)\\
+\paragraph{Domande} (vedi slide)\\
 1) Perché il digitale ci permette di compensare facilmente il rumore.\\
 2) Dobbiamo fare in modo che vengano rispettate le compatibilità sia delle correnti che delle tensioni.\\
 3) Le uscite a tre stati vengono utilizzate quando il nostro dispositivo deve rimanere in una situazione in cui non trasmette ne zero ne uno.\\
@@ -64,11 +64,9 @@ I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai dist
 \subsection{Parte B2}\label{b2}
 I circuiti combinatori sono funzioni combinatorie degli ingressi applicati e non hanno bisongno di elementi di memoria a differenza dei circuiti sequenziali i quali sono funzioni anche della precedente storia del circuito.
 
-\paragraph{Elementi di memoria}
-Il primo elemento di memoria è l'anello di inverter ma il suo svantaggio è legato al fatto che una volta assegnatoli in valore non è possibile modificarlo senza rimuovere l'alimentazione. Altra questione di interesse in questo elemento è legata alla situazione di metastabilità (stato temporaneo intermedio) da evitare. Da questo si passa subito al FF Set Reset. Esso presenta l'anello di inverte con due porte NOR che fungono da commutatori nel circuito. Le situazioni possibili sono 4 modificando in modo complementare SET e RESET si modifica il valore, con SET a 1 Qa=1 ecc... Nel caso in cui tutti e due i comandi siano a 0 si crea l'anello di inverter, entrando in stato di memoria. L'ultima condizione (TUTTI 1) è una situazioni proibita dove rischio di mandare in stallo (uscite uguali o metastabilità) il sistema. Una possibile soluzione al problema dello stallo è quella di assegnare i comando S ed R allo stesso segnale opportunamente invertito in un caso. Il sistema può essere volendo convertito (legge di De Morgan) con porte NAND.
+\paragraph{Elementi di memoria} Il primo elemento di memoria è l'anello di inverter ma il suo svantaggio è legato al fatto che una volta assegnatoli in valore non è possibile modificarlo senza rimuovere l'alimentazione. Altra questione di interesse in questo elemento è legata alla situazione di metastabilità (stato temporaneo intermedio) da evitare. Da questo si passa subito al FF Set Reset. Esso presenta l'anello di inverte con due porte NOR che fungono da commutatori nel circuito. Le situazioni possibili sono 4 modificando in modo complementare SET e RESET si modifica il valore, con SET a 1 Qa=1 ecc... Nel caso in cui tutti e due i comandi siano a 0 si crea l'anello di inverter, entrando in stato di memoria. L'ultima condizione (TUTTI 1) è una situazioni proibita dove rischio di mandare in stallo (uscite uguali o metastabilità) il sistema. Una possibile soluzione al problema dello stallo è quella di assegnare i comando S ed R allo stesso segnale opportunamente invertito in un caso. Il sistema può essere volendo convertito (legge di De Morgan) con porte NAND.
 
-\paragraph{Sync o Async}
-I Circuiti possono essere sincroni o asincroni, i primi sono molto più semplici da realizzare (CAD Automatici) e possono cambiare il loro stato solo in presenza di un comando specifico (CLK). Viene aggiunto un segnali di crontrollo LE (Latch Enabled) per controllare le situazioni in cui può effettivamente variare lo stato.\\
+\paragraph{Sync o Async} I Circuiti possono essere sincroni o asincroni, i primi sono molto più semplici da realizzare (CAD Automatici) e possono cambiare il loro stato solo in presenza di un comando specifico (CLK). Viene aggiunto un segnali di crontrollo LE (Latch Enabled) per controllare le situazioni in cui può effettivamente variare lo stato.\\
 I FF Master-Slave sono costituiti da una cascata di FF latch con abilitazione complementare su base CLK, se =0 abilito il primo e blocco il secondo, mentre se =1 l'opposto.\\
 Riepilogo:
 \begin{itemize}
@@ -102,10 +100,9 @@ In figura \ref{fig:timingdff} una rappresentazione completa del timing di un D-F
 % PARTE B3 - ELAPMISB3
 \subsection{Parte B3}\label{b3}
 I segnali possono essere trattati in due forme, seriale o parallela.\\
- Nel trasferiemento seriale uno alla volta i segnali vengono cadenzati da un segnale di CLK (1 bit x volta). In quello parallelo invece vengono trasferiti N bit per volta in un singolo segnale di CLK. Potrebbe sembrare che la seconda sia sempre più veloce, nella realtà potendo sfruttare una frequenza decisamente alta le connessioni seriali sono più veloci (vedi USB).
+Nel trasferiemento seriale uno alla volta i segnali vengono cadenzati da un segnale di CLK (1 bit x volta). In quello parallelo invece vengono trasferiti N bit per volta in un singolo segnale di CLK. Potrebbe sembrare che la seconda sia sempre più veloce, nella realtà potendo sfruttare una frequenza decisamente alta le connessioni seriali sono più veloci (vedi USB).
 
-\paragraph{Registri}
-I registri sono le componenti grazie alle quali possiamo mantenere i dati. Essi sono costituiti semplicemente da FF uniti di tipo L o Edge-Triggered dove viene utilizzata una sola uscita. Vi sono differenti tipi di registri:
+\paragraph{Registri} I registri sono le componenti grazie alle quali possiamo mantenere i dati. Essi sono costituiti semplicemente da FF uniti di tipo L o Edge-Triggered dove viene utilizzata una sola uscita. Vi sono differenti tipi di registri:
 \begin{itemize}
   \item \textbf{PIPO}: Parallel In / Parallel Out
   \item \textbf{Shift-Register}: Serial In / Serial Out
@@ -113,12 +110,10 @@ I registri sono le componenti grazie alle quali possiamo mantenere i dati. Essi 
   \item \textbf{PISO}: Parallel In / Serial Out
 \end{itemize}
 
-\paragraph{Contatori}
-Circuiti logici in grado di generare sulle uscite una sequenza di conteggio binario incrementata ad ogni colpo di CLK. Possono essere si crescenti che decrescenti.\\
+\paragraph{Contatori} Circuiti logici in grado di generare sulle uscite una sequenza di conteggio binario incrementata ad ogni colpo di CLK. Possono essere si crescenti che decrescenti.\\
 I divisori invece sono costituiti da FF in cascata dove l'uscita di uno diventa il CLK del successivo. Questo permette di modulare (dividere) la frequenza di CLK. Chiaramente in tutti questi componenti non possiamo trascurare la questione ritardi. Se usiamo contatori sincroni il ritardo non sarà nullo, ma semplicemente sarà uguale per tutte le componenti facendole rimanere sincronizzate. Nel caso di CLK concatenato tra le porte la questione sarà molto più difficile da gestire andato di fatto a generare un circuito asincrono. In qualsiasi caso valgono tutte le regole di sincronizzazione.
 
-\paragraph{Temporizzazione}
-Nel calcolare la massima frequenza di operatività del circuito devo tenere in considerazione molte variabili:
+\paragraph{Temporizzazione} Nel calcolare la massima frequenza di operatività del circuito devo tenere in considerazione molte variabili:
 \begin{itemize}
   \item Ritardo introdotto dal FF (Uscita dalla porta del segnale entrato).
   \item Ritardi introdotti dalla logica combinatoria (porte AND in questo caso).
@@ -135,8 +130,7 @@ I comparatori di soglia sono elementi fondamentali nell'elettronica digitale, il
   \label{fig:comparator}
 \end{figure}
 
-\paragraph{Comparatori con A.O.}
-Questo tipo di comparatori presenta alcune controindicazioni dovute a:
+\paragraph{Comparatori con A.O.} Questo tipo di comparatori presenta alcune controindicazioni dovute a:
 \begin{itemize}
   \item Guadagno \textbf{Ad} ad anello aperto molto grande.
   \item Escursione della \textbf{Vu} limitata.
@@ -150,21 +144,17 @@ In queste situazioni:
   \item Eventuale tensione di modo comune.
 \end{itemize}
 
-\paragraph{Comparatore con Isteresi}
-La differenza principale è legata all'utilizzo di due soglie invece che una singola, questo permette di avere un sistema più resistente al rumore infatti il valore di uscita commuterà solo al passaggio della soglia più esterna. Questa è un sistema con isteresi. Anche questa soluzione può essere implementata con tutti e due i tipi di AO. Per ottenere uno sdoppiamento della soglia è sufficente creare un partitore di tensione (utilizzando resistenze) tra l'uscita ed una tensione di riferimento.
+\paragraph{Comparatore con Isteresi} La differenza principale è legata all'utilizzo di due soglie invece che una singola, questo permette di avere un sistema più resistente al rumore infatti il valore di uscita commuterà solo al passaggio della soglia più esterna. Questa è un sistema con isteresi. Anche questa soluzione può essere implementata con tutti e due i tipi di AO. Per ottenere uno sdoppiamento della soglia è sufficente creare un partitore di tensione (utilizzando resistenze) tra l'uscita ed una tensione di riferimento.
 
-\paragraph{Comparatori Integrati}
-Esistono componenti più specifici con uscite più flessibili, maggiore velocità o non idealità meno importanti. Uno di questi è il trigger di Schmitt con soglie fisse e inverter con ingresso a trigger. Il circuito è semplice, un condensatore a massa, componente e resistenza in parallelo e si misura la tensione di uscita rispetto a GND.
+\paragraph{Comparatori Integrati} Esistono componenti più specifici con uscite più flessibili, maggiore velocità o non idealità meno importanti. Uno di questi è il trigger di Schmitt con soglie fisse e inverter con ingresso a trigger. Il circuito è semplice, un condensatore a massa, componente e resistenza in parallelo e si misura la tensione di uscita rispetto a GND.
 
-\paragraph{Convertitori}
-Il comparatore di sogli trasforma una grandezza analogica in una numerica (su 1 bit). In generale per convertire un segnale A/D avremo bisongo un numeri di comparatori $2^n-1$ (n: numero di bit). Eventualmente si possono conbinare comparatori in cascata.
+\paragraph{Convertitori} Il comparatore di sogli trasforma una grandezza analogica in una numerica (su 1 bit). In generale per convertire un segnale A/D avremo bisongo un numeri di comparatori $2^n-1$ (n: numero di bit). Eventualmente si possono conbinare comparatori in cascata.
 
 % PARTE B5 - ELAPMISB5
 \subsection{Parte B5}\label{b5}
 Gli oscillatori ed i generatori di segnali sono utili strumenti nel campo dell'elettronica.
 
-\paragraph{Generatori di Segnali}
-Ci possono essere diversi tipi di generatori di segnali, continui o ad impulsi.\\
+\paragraph{Generatori di Segnali} Ci possono essere diversi tipi di generatori di segnali, continui o ad impulsi.\\
 I principali parametri da tenere in considerazione in un segnale, a seconda del tipo sono:
 \begin{itemize}
   \item Livelli: $V_{H}, V_{L}$
@@ -188,14 +178,12 @@ Si riporta anche la formula per calcolare il tempo di raggiungimento della sogli
   \end{gathered}
 \end{equation}
 
-\paragraph{Generatori di Onda Quadra}
-Il segnale O.Q. può essere ottenuto concatenando due parti: una rete RC passa-basso comandata da un segnale BINARIO sfruttando la carica e scarica del condensatore, un comparatore con isteresi. Se il comparatore pilota la rete RC otteniamo proprio un onda quadra in quanto il nostro condensatore si caricherà e scaricherà tra le due soglie ($V_{S1}, V_{S2}$).\\
+\paragraph{Generatori di Onda Quadra} Il segnale O.Q. può essere ottenuto concatenando due parti: una rete RC passa-basso comandata da un segnale BINARIO sfruttando la carica e scarica del condensatore, un comparatore con isteresi. Se il comparatore pilota la rete RC otteniamo proprio un onda quadra in quanto il nostro condensatore si caricherà e scaricherà tra le due soglie ($V_{S1}, V_{S2}$).\\
 I principali limiti operativi sono legati alla resistenza di reazione. Con una grande resistenza non riusciremo a far circolare la corrente necessaria, valori troppo bassi invece limitano la dinamica di uscita. Allo stesso modo il condensatore non deve avere un valore troppo basso altrimenti introdurrebbe una capacità parassita.\\
 In modo analogo è possibile ottenre un generatoe di onda triangolare.\\
 Il valore del periodo: $T_{1} = (R*C*(V_{S2}-V_{S1}))/V_{UH}$ è modificabile variando il valore della resistenza di reazione. La variazione di DC è più complessa e necessità dell'utilizzo di due diodi.\\
 
-\paragraph{Oscillatori sinusoidali}
-Per realizzare questo componente spesso vengono utilizzati quarzi o altri materiali piezoelettrici in grado di deformarsi in presenza di un campo elettrico o di generare tensione se sottoposti a sollecitazioni meccaniche. Altra possibile soluzione è sfruttando circuiti con reazione, reti RC e porte.
+\paragraph{Oscillatori sinusoidali} Per realizzare questo componente spesso vengono utilizzati quarzi o altri materiali piezoelettrici in grado di deformarsi in presenza di un campo elettrico o di generare tensione se sottoposti a sollecitazioni meccaniche. Altra possibile soluzione è sfruttando circuiti con reazione, reti RC e porte.
 
 % PARTE B6 - ELAPMISB6
 \subsection{Parte B6}\label{b6}
@@ -218,22 +206,19 @@ Ad oggi l'industria elettronica non si occupa della produzione di un'oggetto nel
 \end{itemize}
 
 \paragraph{Tempo di progetto}
-Il tempo di progetto è fondamentale, il ritardo di ingresso si trasferisce quadraticamente sui ricavi.
-\paragraph{Costi}
-I contribuenti al costro per prodotto sono molti: NRE (una tantum), Cu (costo unitario di produzione escludente i costi di progetto).\\
+ l tempo di progetto è fondamentale, il ritardo di ingresso si trasferisce quadraticamente sui ricavi.
+\paragraph{Costi} I contribuenti al costro per prodotto sono molti: NRE (una tantum), Cu (costo unitario di produzione escludente i costi di progetto).\\
 $C_{p} = (NRE/N) + Cu$\\
 Le diverse scelte dipendono principalmente dal numero di unità prodotte N.
 
-\paragraph{Stili di progetto}
-Vi possono essere differenti stili dai quali dipenderanno molto i costi. Si può partire costruenti circuiti direttamente con le porte fino ad arrivare ad HW generico sfruttante funzioni definite lato SW.
+\paragraph{Stili di progetto} Vi possono essere differenti stili dai quali dipenderanno molto i costi. Si può partire costruenti circuiti direttamente con le porte fino ad arrivare ad HW generico sfruttante funzioni definite lato SW.
 \begin{itemize}
   \item \textbf{FULL CUSTOM}: Necessitano moltissimi step progettuali con altissima flessibilità, il tutto altissimi NRE cost.
   \item \textbf{SEMI CUSTOM}: Sfruttano librerie di progetto, rimangono comunque complessi da sviluppare garantendo una discreta flessibilità ma comunque con alti costi.
   \item \textbf{Cir. Programmabili}: Presentano IN/OUT programmabili, senza nessuna funzione nativa ma con bassi NRE ed alti costi unitari.
 \end{itemize}
 
-\paragraph{Logiche Programmabili}
-La semplicitià di queste componenti le rende molto diffuse e di facile utilizzo. La loro struttura è basata su matrici di IN/OUT dove i collegamenti risultano definibili dagli utenti. Le principali logiche sono PAL o PLA. Altri tipi di memorie programmabili sono PROM (eventualmente a sola lettura come nei computer), FPGA (complesse fino a decine di milioni di porte), EEPROM (basate su MOS floating gate).
+\paragraph{Logiche Programmabili} La semplicitià di queste componenti le rende molto diffuse e di facile utilizzo. La loro struttura è basata su matrici di IN/OUT dove i collegamenti risultano definibili dagli utenti. Le principali logiche sono PAL o PLA. Altri tipi di memorie programmabili sono PROM (eventualmente a sola lettura come nei computer), FPGA (complesse fino a decine di milioni di porte), EEPROM (basate su MOS floating gate).
 
 % PARTE C
 \section{Parte C}
@@ -241,11 +226,9 @@ La semplicitià di queste componenti le rende molto diffuse e di facile utilizzo
 \subsection{Parte C1}\label{c1}
 Le tecnologie attuali permettono di avere un numero di transisto $>10^9$ per chip (Intel i7). Il principale bottle neck rimanere la distribuzione dei segnali e l'energia. I circuiti usano simboli binari, ma nella realtà sono tensioni e correnti.
 
-\paragraph{Ritardi}
-Tenendo in considerazioni tutte le questioni legate all'interfacciamento delle componenti viste nella parte B andiamo a considerare ulteriori imprecisioni. Le più importanti sono il Clock Jitter $T_{J}$ (variazione $\pm$ del periodo) ed il Clock Skew $T_{K}$ (sfasamento $\pm$ tra clock).
+\paragraph{Ritardi} Tenendo in considerazioni tutte le questioni legate all'interfacciamento delle componenti viste nella parte B andiamo a considerare ulteriori imprecisioni. Le più importanti sono il Clock Jitter $T_{J}$ (variazione $\pm$ del periodo) ed il Clock Skew $T_{K}$ (sfasamento $\pm$ tra clock).
 
-\paragraph{Interconnessioni}
-A livello ideali l'uscita logica del driver (TX) e l'ingresso logico del receiver (RX) presentano una connessione perfetta, senza ritardi e disturbi, chiaramente solo in prima approssimazione.\\
+\paragraph{Interconnessioni} A livello ideali l'uscita logica del driver (TX) e l'ingresso logico del receiver (RX) presentano una connessione perfetta, senza ritardi e disturbi, chiaramente solo in prima approssimazione.\\
 Se cerchiamo di ottenere una più precisa approssimazione dobbiamo andare ad analizzare il circuito come una linea di comunicazione dopo il collegamente D-R viene modellato come una cella RC passa-basso. Conseguentemente, al segnale in uscita dal driver avremo una risposta esponenziale con costante di tempo $\tau = CR$. Il ritardo con cui viene rilevata una variazione di stato logico prende il nome di TEMPO DI TRASMISSIONE ($t_{TX}$). Questo tempo varia anche tra connessioni nominalmente allinetate e la differenza tra i due casi ($t_{TXmax}-t_{TXmin}$) prende il nome di SKEW.
 
 \begin{figure}[!hp]
@@ -272,8 +255,7 @@ Ogni linea presenta dei parametri caratteristici:
   \end{itemize}
 \end{itemize}
 
-\paragraph{Linea Pilotata}
-Il primo gradino si sposta lungo tutto il conduttore senza subire distorsioni ed impiega un $t_{p}$ a propagarsi fino all'ingresso del receiver su una linea senza perdite.\\
+\paragraph{Linea Pilotata} Il primo gradino si sposta lungo tutto il conduttore senza subire distorsioni ed impiega un $t_{p}$ a propagarsi fino all'ingresso del receiver su una linea senza perdite.\\
 Se $R_{t}=Z_{\infty}$ allora in rapport $V/I$ non varia e non si hanno discontinuità. Se invece $R_{t} \neq Z_{\infty}$ il rapporto $V/I$ varia, generando una progressiva variazione del gradino (onda progressiva o incidente), le variazioni genereranno un'onda riflessa (regressiva) con propagazione inversa a prima.\\
 L'ampiezza dell'onda riflessa sarà determinata dal coefficente di riflessione $\Gamma_{T}$ con $V_{r}=\Gamma_{T}V_{p}$.\\
 Questo coefficente assume valori differenti:
@@ -294,16 +276,14 @@ L'andamento del sistema viene spesso schematizzato utilizzando un diagramma a tr
 \subsection{Parte C3}\label{c3} % 15 Dicembre 2016
 Il tempo di trasmissione $t_{TX}$, il ritardo di attraversamento della soglia, dipende da molti parametri. Le variazioni di $t_{TX}$ portano allo skew $t_{K}$ o disallineamento.
 
-\paragraph{skew}
-Diretta conseguenza è la modifica delle relazioni temporali tra i segnali. E' importante riusire a gestirlo in modo da preservare l'integrità dei segnali. I principali contribuenti a questo paramentro sono:
+\paragraph{skew} Diretta conseguenza è la modifica delle relazioni temporali tra i segnali. E' importante riusire a gestirlo in modo da preservare l'integrità dei segnali. I principali contribuenti a questo paramentro sono:
 \begin{itemize}
   \item Prametri TX ed RX ($V_{H}$, $V_{L}$, soglie, ecc...)
   \item Propagazione: riflessioni, terminazioni, discontinuità, diafonia, ecc...
   \item Carico (in particolare capacitivi)
   \item Rumore di massa (Ground Bounce) e di commutazione
 \end{itemize} %18 Dicembre 2016
-\paragraph{Tipi di commutazione}
-Il tipo di commutazione della nostra linea dal rapporto $R_{O}/Z_{\infty}$ oppure dal tipo di corrente:
+\paragraph{Tipi di commutazione} Il tipo di commutazione della nostra linea dal rapporto $R_{O}/Z_{\infty}$ oppure dal tipo di corrente:
 \begin{itemize}
   \item \textbf{BASSO Rapporto} $R_{O}<Z_{\infty}$: $\rightarrow$ I gradino ampio.\\ La soglia viene attraversata, commutazione su onda incidente (IWS), basso $t_{TX}$ e veloce. Richiede terminazione (adatto a BUS). Vedi figura \ref{fig:iws}
   \item \textbf{ALTO Rapporto} $R_{O}>Z_{\infty}$: $\rightarrow$ I gradino basso.\\ Soglia non attraversata, commutazione su onda riflessa (RWS), alto $t_{TX}$ e lento. Non sono necessarie terminazione (adatto per sistemi lenti). Vedi figura \ref{fig:rws}
@@ -335,8 +315,7 @@ Il tipo di commutazione della nostra linea dal rapporto $R_{O}/Z_{\infty}$ oppur
 % PARTE C4 - ELAPMISC4
 \subsection{Parte C4}\label{c4}
 Le operazioni a livello ciclo hanno lo scopo di garantire il corretto trasferimento delle informazioni trasferite dal livello fisico. La temporizzazione di un sistema non è banale, spesos i ritardi sono funzioni del tempo, difficili quindi da prevedere con esattezza.
-\paragraph{Trasferimento Informazioni}
-Vi sono due tipi di trasferimento dei dati:
+\paragraph{Trasferimento Informazioni} Vi sono due tipi di trasferimento dei dati:
 \begin{itemize}
   \item Attivato dalla \textbf{sorgente} $\rightarrow$ Scrittura. Direzione controllo = informazione.
   \item Attivato dalla \textbf{destinazione} $\rightarrow$ Lettura. Direzione controllo  $\neq$ informazione.
@@ -348,10 +327,8 @@ Con tre tecniche di \textit{temporizzazione} per realizzarli:
   \item \textbf{Semisincrona}: $\rightarrow$ Temporizzazione fissa salvo WAIT request.
 \end{itemize}
 \paragraph{Temporizzazione Fissa} Questa soluzione prevede di eseguire le operazioni rispettando i ritardi di worst-case in modo da garantirne l'affidabilità. Il problema di questa soluzione è che si potrebbero andare a generare inutili ritardi. Ottima invece in sistemi molto instabili.
-\paragraph{Temporizzazione Adattiva}
-Nel caso di circuiti asincroni l'unica soluzione è quella di lavorare con una conferma di ricezione da parte del modulo ricevente a quello inviante. In questo caso non sarà necessario ipotizzare le tempistiche nel nostri sistema in quanto esso si adatterà alla velocità della destinazione.
-\paragraph{Cicli Source-Synchronous}
-La caratteristica principale riguarda lo spostamento in accordo da INF e STB da Master a Slave. Il principale vantaggio sarà legato alla velocità, la temporizzazione dipenderà solamente da \textbf{latenza} dell'informazione (attesa ottenimento INF) e la \textbf{durata del ciclo}.
+\paragraph{Temporizzazione Adattiva} Nel caso di circuiti asincroni l'unica soluzione è quella di lavorare con una conferma di ricezione da parte del modulo ricevente a quello inviante. In questo caso non sarà necessario ipotizzare le tempistiche nel nostri sistema in quanto esso si adatterà alla velocità della destinazione.
+\paragraph{Cicli Source-Synchronous} La caratteristica principale riguarda lo spostamento in accordo da INF e STB da Master a Slave. Il principale vantaggio sarà legato alla velocità, la temporizzazione dipenderà solamente da \textbf{latenza} dell'informazione (attesa ottenimento INF) e la \textbf{durata del ciclo}.
 
 % PARTE C5 - ELAPMISC5
 \subsection{Parte C5}\label{c5} % 19 Dicembre 2016
@@ -361,17 +338,14 @@ I sistemi a bus sono mezzi trasmissivi in grado di trasferire dati tra più term
   \item Indirizzamento dallo slave.
   \item Trasferimento...
 \end{itemize}
-\paragraph{Allocazione}
-L'allocazione del bus deve tenere conto delle possibili collisioni per tanto andremo ad allocare un canale prima di utilizzarlo. I meccanismi possono essere di 3 tipi:
+\paragraph{Allocazione} L'allocazione del bus deve tenere conto delle possibili collisioni per tanto andremo ad allocare un canale prima di utilizzarlo. I meccanismi possono essere di 3 tipi:
 \begin{itemize}
   \item \textbf{Toke Passing}: Gettone unico, spostato tra i master senza valutare le richieste.
   \item \textbf{Collision Detection}: GRANT a tutti quelli che richiedono e in caso di collisione nuovo tentativo.
   \item \textbf{Arbitrazione}: Valutazione delle request ed emissione di un solo GRANT, nessuna collisione.
 \end{itemize}
-\paragraph{Indirizzamento}
-Questa fase prevede prima una selezione ed infine l'indirizzamento. La prima può essere Codificata (selezione diretta con indirizzo) oppure Decodificata (selezione dei registri e successiva selezione dopo il decoder di indirizzo). La fase di indirizzamento invece può essere Logico (dipende dal nome dello slave) oppure Geografico (dipende dalla posizione).
-\paragraph{Gestione}
-In caso di più persone parlanti in un canale devo comunque evitare le collisioni, vi sono 3 tecniche di gestione anche qui:
+\paragraph{Indirizzamento} Questa fase prevede prima una selezione ed infine l'indirizzamento. La prima può essere Codificata (selezione diretta con indirizzo) oppure Decodificata (selezione dei registri e successiva selezione dopo il decoder di indirizzo). La fase di indirizzamento invece può essere Logico (dipende dal nome dello slave) oppure Geografico (dipende dalla posizione).
+\paragraph{Gestione} In caso di più persone parlanti in un canale devo comunque evitare le collisioni, vi sono 3 tecniche di gestione anche qui:
 \begin{itemize}
   \item \textbf{Riunione}: GRANT assegnato a turno, rifiutabile e passabile.
   \item \textbf{Gruppo non regolato}: Possibilità di prendere parola a canale libero, evita le collisioni con CSMA-CD.
@@ -392,8 +366,7 @@ Inizialmente i collegamenti paralleli potrebbero sembrare migliori, ma in realt�
   \item Problemi elettromagnetici nell'incremento di throughput.
 \end{itemize}
 La soluzione a tutti questi problemi è migrare verso collegamenti seriali.
-\paragraph{Connessioni Seriali}
-Questo tipo di connessioni sembrerebbe meno efficace per via della richiesta di N cicli per trasferire N bit di informazioni ma in realtà i vantaggi sono notevoli:
+\paragraph{Connessioni Seriali} Questo tipo di connessioni sembrerebbe meno efficace per via della richiesta di N cicli per trasferire N bit di informazioni ma in realtà i vantaggi sono notevoli:
 \begin{itemize}
   \item Pochi conduttori.
   \item Semplificazione di routing.
@@ -407,8 +380,7 @@ Le uniche considerazioni da fare sono però:
   \item Controllo di flusso.
 \end{itemize}
 Il segnale trasmesso è una sequenza di simboli, essi possono rappresentare uno o più bit. Due codifiche molto comuni sono NRZ (0=L e 1=H) o RZ (0=L e 1=Impulso). Altra considerazione importante riguarda i problemi di cross-talk ovvero la possibilità per un segnale di trasferirsi da un conduttore agli altri generando disturbi.
-\paragraph{Sincronismo}
-La sincronizzazione è fondamentale per la comprensione tra sistemi.\\
+\paragraph{Sincronismo} La sincronizzazione è fondamentale per la comprensione tra sistemi.\\
 Le tecniche si basano su sincronismo di:
 \begin{itemize}
   \item \textbf{BIT}: Garantisce il corretto campionamento del singolo bit. Generato da:
@@ -421,11 +393,9 @@ Le tecniche si basano su sincronismo di:
   \item \textbf{CARATTERE}: Garantisce il corretto riconoscimento di MSB ed LSB.
 \end{itemize} % 20 Dicembre 2016 -- Pag. 28
 
-\paragraph{Seriali Asincroni}
-La linea a riposo si presenta in stato alto, la trasmissione di un carattere può essere avviata in qualsiasi moemento tramite un simbolo di START, il quale verrà poi sfruttato dal ricevitore per la sincronizzazione. Sfortunatamente questa sincronizzazione non potrà essere mantenuta per sempre quindi, periodicamente, dovrò risincronizzare. Il termine della tramsissione verrà sancito da uno STOP symbol. Un'esempio possono essere gli UART.
+\paragraph{Seriali Asincroni} La linea a riposo si presenta in stato alto, la trasmissione di un carattere può essere avviata in qualsiasi moemento tramite un simbolo di START, il quale verrà poi sfruttato dal ricevitore per la sincronizzazione. Sfortunatamente questa sincronizzazione non potrà essere mantenuta per sempre quindi, periodicamente, dovrò risincronizzare. Il termine della tramsissione verrà sancito da uno STOP symbol. Un'esempio possono essere gli UART.
 
-\paragraph{Seriali Sincroni}
-Questo protocollo mantiene per tutta la durata della trasmissione la sincronizzazione tra TX ed RX, grazie all'estrazione del clock dal segnale inviato. Da qui derivano poi molte codifiche come NRZ, RZ, BxBy, Manchester, ecc...\\
+\paragraph{Seriali Sincroni} Questo protocollo mantiene per tutta la durata della trasmissione la sincronizzazione tra TX ed RX, grazie all'estrazione del clock dal segnale inviato. Da qui derivano poi molte codifiche come NRZ, RZ, BxBy, Manchester, ecc...\\
 I codici multilivello sono gli unici particolare in quanto prevedono questa logica:
 \begin{itemize}
   \item \textbf{0}: NO VARIAZIONE
@@ -462,18 +432,321 @@ I disturbi più comuni sono:
   \item \textbf{Su stesso conduttore}: GND $\rightarrow$ Segnali + Alimentazione.
   \item \textbf{Dominio tempo}: Interferenza simbolica.
 \end{itemize}
-\paragraph{Somma dei crosstalk}
-Si possono generare due tipi di diafonia, quella \textbf{diretta} dove i disturbi vengono via via generati all'avanzare del gradino con un disturbo di durata costante ma di ampiezza variabile, oppure quella \textbf{inversa} dove i disturbi si affiancano nel tempo, con un disturbo di ampiezza costante ma durata variabile. Sulla linea compare la sempre la somma dei due.
-\paragraph{Riduzione crosstalk}
-Il disturbo è legato principalmente alla velocità dei fronti, agli accoppiamenti ed ai margini di rumore del receiver. Per riddurre questo contributo possiamo quindi rallentare i fronti, ridurre la capacità o le induttanze di accoppiamento o usare segnali differenziali.
-\paragraph{Rumore di commutazione}
-Le correnti di alimentazione relative a parti diverse del circuito possono avere percorsi comuni provocando quindi ground bounce o commutazione simultanea di più uscite.\\
+\paragraph{Somma dei crosstalk} Si possono generare due tipi di diafonia, quella \textbf{diretta} dove i disturbi vengono via via generati all'avanzare del gradino con un disturbo di durata costante ma di ampiezza variabile, oppure quella \textbf{inversa} dove i disturbi si affiancano nel tempo, con un disturbo di ampiezza costante ma durata variabile. Sulla linea compare la sempre la somma dei due.
+\paragraph{Riduzione crosstalk} Il disturbo è legato principalmente alla velocità dei fronti, agli accoppiamenti ed ai margini di rumore del receiver. Per riddurre questo contributo possiamo quindi rallentare i fronti, ridurre la capacità o le induttanze di accoppiamento o usare segnali differenziali.
+\paragraph{Rumore di commutazione} Le correnti di alimentazione relative a parti diverse del circuito possono avere percorsi comuni provocando quindi ground bounce o commutazione simultanea di più uscite.\\
 Il nostro obbiettivo di ridurre questi disturbi può essere raggiunto utilizzando condensatori di disaccoppiamento pilotanti carichi a bassa induttanza (in modo da compensare le correnti impulsive) e ricaricati in tempi lunghi.
 
 % Parte D
 \section{Parte D}\label{d}
 % PARTE D1 - ELAPMISD1
 \subsection{Parte D1}\label{d1} % 21 Dicembre 2016
+I sistemi di conversione sono ad oggi comunissimi e diffusi ovunque, dal personal computer allo smartphone.
+\paragraph{Campionamento} I segnali analogici, essendo reali, sono sempre continui sia in tempo che in ampiezza. La conversione di grandezze fisiche in grandezze numeriche prevede di campionamento (\textit{discretizzazione sui tempi}) e quantizzazione (\textit{discretizzazione sulle ampiezze}).\\
+Ad oggi tutti i sistemi elettronici migrano verso il digitale per gli innumerevoli vantaggi legati all'integrità del segnale. Discretizzare un segnale potenzialmente constituisce una perdità di informazioni se non fatto a dovere. Un esempio in figura \ref{fig:delta}.
+
+\begin{figure}[!hp]
+  \includegraphics[width=\textwidth]{images/delta.png}
+  \caption{Moltiplicazione per un treno di delta per campionare un segnale A}
+  \label{fig:delta}
+\end{figure}
+
+\paragraph{Campionamento} Un segnale campionato necessità di una ``pulizia'' dagli spettri ripetuti generati dal processo di discretizzazione. Tale processo viene effettuato per mezzo di un filtro passa basso, se però la $F_{S}<2F_{M}$ gli spettri di questo segnale si vanno a sovrapporre generando il fenomeno dell'aliasing con consugente ed irreversibile perdita dei dati.
+
+\paragraph{Filtri anti aliasing} Un possibile soluzione a questo fenomeno è quella di utilizzare un filtro apposito che rispetti le seguenti caratteristiche:
+\begin{itemize}
+  \item Frequenza di campionamento $F_{S}$ pari almeno al doppio della frequenza del segnale (criterio di Nyquist).
+  \item La banda del segnale deve essere limitata.
+  \item Rumore di aliasing presente (attenuazione finita).
+\end{itemize}
+
+\paragraph{Moduli Sample \& Hold} Il convertitore opera sui singoli campioni e la conversione non è istantanea per tanto durante questa valutazione il segnale va mantenuto stabile.\\
+Il modulo S\&H prevede campionamento (\textbf{sample}) e mantenimento (\textbf{hold}) come in figura \ref{fig:seh}.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/seh.png}
+  \caption{Funzionamento modulo Sample \& Hold}
+  \label{fig:seh}
+\end{figure}
+
+La fase più critica è quella di mantenimento infatti essa trasforma impulsi in gradi di una certa larghezza, moltiplicando quindi lo spettro per $\frac{\sin(F)}{F}$ attenuando quindi le componenti ad elevata frequenza.\\
+Processo inverso invece per la ricostruzione del segnale dove sarà necessario tener conto della distorsione spettrale dovuta dalla fase di hold.
+
+\paragraph{Quantizzazione} Questo processo è necessario per definire i valori digitali che verranno generati dalla conversione A/D, il numero di valori è legato dalla relazione $N_{val}=2^{N_{bit}}$. Aumentando il numero di bit di precisione andiamo ad aumentare il numero di possibili valori rappresentabili, il numero di essi non sarà mai infinito quindi si introdurrà un errore di quantizzazione $\epsilon_{q}$ sempre compreso tra tra il massimo discostamento possibile dal valore centrale ovvero $|\epsilon_{q}| \leq \frac{S}{2^{N+1}}$. Non sempre questo valore risulta essere distribuito uniformemente.
+
+\paragraph{SNR} Altro interessante valore è quello del rapporto $SNR_{q}=\frac{Potenza Segnale}{Potenza\epsilon_{q}}$ misurato in $dB$.
+
+\paragraph{Convertitore} La struttura completa di un convertitore A $\rightarrow$ D $\rightarrow$ A si presenta come in figura \ref{fig:ada}.\\
+Un parametro interessante di ogni strumento è \textbf{ENOB} \textit{Effective Number Of Bits} rappresenta il numero di bit effettivamente significativi per un convertitore, esso tiene anche conto del valore di $SNR_{tot}$
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/ada.png}
+  \caption{Schema convertitore ADA}
+  \label{fig:ada}
+\end{figure}
+
+% PARTE D2 - ELAPMISD2
+\subsection{Parte D2}\label{d2}
+I convertitori \textbf{D/A} vengono molto utilizzati, si possono distinguere per una paramentro principale la loro caratteristica di conversione. Maggiore sarà la sequenza dei punti migliore sarà la conversione, quasi a tendere ad una linea continua.
+\paragraph{Errori} Gli errori introdotti da un sistema di conversione D/A sono principalmente di due tipi:
+\begin{itemize}
+  \item \textbf{Statici}: Segnale costante e comportamento a regime.
+  \item \textbf{Dinamici}: Segnale ingresso variabile e comportamento in transitorio.
+\end{itemize} % 28 Dicembre 2016
+
+\paragraph{Errori Statici} Idealmente la caratteristica del convertitore ideale è una retta, nella realtà non è così, dobbiamo quindi approssimarla nel migliore dei modi.\\
+Chiaramente l'introduzione di un approssimazione porta ad una generazione di errori, \textit{non linearità} e \textit{offset}. Vedi figura \ref{fig:caratt}.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/caratt.png}
+  \caption{Caratteristica di A/D}
+  \label{fig:caratt}
+\end{figure}
+
+\paragraph{Errori Lineari}
+Uno dei principali errori si genera quando la retta aprossimante non passa per il punto di inizio e fine, tale errore è possibile correggerlo con due parametri. Gli errori da considerare sono:
+\begin{itemize}
+  \item \textbf{Offset}: Discostamento dalla retta approssimante dal valore 0.
+  \item \textbf{Guadagno}: Differenza di pendenza tra la retta originale e quella approssimante.
+\end{itemize}
+
+\paragraph{Errori non lineari} Questi errori sono generati nel cofrontare la transcaratteristica reale e retta approssimante. Vengono definiti due tipi di non linearità quella integrale (complessiva) e quella differenziale (locale).\\
+La prima valuta il valore complessivo di discostamento, mentre la seconda va ad esaminare un piccolo tratto della caratteristica di conversione.
+
+\paragraph{Errori Dinamici} Esistono due tipologie, il \textit{tempo di assetto} ($T_{S}$) che corrisponde al tempo necessario, all'uscita, a stabilizzarsi sul nuovo valore e il \textit{glitch} ovvero brevi momenti in cui l'uscita può presentare valori molto differenti rispetto al valore iniziale o finale, questo fenomeno è generato dalle differenze nei ritardi di commutazione.
+
+\paragraph{Circuiti per convertitori} Vi sono molteplici soluzioni per generare un convertitore D/A. Ambe due i tipi di conversione possono essere gestiti con uscita in corrente o tensione.\\
+La conversione a \textit{grandezze uniformi} somma variabili di ugual peso inserite in quantità corrispondente al valore dell'ingresso digitale.\\
+La conversione a \textit{grandezze pesate} somma variabili di peso corrispondente alle potenze di 2, inserito o meno a seconda del valore del bit corrispondente. Per ottenere questo soluzioni si usano resistenze con valore correlati dalla relazione $R2^{N-1}$ per questo la dinamica di uscita potrebbe essere problematica. Una possibile soluzione può essere quella di utilizzare una rete a scala. I vantaggio sono:
+
+\begin{itemize}
+  \item Espansione a piacare.
+  \item Resistenze solo di valore R o 2R.
+  \item Conversione Norton/Thevenin per ottenere uscite in tensione.
+\end{itemize}
+
+\paragraph{Errori con grandezze pesate} L'errore sull'uscita dipende dal $pesoramo*erroreramo$ e contribuisce solamente quando esso vale 1, il valore del peso parte dal S/2 fino e si dimezza via via.
+
+% PARTE D3 - ELAPMISD3
+\subsection{Parte D3}\label{d3}
+Anche nel caso di convertitori \textbf{A/D} vi sono errori analoghi.\\
+I tipi di convertitore variano in base a \textbf{velocità} e \textbf{complessità} direttamente proporzionali tra loro e sfruttano una struttura di comparatori e logica come in figura \ref{fig:ad_gen}.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/ad_gen.png}
+  \caption{A/D Generico}
+  \label{fig:ad_gen}
+\end{figure}
+
+\paragraph{Convertitori Flash} Questo tipo di convertitori sfrutta $2^N-1$ comparatori di soglia, viene spesso chiamato convertitore in parallelo per via della conversione di N bit in un singolo ciclo di clock. E' di complessa realizzazione e veloce, molto utilizzato nella conversione di segnali a larga banda.
+\paragraph{D/A in reazione} La base di questo circuito è quello di utilizzare una rete logica in grado di variare D fino a che approssimi il meglio possibile il valore di ingresso. Le soluzioni possibili sono quella ad inseguimento o ad approssimazioni successive.
+\paragraph{Convertitore ad inseguimento} Il funzionamento è molto semplice viene confrontato il segnale di ingresso (A) con quello generato dalla rete logica (A') se $A'<A$ il contatore viene incrementato e decrementato nel caso opposto. Nel caso di un segnale costante il valore continuerà a generare una gradinata attorno al valore originale. Il problema potrebbe manifestarsi nel caso di variazioni del segnale troppo veloci. Si tratta di un componente semplice (1 comparatore) ma lento ($2^N$ cicli $\rightarrow$ N bit).
+\paragraph{Conv. approssimazioni successive} Il segnale di ingresso viene confrontato son S/2 determinando MSB da cui deriverà il confronto successivo che andrà a determinare MSB -1 e così via.\\
+Il componente è abbastanza semplice (1 comparatore) e discretamente veloce (N cicli $\rightarrow$ N bit), è più lento rispetto al convertitore flash ma più veloce rispetto a quello ad inseguimento. Vedi figura \ref{fig:ap_succ}
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/ap_succ.png}
+  \caption{Approssimazione successiva}
+  \label{fig:ap_succ}
+\end{figure}
+
+% PARTE D4 - ELAPMISD4
+\subsection{Parte D4}\label{d4}
+In questa sezione verranno trattate altre possibili strutture per convertitori A/D.
+\paragraph{Conversione a residui} Questo tipo di convertitore si basa su quello visto precedentemente (cap. \ref{d3}) ad approssimazioni successive. La differenza riguarda la logica e la maggiore complessità. Utile nell'utilizzo con la tecnica a pipeline. Il quale permette di ottenere, con l'aggiunta di moduli S/H, gli stessi tempi di conversione con però solo N comparatori con i $2^N$ del flash.\\
+In figura \ref{fig:adconfr} possiamo vedere un rapido riepilogo delle tecniche descritte.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/adconfr.png}
+  \caption{Confronto tra strutture di conversione A/D}
+  \label{fig:adconfr}
+\end{figure}
+
+\paragraph{Conversione differenziale e delta} %1 Gennaio 2017
+Il convertitore differenziale fornisce un flusso seriale di bit ad alta cadenza corrispondenti al comando UP/DOWN sul comparatore di soglia nel A/D ad inseguimento.\\
+Nel convertitore $\Delta$ vengono generate una serie di impulsi a cadenza $T_{clk}$ ricostruiti successivamente da un integratore. Alcune considerazioni in merito al convertitore $\Delta$:
+\begin{itemize}
+  \item Non richiede componenti precisi.
+  \item Dinamica limitata.
+  \item Presenta livelli minimi e massimi.
+  \item Dinamica per $T_{clk}$: $\frac{\gamma}{2}<V<\frac{\gamma}{\omega T_{clk}}$
+\end{itemize}
+Esiste anche il convertitore $\sigma \Delta$ il quale aggiunge alcune componenti per permetere di convertire segnali a più alta frequenza.
+
+\paragraph{Quantizzazione} Esistono due tipi di quantizzazione, quella lineare e quella logaritmica.\\
+Quella \textit{lineare} presenta intervalli di quantizzazione costanti, mentre quella \textit{logaritmica} genera intervalli direttamente proporzionali all'ampiezza del segnale.
+Il vantaggio della seconda soluzione è legato all'independenza di SNRq dal livello del segnale.
+
+% PARTE D5 - ELAPMISD5
+\subsection{Parte D5}\label{d5}
+In questo capitolo verranno analizzate le strutture di multiplexer e moduli sample-hold.
+
+\paragraph{Multiplexer} Il MPX è un sistema a più canali in grado di selezionarne solo 1 tra gli N canali disponibili, chiaramente nello svolgimento di questo compito i segnali non devono essere alterati in alcun modo.\\
+La realizzazione più semplice di questa struttura è quella di utilizzare un banco di interruttori con trasistor MOS. Questa tecnica porta alla generazione di alcuni errori non trascurabili:
+\begin{itemize}
+  \item \textbf{$R_{ON}$}: L'interruttore chiuso ha una resistenza equivalente $R_{ON}$  che andrà a generare un partitore di tensione tra l'ingresso e l'uscita.
+  \item \textbf{$I_{OFF}$}: Ogni interruttore aperto ha una corrente di perdita $I_{OFF}$ le quali andranno a generare una tensione di offset in uscita.
+  \item \textbf{Limitazione di banda}: Capacità parassite del MPX e del carico limitano la banda del segnale trasferito (generano una cella passa-basso).
+\end{itemize}
+
+\paragraph{Sample-Hold} Il comportamento ideale di questo modulo prevede il campionamento di un segnale analogico ed il mantenimento di tale valore per tutta la durata della conversione. Nella realtà il comportamento è leggermente diverso, come in figura \ref{fig:tsh}:
+\begin{enumerate}
+  \item \textcolor{RedOrange}{\textbf{Acquisizione ed inseguimento (tracking)}}.
+  \item \textcolor{Red}{Campionamento (sampling)}.
+  \item \textcolor{Green}{Mantenimento (hold)}.
+\end{enumerate}
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/tsh.png}
+  \caption{Track - Sample - Hold}
+  \label{fig:tsh}
+\end{figure}
+
+Il circuito risulta realizzabile come riportato in figura \ref{fig:th}, con SW chiuso avremo la fase di TRACK mentre SW aperto saremo in HOLD.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/th.png}
+  \caption{Circuito Track/Hold}
+  \label{fig:th}
+\end{figure}
+
+Il campionamento non è esente da errori, oltre a quelli riportati nel capitolo \ref{d1}, vengono introdotti ulteriori errori legati al modulo S/H dovuti principalmente al ritardo di apertura dei SW. Anche la fase di mantenimento genera problemi infatti la carica sul condensatore varia (\textit{errore di decadimento}, scarica su $R_{L}$), l'imperfetto isolamento del segnale (\textit{errore di feedthrough}, passaggio di cariche con SW aperto) o la polarizzazione del dielettrico.
+
+% PARTE D6 - ELAPMISD6
+\subsection{Parte D6}\label{d6}
+Questa sezione tratterà le rimanenti parti nei circuiti di acquisizione come protezione, amplificatori, ecc...
+\paragraph{Circuiti di protezione} I CP sono parti necessarie dei moduli di acquisizione progettati in modo da proteggere il circuito dal danneggiamento, alcune soluzioni sono:
+\begin{itemize}
+  \item Clamp a diodi (\textit{$V_{OUT}$ limitata tra $V_{al}+$ e $V_{al}-$.})
+\end{itemize}
+
+\paragraph{Condizionamento} I convertitori possono avere molteplici ingressi per questo necessiteremo di \textbf{amplificatore di condizionamento} in modo da adattare il segnale come dinamica e come tipo. Vi sono molteplici tipologie:
+\begin{itemize}
+  \item Amplificatori V/V o I/I o convertitori V$\rightarrow$I o I$\rightarrow$V.
+  \item Ingresso single-ended o differenziale.
+  \item Uscita single-ended o differenziale.
+\end{itemize}
+
+Le ultime due tipologie devono rispettare alcune caratteristiche ovvero \textbf{amplificare} (di un valore noto) i segnali differenziali $A_{D}$ e \textbf{non amplificare} (attenuare) i segnali di modo comune $A_{C}$, dove il rapporto $A_{D}$/$A_{C}$ prende il nome di CMRR (Common Mode Rejection Ratio).
+
+\paragraph{Filtri} Come analizzato rapidamente nel capitolo \ref{d1} è necessario ``pulire'' il nostro segnale dagli spettri prodotti dal campionamento. Per fare ciò è necessario un filtro (aliasing), nel nostro caso uno di tipo passa-basso.\\
+I filtri possono ottenere solo approssimazione del segnale ideale. Le tecniche di realizzazione di questo componente sono principalmente due:
+\begin{itemize}
+  \item \textbf{Analogica}:
+  \begin{itemize}
+    \item Passivi: LC
+    \item Attivi: Amp. Op. + RC
+    \item Capacità commutate (attualmente molto usata)
+  \end{itemize}
+  \item \textbf{Digitale}: Richiedono conversione A/D e D/A e portano con se tutti i vari errori del caso (vedi capitoli \ref{d2}-\ref{d4}). Realizzabili tramite FF, porte, FPGA, ecc...
+\end{itemize}
+
+Tra le varie fasi di progetto di questi filtri vi è quella della scelta del tipo di approssimazione, ne illustriamo brevemente tre:
+\begin{itemize}
+  \item \textbf{Bessel}: Fase lineare, ritardo di gruppo costante, nessuna distorsione e nessuna ondulazione in banda passante.
+  \item \textbf{Butterworth}: Ritardo di gruppo variabile (distorsione) e nessuna ondulazione in banda passante.
+  \item \textbf{Chebicheff}: Ondulazione in banda passante e forte attenuazione fuori banda.
+\end{itemize}
+
+% Parte E
+\section{Parte E}\label{E}
+Sezione riguardante i circuiti di potenza e relative componenti.
+% PARTE E1 - ELAPMISE1
+\subsection{Parte E1}\label{e1} %3 gennaio 2017
+La gestione della potenza è un discorso molto importante, il compito viene principalmente demandato all'alimentatore il quale dovrà fornire energia ai vari moduli partendo da diverse sorgenti, gestendo una tensione in uscita ben definita al variare dell'ingresso.
+
+\paragraph{Diodi Zener} Ogni giunzione ha una propria tensione di breakdown (o rottura) oltre la quale vi sono possibili danni, talvolta permanenti, ai circuiti. Alcuni dispositivi lavorano in quella zona come il diodo Zener spesso usato come circuito di protezione o regolatore di tensione. Il diodo in questione è basato sulla polarizzazione inversa.
+
+\paragraph{BJT e MOS-FET di potenza} Questi due componenti vengono spesso usati anche in circuiti di potenza, per semplicità verranno analizzate le differenze tra i due.
+\begin{itemize}
+  \item MOS-FET usa portatori maggioritari.
+  \begin{itemize}
+    \item Elevatà capacità di commutazione.
+    \item Ridotta dipendenza dalla temperatura.
+  \end{itemize}
+  \item MOS-FET richiede circuiti di pilotaggio più semplici.
+  \item STATO ON:
+  \begin{itemize}
+    \item BJT: $V_{CEsat} + R_{ON}$
+    \item MOS: $R_{ON}$
+  \end{itemize}
+  \item STATO OFF: Correnti di perdita (leakage)
+\end{itemize}
+
+\paragraph{SOA} La \textit{Safe Operating Area} è costituita da tutte quelle regole che permettono un corretto utilizzo del componente descritto. I limiti operativi classici sono:
+\begin{itemize}
+  \item Tensione di Breakdown
+  \item Corrente massima
+  \item Potenza massima
+  \item Temperatura massima
+  \item Applicazioni speciale (resistenza alle radiazioni, vibrazioni, ecc...)
+\end{itemize}
+
+\paragraph{Potenza dissipata} Ogni dispositivo sissima una potenza ($P_{diss} = V I$), questo parametro determina l'aumento di temperatura, un valore NON trascurabile. Il calore generato dovrà essere gestito e dissiapato in modo da consentire un corretto lavoro da parte dei componenti.\\
+Altra considerazione in merito alla potenza è la sua non costanza infatti essa è inversamente proporzionale alla temperatura.
+
+\paragraph{Dissipazione in BJT e MOS} Nel caso di condizioni ON o OFF la potenza è pressochè nulla, gli stadi intermedi invece sono gli unici ad avere dissipazione.
+
+% PARTE E2 - ELAPMISE2
+\subsection{Parte E2}\label{e2} %3 gennaio 2017
+I sistemi di alimentazione possono essere molteplici, AC, DC, batterie, ecc... Per questo motivo dovremo spesso convertire la nostra fonte in modo da poterla utilizzare. Durante questa conversione chiaramente dobbiamo avere le minime perdite, parametri ben controllabili e sicurezza. Ecco alcuni possibili parametri:
+\begin{itemize}
+  \item Ingresso:
+  \begin{itemize}
+    \item Tipo: AC, DC, batteria, dinamo, ecc...
+    \item Valore e campo: 100-240V AC, 12V DC $\pm$ 10\%
+    \item Frequenza: 50 Hz
+    \item Rumore e spurie: Armoniche, transitori, ecc...
+  \end{itemize}
+  \item Uscita:
+  \begin{itemize}
+    \item Valori nominali: Tensione, corrente, ondulazione e rumore
+    \item Stabilità: Relazione al variare del carico
+    \item Altro: Foldback, fail safe, protezioni, temperatura, ecc...
+  \end{itemize}
+\end{itemize}
+
+Lo schema a blocchi di PSU (\textit{Power Supply Unit}) in figura \ref{fig:psu} da cui verranno analizzati tutti i blocchi.
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/psu.png}
+  \caption{Schema a blocchi PSU}
+  \label{fig:psu}
+\end{figure}
+
+\paragraph{Maglie di ingresso} L'interruttore ON/OFF di rete serve ad isolare l'alimentazione, non è sempre presente. Il filtro (passivo) blocca le interferenze condotte mentr il fusibile apre per correnti eccessive per protezione. Il trasformatore porta la tensione ad un valore ``comodo'' e garantisce isolamento galvanico, ad oggi spesso sostituito da alimentatori a commutazione.
+
+\paragraph{Conversione AC-DC} Questa trasformazione necessità di due elementi base, il raddrizzatore ed il filtro anti-ronzio.\\
+Il raddrizzatore di occupa di trasformare AC da bipoare ad unipolare usando diodi, la tensione raddrizzata ha una componente DC e numerose componenti AC (aromiche di rete).
+Il filtro anti-ronzio invece ha il compito di far transitare la componente DC senza attenuazione e pulendola dalle componenti AC tramite circuiti passivi (RC, LC) o attivi (regolatore di tensione).\\
+
+\paragraph{Raddrizzatori} Vi sono più tipologie di raddrizzatori a \textbf{singola semionda} (vedi figura \ref{fig:semi}) o ad \textbf{onda intera} (vedi figura \ref{fig:intera}).
+
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/semi.png}
+    \caption{Raddrizzatore a semi-onda}
+    \label{fig:semi}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/intera.png}
+    \caption{Raddrizzatore a onda intera}
+    \label{fig:intera}
+  \end{minipage}\hfill
+\end{figure}
+
+Il flusso della corrente non è costante, nel primo ciclo il condensatore di filtro si caricherà completamente (corrente inrush), mentre a regime la corrente di picco sarà molto più alta della corrente media con conseguente ondulazione all'uscita. Per poter migliorare i parametri ondulatori sarebbero necessari filtri con alte capacità o forti correnti impulsive oppure utilizzare strutture alternative come alimentatori a commutazione.
+
+\paragraph{Regolatore di tensione} Questo componente ha il compito di fornire una tensione di uscita $V_{O}$ costante per valori variabili di $V_{i}$ e L.\\
+Nel caso del regolatore parallelo si andrà a creare un partitore di corrente dove, agendo sul ramo parallelo, si andrà a variare il rapporto di partizione. Realizzabile, molto semplicemente e con bassa efficenza, con diodi Zener.\\
+In quello serie invece si modificherà il rapport agendo sul ramo serie. Questo tipo di circuito si comporta come una resistenza variabile controllata (implementabile con BJT o MOS, Amplificatori, ecc...).
+
+% PARTE E3 - ELAPMISE3
+\subsection{Parte E3}\label{e3} % 3 gennaio 2017 - 19:18
+
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
