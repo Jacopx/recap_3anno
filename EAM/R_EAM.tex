@@ -1038,7 +1038,42 @@ Questo tipo di sensori non è però esente da imprecisione infatti soffrono di a
 
 % PARTE G2 - g1-sensori-ii
 \subsection{Parte G2}\label{g2} % 4 gennaio 2017
+Esistono molte tipologie di sensori, un'altra categoria che andremo ad illustrare sono estensimetri, celle di carico e tutti i misuratori di grandezze cinematiche.
 
+\paragraph{Estensimetri} Sono una particolare categoria di resistori in grado di essere incollati su un supporto e di variare il valore della propria resistenza in relazione alla deformazione a cui sono sottoposti. Questi componenti, seguendo una relazione che descrive l'andamento della resistività in relazione alle deformazioni sono in grado di restituirci informazioni specifiche sulla deformazione, sia che essa sia derivata dall'applicazione di una forza sia da una variazione di temperatura.
+
+\paragraph{Celle di carico} Sono una diretta applicazione degli estensimetri per la misurazione di forza (o coppia). Sono strutture costruite per seguire una deformazione ben definita in caso di applicazione di una forza in una specifica direzione (e non deformarsi per le altre direzioni). Sono spesso costituite da 4 estensimetri montati a ponte intero.
+
+\paragraph{Accellerometri} Questo, come anche i misuratori di velocità, è un sensore che necessità tre assi di lavoro (ovvero tre sensori monoassiali opportunamente montati). La creazione di questo tipo di sensori è molto più delicata infatti è necessario prestare molta attenzione a:
+\begin{itemize}
+  \item \textbf{Misalignement}: L'asse di sensibilità reale NON coincide con l'asse nominale.
+  \item \textbf{Cross-axis}: Una componente ortogonale all'asse di sensibilità provoca una uscita spuria.
+\end{itemize}
+In generale il funzionamento di questi dispositivi si basa sull'impiego di una ``massa inerziale'' opportunamente gestita sfruttando la legge: $F=ma$.\\
+Vi sono due tipologie di accellerometri, gli \textbf{accellerometri} classici se la forza è rilevata per l'effetto che provoca sul materia, o \textbf{servoaccellerometri} se la forza viene calcolata partendo da quella che occore applicare per tenere ferma la massa inerziale. Le principali tecniche costruttive sono: \textit{piezoelettrici, capacitivi e resistivi}.
+
+\paragraph{Tachimetri} Anceh la velocità è una grandezza vettoriale ma spesso è sufficente la definizione di alcuni di questi assi per poterla valutare. I metodi più conosciuti sono:
+\begin{itemize}
+  \item \textbf{Odometrici}: Economici e comuni; si basano su una ruota solidale con il corpo e che rotola sulla superficie di riferimento, la velocità si ricava come: $v=\omega_{w} R_{w}$
+  \item \textbf{Correlazione}: Due stazioni di misura, a bordo del veicolo, montate in due diversi punti ``vedono'' la stessa cosa (asfalto per esempio) con un ritardo inversamente proporzionale alla velocità.
+  \item \textbf{Doppler}: Basati sullo spostamente di frequenza di un'onda dovuto alla velocità relativa del corpo che emette. Molto precisi, costosi e sensibili.
+  \item \textbf{a Flusso d'aria}: Forniscono la velocità relativa rispetto all'aria circostante. Semplici, non troppo accurati ed economici.
+  \item \textbf{a Filo caldo}: Sfruttano la capacità dell'aria di asportare calore in correlazione alla velocità.
+  \item \textbf{a Localizzazione}: Calcolano indirettamente la velocità istantanea dallo spostamento tramite GPS.
+\end{itemize}
+
+\paragraph{Girometri} Anche questi sensori si occupano di misurare una velocità, quella angolare, di un corpo. Anche qui si sono alcune tecniche di realizzazione:
+\begin{itemize}
+  \item \textbf{a Giroscopio}: Sfruttano l'effetto del giroscopio con un'asse vincolato al corpo. La velocità viene calcolata dalla coppia sui cuscinetti al seguito del cambio di direzione. Costosi, poco durevoli ed hanno problema di isteresi e soglia.
+  \item \textbf{a Volo libero}: Una particella sparata da un'uguello, dopo il distacco da esso, si muove in modo inerziale, se il corpo entro cui la particella viene lanciata ruota allora il punto di impatto cambierà. Non troppo costosi ed accurati.
+  \item \textbf{a Vibrazione}: Basati sull'accelerazione di Coriolis ovvero quando un corpo si muove rispetto ad un riferimento.
+  \item \textbf{a Laser}: Due raggi controrotanti variano la loro frequenza in relazione alla rotazione mantenendola comunque entro un valore finito.
+\end{itemize}
+
+\section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Elettronica Applicata e Misure (03MOAOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
+Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
+
+% FINITO: 5 Gennaio 2017 - 11:24
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
