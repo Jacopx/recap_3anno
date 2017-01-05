@@ -62,15 +62,18 @@ La maggior parte delle definizioni derivano dal "Blue Book" del CCITT o IUT-T og
     \item Throughput $\leq$ Traffico Offerto
   \end{itemize}
 \end{itemize}
+
 \subsection{Topologia}
 La topologia rappresenta un insieme di nodi e canali che fornisce un collegamento tra due o più punti per permettere la telecomunicazione tra essi.\\
 Prende il nome di \textbf{Nodo} un punto in cui avviene la commutazione, mentre si chiama \textbf{Canale} un mezzo di trasmissione, sia nel caso uni che bi-direzionale.
+
 \paragraph{Tipi di Canale} I canali posso essere di due tipi:
 \begin{itemize}
   \item Punto-Punto: Due nodi collegati agli estremi del canale in modo parietico.
   \item Multi-Punto: Più nodi collegati ad un unico canale: un nodo master e numerosi slave.
   \item Broadcast: Singolo canale di comunicazione dove l'informazione inviata viene ricevuta da tutti gli altri. Nel caso in cui i dati contengano l'indirizzo di destinazione realizzo di fatto un P-P.
 \end{itemize}
+
 La disposizione di nodi e canali definisce la topologia della rete. Viene definita da un grafo G=(V,A) con V (= insieme di vertici [nodi]) ed A (= insieme degli archi [canali]).\\
 Gli argchi possono essere Diretti (Unidirezionali) o Non Diretti (Bidirezionali).\\
 Considerando N=$|V|$ e C=$|A|$ le principali topologie sono:
@@ -83,6 +86,7 @@ Considerando N=$|V|$ e C=$|A|$ le principali topologie sono:
   \item \textbf{Anello}: Uni (C=N/2) e Bi (C=N) direzionale, usate in reti locali e per topologie magliate, sopravvivenza garantita in bi-dir.
   \item \textbf{Bus}: C=1, semplcità isntrdamento.
 \end{itemize}
+
 Si possono distinguere due tipi di topologia, quella fisica e quella logica. La prima tiene conto dei mezzi trasmissivi mentre la seconda definisce le interconnessioni tra nodi mediante canali. Chiaramente la scelta di una topologia influisce direttamente sulle prestazioni della rete. Il traffico smaltibile da una rete dipende dalla media della distanza tra ogni coppia di nodi della rete, pesata dalla quantità di traffico scambiata tra i due nodi. Nel caso di traffico uniforme e topologie regolari il throughput è inversamente proporzionale alla distanza media.
 
 \subsection{Servizi di Telecomunicazione}
@@ -95,16 +99,20 @@ I servizi possono essere classificati in questo modo:
 \end{itemize}
 I teleservizi inoltre possono essere di base (posta elettronica), ovvero che garantiscono le minime funzionalità, oppure supplementari con funzionalità aggiuntive a quelle base, spesso vendute separatamente (video-on-demand, mailing list, segreteria telefonica, ecc...).\\
 I principali servizi vengono offerti in due modalità, client-server o peer-to-peer e possono essere classificati in diversi modi, vi sono quelli interattivi (conversazionali, messaggistica, consultazione) o diffusivi (con o senza controllo di presentazione dall'utente). Entrambi possono trasferire informazioni trammite molteplici "canali" audio, video o dati.
+
 \paragraph{Client-Server}
 Questo tipo di modello prevede due ruoli ben distinti. Il cliente è colui che inizia l'interazione con il server richiedendo un servizio. Il server ha invece il compito di fornire il servizio richiesto al client. Questa è il modello usato dalla maggior parte degli applicativi.\\
 I client sono attivati solo nel momento in cui viene richiesto un servizio a differenza dei server che sono sempre disponibili ed in attesa di richieste.
+
 \paragraph{Peer-to-Peer}
 Questo modello è stato introdotto nel mondo di internet più recentemente ed è principalmente pensato per le interazioni tra gruppi di utenti dopo tutti gli applicativi sono paritetici ovvero mettono a disposizione informazioni condivise.
 
 \subsection{Tipi di trasmissione}
 L'informazione può essere condivisa principalmente in due modi, in modo ANALOGICO o in modo NUMERICO (DIGITAL).
+
 \paragraph{Analogico}
 La trasmissione viene trasferita per mezzo di un segnale elettrico, di conseguenza sarà continuo, limitato e di infiniti valori. La rappresentazione deriverà dalle variazioni del segnale, ad esempio la trasmissione del segnale audio sul cavo connettore delle cuffie.
+
 \paragraph{Numerica}
 Anche in questo caso l'informazione viene trasferita attraverso un segnale elettrico ma esso sarà discontinuo, limitato e con un numero finito di valori. Ad ogni informazione discreta verrà associato un segnale ricostruibile dal ricevitore che ne farà uso.\\
 Nelle reti telematiche l'informazione viene trasferita in forma digitale usando segnali analogici e digitali. Nel caso in cui la sorgente si presenti in maniera analogica essa viene preventivamente capionata in modo da porterla trasformare in una controparte digitale. Questo processo potrebbe presentare delle perdite se non vengono rispettate determinate condizioni.\\
@@ -116,11 +124,15 @@ La convisione di canale può essere di due tipologie, si parla di:
   \item \textbf{Multiplazione}: Se tutti i flussi sono disponibili in un unico punto.
   \item \textbf{Accesso Multiplo}: Se i flussi accedono al canale da punti differenti.
 \end{itemize}
+
 Per eseguire queste funzioni possono essere usate frequenza, tempo, codice o spazio.
+
 \paragraph{Multiplazione di frequenza FDM-FDMA}
 In questa soluzione la separazione viene ottenuta usando bande di frequenza diverse, chiaramente per evitare problemi avremo bisongo di alcune bande di guardia.
+
 \paragraph{Multiplazione di tempo TDM-TDMA}
 La separazione in questo caso viene effettuata trammite intervalli di tempo diversi con trame temporali ripetitive. Ovviamente anche in questo caso necessiteremo di tempi di guardia tra un'intervallo e l'altro. Questa soluzione è probabilmente la migliore se le condizioni sono identiche tra tutti gli utenti.
+
 \paragraph{Multiplazione di codice CDM-CDMA}
 Questo tipo di divisone si ottiene usando codici differenti che devono essere riconoscibili. Viene ottenuta trammite una sovrapposizione sia in tempo che in frequenza, notare bene come essa non sia un misto delle due, ma una vera e propria sovrapposizione attraverso segnali ortogonali. La trasmissione consiste nel prodotto tra bit di informazione e codice, mentre l'operazione di ricezione equivale ad un prodotto scalare tra vettori. La struttura si presenta discretamente resistente a disturbi.\\
 \begin{figure}[h!]
@@ -128,6 +140,7 @@ Questo tipo di divisone si ottiene usando codici differenti che devono essere ri
   \caption{Channel Multiplation}
   \label{fig:cmult}
 \end{figure}
+
 \paragraph{Multiplazione di spazio}
 Le reti permettono di sfruttare la diversità spaziale del sistema per far coesistere più flussi di informazione in punti diversi. Questa possibilità può essere sfruttata per aumentare la capacità di una rete.\\
 Tutte queste soluzioni possono essere applicate in modo predeterminato o in maniera statistica in modo da permettere una flessibilità relativa alla situazione.
@@ -148,6 +161,7 @@ Gli svantaggi invece:
   \item Tariffazione in base al tempo di allocazione.
 \end{itemize}
 Generalmente questa pratica risulta utile solo nel caso in cui il canale allocato risulti completamente sfruttato, altrimenti sarà sicuramente più vantaggioso lo smistamento.
+
 \subsection{Commutazione di pacchetto}
 L'idea principale di questo tipo di tecnologia è quella di non predeterminare l'allocazione, sopratutto per l'uso esclusivo da parte di due o più utenti. Questa tecnica può essere paragonata al sistema postale.\\
 L'informazione da trasferire viene organizzata in unità dati (PDU) che comprendono informazioni di utente e protocollo.
@@ -158,6 +172,7 @@ L'informazione da trasferire viene organizzata in unità dati (PDU) che comprend
 \end{itemize}
 La PDU viene spesso chiamata pacchetto (packet) o datagram.\\
 Ogni unità dati viene consegnata alla rete. Ogni nodo si occuperà di memorizzare il pacchetto, analizzare e determinare la destinazione del canale ed accodarlo per l'uscita. Questa tecnica prende il nome di \textbf{STORE \& FORWARD}.
+
 \paragraph{Pacchetti}
 Per poter funzionare questa tecnica ha bisogno di frazionare le informazioni in molti pacchetti ed essi potranno essere di dimensione fissa o variabile. In merito a questa soluzione vanno valutate alcune questioni riguardanti i vari ritardi nella trasmissione. Infatti in ogni canale in cui è trasmesso il nostro pacchetto subira un ritardo di TX (e di RX) in funzione della dimensione e della velocità della trasmissione ed un ritardo di propagazione in relazione alla lunghezza del canale.\\
 Per ogni nodo invece avremo un ritardo di elaborazione ed un ritardo di accodamento (spesso trascurabili). Fortunatamente nella nostra comunicazione potremo sfruttare la parallelizzazione (pipeline) in modo da migliorare l'efficenza del nostro canale.\\
@@ -176,6 +191,7 @@ Gli svantaggi sono invece:
   \item Ritardi variabili.
 \end{itemize}
 Sostanzialmente la prima soluzione privilegia la qualità del servizio al singolo utente, la seconda invece l'efficenza complessiva della rete.\\
+
 \paragraph{Modi di trasferimento}
 In commutazione a pacchetto vi sono due principali modi per il trasferiemtno di informazioni. Quella datagram, descritta precedentemente, e quella a circuito virtuale.\\
 La seconda soluzione si differenzia per la suddivisione in tre fasi:
@@ -191,13 +207,16 @@ Nel caso di datagram occorre identificare in ogni pacchetto SRC/DEST utilizzando
   \caption{Virtual Circuits}
   \label{fig:vc}
 \end{figure} % 15 Dicembre 2016
+
 \paragraph{Identificatori}
 Un connessione su un canale è logicamente identificata trammite una etichetta, spesso una coppia di identificatori, questa soluzione permette di aggregare i flussi.\\
 
 \subsection{Segnalazione}
 Le segnalazioni possono essere di più tipologie, ci sono quelle di utente (scambio di informazioni tra utente e nodo), quelle internodali (con svambio di informazioni tra nodi), quelle associate al canale o quelle a canale comune.
+
 \paragraph{Associata al canale}
 Spesso usato nelle reti telefoniche stabilisce una corrispondenza biunivoca tra canale controllante (info segnalazione) e canale controllato (info utente). Nella versione fuori banda questa corrispondenza non c'è.
+
 \paragraph{Canale comune}
 Un canale di segnalazione controllo più canali di informazioni di utente mentre lavora a pacchetto.
 
@@ -211,7 +230,7 @@ Il network management consiste di diverse funzioni:
   \item Accounting (tariffazione)
 \end{itemize}
 
-\subsection{QoS: Quality of Service}
+\subsection{QoS: \textit{Quality of Service}}
 La qualità di un servizio offerto dipende dalla disponibilità di risorse nella rete e dalle tecniche di allocazione. L'analisi e il progetto di reti TLC si basa su modelli quantitativi in grado di stimare la qualità partendo da ipotesi relative alle risorse.\\
 Supponendo un certa richiesta da soddisfare con un determinato numero di risorse si potrà determinare la qualità del servizio. Le sorgenti di informazione da trattare possono essere, come al solito, di tipo analogico o numeri, a velocità variabile o costante.\\
 I principali indici di qualità sono:
@@ -328,7 +347,7 @@ Vi sono più soluzioni da adottare per l'utilizzo dei parity in base alla quanit
 \end{itemize}
 La tecnica migliore dipende dal contesto in cui andiamo ad operare.
 
-\subsection{ARQ: Auto Retransmission}
+\subsection{ARQ: \textit{Auto Retransmission}}
 Questa tecnica sfrutta un controllo congiunto su errore, flusso e sequenza. Dovremo andare ad aggiungere un campo di numerazione (sequenza) all'interno delle PDU.\\
 Vi sono 3 tecniche di implementazione:
 \begin{enumerate}
@@ -337,6 +356,7 @@ Vi sono 3 tecniche di implementazione:
   \item Selective repeat
 \end{enumerate}
 Un'altro parametro da aggiungere prima di illustrare le tecniche è il \textbf{RTT} (Round Trip Time) una funzione del tempo che rappresenta il tempo necessario ad un pacchetto per essere inviato ed aver ricevuto la conferma, esso terrà conto dei ritardi introdotti da ogni elemento.\\
+
 \paragraph{Semantica ACK}
 Ogni protocollo ha la sua semantica per gli ACK, ovviamente TX ed RX devono preventivamente accordarsi su essa.\\
 I più conosciuti sono:
@@ -452,8 +472,10 @@ Le mezzi più comunemente utilizzati sono:
 
 \subsection{Codifiche di linea}
 Per poter rappresentare segnali digitali mediante segnali digitali su mezzi elettrici e ottici abbiamo bisogno di codifice in modo da permettere a TX ed RX di comprendersi.
+
 \paragraph{Unipolari}
 Semplici, usano un livello di tensione per ogni valore, nulla per 0 e massima per 1. Il principale problema è legato alla continuita del segnale ed alla perdità di sincronismo in lunge trasmissioni con lo stesso simbolo.
+
 \paragraph{Polari}
 Sfruttano due livelli di tensione con polarità opposte in modo da ridurre la componente DC, vi sono 3 tipologie:
 \begin{itemize}
@@ -461,21 +483,27 @@ Sfruttano due livelli di tensione con polarità opposte in modo da ridurre la co
   \item \textbf{RZ}: Tensione 0 tra due bit consecutivi.
   \item \textbf{Bifase}: Bit rappresentato da due livelli di tensione (es. Manchester).
 \end{itemize}
+
 \paragraph{Bipolari}
 Chiamate anche AMI (\textit{Alternate Mark Inversion}) usano tensione nulla per 0 e due polarità opposte per 1 usate in alternativa. Permettono l'uso dei simboli ternari per ridurre i problemi di sincronismo con caratteri speciali di delimitazione e di scelta sulle parole di codice.
+
 \paragraph{Modulazioni digitali}
 Molto utilizzate per la rappresentazione di informazioni digitali mediante segnali analogici sui mezzi radio, ottici o elettrici dove l'informazioni viene impressa su di un segnale sinusoidale con variazioni di frequenza, fase o ampiezza per la distinzione dei segnali. % 19 Dicembre 2016
 
 \subsection{Reti di Accesso}
 L'utente si collega ad una rete di telecomunicazioni sfruttando sia la rete di accesso che quella di trasporto. La prima comprendo tutti gli apparati dall'utente al nodo di accesso, la seconda invece è costituita dai mezze appartenenti ad uno o più gestori di servizi di TLC destinati al transito su due nodi.\\
 La gestione dell'ultimo miglio di rete, conosciuta anche come local loop, può essere gestita in più modi, con reti DSL, PON, HFC, ecc... Andremo ad analizzarle singolarmente.
+
 \paragraph{DSL}
 \textit{Digital Subscriber Line} è una famiglia di tecnologie in grado di fornire servizio dati ad alta velocità sulla rete. La più diffusa è quella asimmetrica (download maggiore di upload). In questo caso la vicinanza alla centrale è fondamentale.\\
 L'accesso alla rete viene fatto attraverso un modem (MOdulatore DEModulatore) che ha il compito di trasformare il segnale da analogico a digitale e viceversa in modo da permettere la coesistenza del segnale dati e di quello voce per garantire la divisione in frequenza. La VDSL è una versione ``potenziata'' della ADSL in grado di garantire bitrate molto più elevati sfruttando bande di frequenza superiore.
+
 \paragraph{PON}
 \textit{Passive Optical Network} architettura per la connettività di last mile in fibra ottica senza componenti attivi. E' un'architettura poco diffusa in EU, molto invece in Asia, sostituisce direttamente FTTH ed integra VDSL.
+
 \paragraph{HFC}
 \textit{Hybrid Fiber Coax} sfruttano lo stesso meccaniscmo della TV via cavo, inzialmente erano unidirezionali, è strutturata sfruttando una topologia ad albero. Le differenze principali con ADSL sono legate alla condivisione degli apparati tra utenti della stessa zona residenzale, che ADSL sfrutta la rete telefonica senza richiesta di posa di cavi ad hoc a differenza di HFC. Il vantaggio principale è che non risente della distanza.\\
+
 \paragraph{Cellulari}
 Offrono servizi di voce e dati in mobilità. Il principio è quello di una copertura capillare tramite antenne con portata limitata. Si introducono i termini \textbf{Roaming} (rintracciabilità sul territorio) ed \textbf{Handover} (continuità di connessione nel passaggio tra celle).\\
 Nel tempo sono passate alcune generazioni:
@@ -524,7 +552,8 @@ Un caratteristica comune ai due tipi di rete rimane la PDU composta come in tabe
   \end{tabular}
 \end{center}
 Una considerazione da fare riguardo il flag di controllo che è importante non confondere con parte di dati, per farlo si usano tecniche come Bit o Byte Stuffing. Esse sfruttano un singolo bit dopo ogni sequenza di 5 uni tranne che nel flag, oppure una sequenza di escape da scartare prima del flag.
-\subsection{Point to Point Protocol - PPP}
+
+\subsection{PPP: \textit{Point to Point Protocol}}
 Utilizzato nei collegamenti telefonici o ADSL. Le caratteristiche speciali di questo protoccolo sono:
 \begin{itemize}
   \item Negoziazine dell'indirizzi di LV1
@@ -539,7 +568,7 @@ Questo standard inizia dallo stato di dead, cercherà di stabilire una connessio
 Standard per costruire reti a pacchetto con circuiti virtuali (vedi figura \ref{fig:vc}) su scala geografica. Il nome è la tecnologia, mentre il protocollo è LAPF. Ancora usato per collegare di nodi degli ISP.\\
 LAPF è suddiviso in due parti, DL$-$CORE (utilizzato da tutti i nodi della rete) DL$-$CONTROL (utilizzato solo dal mittente e dal destinatario).
 
-\subsection{Asynchronous Trasfer Mode - ATM}
+\subsection{ATM: \textit{Asynchronous Trasfer Mode}}
 Rete integrata nata durante l'evoluzione di ISDN, chiamata B-ISDN. Anche essa è una rete a pacchetto con servizi di VC su scala geografica.\\
  Il servizio sarebbe stato ottimo ma non è molto diffuso a livello utente per la necessità di sostituire tutti gli apparati esistenti. I vataggi di questa tecnologia riguardano principalmente le velocità elevate, bassa latenza ed uso di PDU di dimensione fissa (53 byte, 48 B di dati). Interessante l'analisi dell''intestazione della cella, composta da:
  \begin{itemize}
@@ -552,7 +581,7 @@ Rete integrata nata durante l'evoluzione di ISDN, chiamata B-ISDN. Anche essa è
  \end{itemize}
 La struttura AAL (\textit{ATM Adaption Layer}) integra il trasporto ATM per offrire differenti servizi ai livelli superiori. In particolare viene usato AAL5 usato per gestire la segmentazione di PDU a LV3.
 
-\subsection{Logical Link Protocol - LLC}
+\subsection{LLC: \textit{Logical Link Protocol}}
 Il LV2 viene suddiviso in 2 sottolivelli, LLC (derivato da HDLC) e MAC (Medium Access Controll).\\
 E' un protocollo standard (ISO 8802/2 e IEEE 802.2) di caratteristiche tipo:
 \begin{itemize}
@@ -577,7 +606,7 @@ Lo \textbf{Slotted Aloha} invece divide il tempo in slot, solo ad inzio slot pot
   \label{fig:eff_lan}
 \end{figure}
 
-\subsection{Carrier Sense Multiple Access - CSMA}
+\subsection{CSMA: \textit{Carrier Sense Multiple Access}}
 La bassa efficenza di Aloha è dovuta dall'accesso casuale ai canali. Per aumentare il throughput e diminuire le collisioni posso eseguire semplicemente una verifica della liberà o no del canale.\\
 Vengono utilizzate le seguenti strategie di ritardo trasmissione:
 \begin{itemize}
@@ -651,9 +680,9 @@ Le principali caratteristiche di questa rete sono:
 \subsection{Apparati}
 Le reti locali sono sempre più efficenti, veloci ed affidabili. Si cerca di aumentarne sempre di più estensione, numero di utenti e sicurezza.
 \paragraph{HUB}
-Sono apparati multiporta che operano a LV1 (paragravo \ref{LV1}) sono quindi passivi, non riconosce le trame e non separa di domini di collisione.
+Sono apparati multiporta che operano a LV1 (paragrafo \ref{LV1}) sono quindi passivi, non riconosce le trame e non separa di domini di collisione.
 \paragraph{Switch}
-Sono apparati multiporta operanti a LV2 (paragravo \ref{LV2}) attivi con funzioni di store-and-forward (riconosce trame) in grado di garantire prestazioni superiori agli hub.\\
+Sono apparati multiporta operanti a LV2 (paragrafo \ref{LV2}) attivi con funzioni di store-and-forward (riconosce trame) in grado di garantire prestazioni superiori agli hub.\\
 Il vataggio principale rispetto al primo dispositivo è quello di separare i domini di collisione, creandoli ad hoc per ogni connessione punto-punto, eliminando così di fatto le collisioni (CSMA/CD non più necessario) e trasformando ETH in un protocollo ``framing'' di LV2.\\
 Questi dispositivi non dovrebbero modificare la struttura della rete, è necessario però che ogni apparato abbiamo un indirizzo di LV2 unico all'interno della LAN estesa. Il funzionamento è basato sulla conoscenza topologica della rete per tanto vi son 3 tecniche di switching:
 \begin{itemize}
@@ -735,6 +764,121 @@ Il LV3 contribuisce alla formazione del pacchetto da trasferire per una totale c
 \end{figure}
 
 Tutto questo header si aggiunge ai quelli dei precedenti e successivi. % 24 Dicembre 2016
+
+% 5 Gennaio 2017 - 14:32
+\paragraph{Frammentazione} Nel datagram IP è presente una sezione di flag per la frammentazione essa è necessaria al fine di ricostruire correttamente il pacchetto. Questo flag è costituito da una terna di bit:
+\begin{enumerate}
+  \item Riservato (sempre a 0).
+  \item = 1 se NON frammentato.
+  \item = 1 se presenti ulteriori frammenti.
+\end{enumerate}
+
+\subsection{IP Addressing} % 5 Gennaio 2017
+L'indirizzo IP, come detto precedentemente, si riferisce direttamente all'interfaccia dell'host e non all'host stesso, questo perchè esso potrebbe avere interfacce multiple. Le interfacce invece rappresentano il collegamento fisico tra host e router (sia che esso sia wireless o no). Un esempio di indirizzo IP:
+\begin{equation}
+  \begin{gathered}
+    223.1.1.1 = 11011111|00000001|00000001|00000001
+    \label{eq:ipv4bit}
+  \end{gathered}
+\end{equation}
+Come avvenga la connessione tra due interfacce non è interesse di LV3.\\
+L'indirizzo IP è costituito da due parti, la prima di NETWORK (spesso chiamata erroneamente SUBNET) costituita dai bit più significativi e da una parte di HOST costituita dai rimanenti. Host multipli sullo stesso NETWORK devono porter senza l'utilizzo di un router questo perchè risultano essere sulal stessa rete IP, quando invece parliamo di due network differenti allora necessitiamo di un router che ci permetta l'interconnessione fra più reti. In una visione molto pratica possiamo quasi dire che la rete IP sia sul ``filo stesso'' vista la sua natura.
+\paragraph{Indirizzi Riservati} All'interno di una qualsiasi struttura IP si presentano una moltitudine di indirizzi, è importante però che alcuni di questi rimangano riservati per questione che vedremo successivamente.
+
+\subsection{Protocollo ARP} % 5 Gennaio 2017
+La rete LAN è il principale apparato sfruttato per le comunicazioni tra host, ogni interfaccia deve necessariamente possedere un proprio indirizzo IP ed un indirizzo MAC unico. Chiaramente questo porta, da parte di un router, a dover conoscere le destinazioni per la corretta consegna dei pacchetti.\\
+Le informazioni necessarie alla corretta consegna di un pacchetto sono molte e non sempre sono tutte già disponibili, sopratutto all'avvio della rete, per questo viene in aiuto il protocollo \textbf{ARP} (\textit{Address Resolution Protocol}) in grado i recuperare queste informazioni mancanti. Il funzionamento della procedura ARP è il seguente:
+\begin{enumerate}
+  \item A vuole inviare a B, ma non ha nella sua ARP table il MAC dell'interfaccia di B.
+  \item A invia un \textbf{ARP request} (\textbf{broadcast}, inviata a tutti gli host) contenente l'indirizzo IP di B e FF:FF:FF:FF:FF:FF come indirizzo MAC.
+  \item Una volta ricevuta da B, essa risponde \textbf{ARP reply} con il proprio MAC address ad A (\textbf{unicast}, invio diretto all'host scelto).
+  \item A riceve il pacchetto ed aggiunge l'informazione del MAC di B nella propria ARP table fino a scadenza.
+\end{enumerate}
+E' importante ricordarsi che i pacchetti ARP non sono pacchetti IP, ma sono parte del paylod di pacchetti di LV2.
+
+\subsection{Indirizzamento LAN esterne} % 5 Gennaio 2017
+Una delle caratteristiche più interessanti delle reti di calcolatori è proprio la comunicazione tra di esse, abbiamo visto come comunicare internamente ad una singola rete, ma se volessimo comunicare con una LAN differente invece?\\
+La procedura non è molto differente sarà necessario un'ulteriore passaggio attraverso un router.
+\begin{enumerate}
+  \item A crea il datagram per B (nell'altra rete IP) utilizzando però come IP e MAC di destinazione non quelli di B, ma del proprio R (router, default gateaway) che sarà eventualmente connesso alle altre reti IP.
+  \item R rimuove le informazioni MAC e passa a livello IP.
+  \item R crea il nuovo datagram da inviare mettendo come informazioni si SRC quelle della proprio interfaccia collegata alla rete IP di B e come informazioni di dest quelle dell'host B.
+  \item B riceve il pacchetto e lo gestisce.
+\end{enumerate}
+Questa procedura non prevede l'utilizzo di ARP.
+
+\subsection{Classi IP} % 5 Gennaio 2017
+Abbiamo priam parlato delle due parti presenti a livello IP (network ed host) ma non di come distinguerle! Vi sono tre possibili soluzioni:
+\begin{itemize}
+  \item \textbf{Classful addressing}: Divisione statica delle due parti, tre possibili dimensioni di rete IP, non sfrutta il concetto di subnetting ed è poco flessibile:
+  \begin{itemize}
+    \item \textbf{Class A} (128 net): $10.0.0.0\rightarrow10.255.255.255$
+    \item \textbf{Class B} (16K net): $172.16.0.0\rightarrow172.31.255.255$
+    \item \textbf{Class C} (2M net): $192.168.0.0\rightarrow192.168.255.255$
+    \item \textbf{Class D}: Multicast Address
+    \item \textbf{Class E}: Reserved for Future Use
+  \end{itemize}
+  \item \textbf{Subnetting}: Parte dalla struttura a classi completa definendo però reti più piccole chiamate ``subnet'' (VLSM).
+  \item \textbf{Classless addressing}: Rimuove completamente il concetto di classi IP (CIDR).
+\end{itemize}
+Uno dei principali problemi di IPv4 è lo spreco di indirizzi IP per questo son stati creati due meccanismi in grado di migliorarne l'utilizzo sprecando meno indirizzi possibili e sono VLSM e CIDR.
+
+\subsection{Configurazione Host} \label{subsec:hostconfig} % 5 Gennaio 2017
+Un device per poter essere collegato alla rete recessiterà di alcuni paramentri fondamentali, senza i quali non potra sfruttare al pieno le possibilità della rete o eventualmente nessuna. Le 3 informazioni che deve ricevere, è possibile sia invia automatica DHCP, sia in via manuale) sono:
+\begin{itemize}
+  \item \textbf{Indirizzo IP}
+  \item \textbf{Netmask}: Necessaria per valutare la la posizione di un'altro host, se interna o esterna alla proprio rete IP.
+  \item \textbf{Default Gateaway}: Il primo passo per una comunicazione indiretta (verso un'altra rete IP).
+  \item \textbf{Server DNS}: Solitamente due indirizzi necessari alla traduzione degli indirizzi testuali (\textit{es. google.it}), vedi capitolo \ref{sec:dns}.
+\end{itemize}
+L'host ha il compito di verificare se la connessione che vuole instaurare è interna o meno al suo network.
+\paragraph{Check IP} Per svolgere questa operazione esegue un doppio confronto, calcola il risultato di un'operazione di AND tra il proprio IP e la propria netmask e di un'altra operazione di AND ma tra l'IP di destinazione e la propria netmask, se questi due risultati saranno uguali allora significa che la comunicazione sarà diretta, ovvero che i due host risiedono sulla stessa rete IP, nel caso i due risultati differiscano la comunicazione sara indiretta.
+
+\subsection{Routing IP}
+La comunicazione all'interno di una rete prevede la definizione di ``strade'' percorribili al fine di poter comunicare tra host, queste tabelle son definite all'interno dei routers e possono essere di 3 tipi:
+\begin{itemize}
+  \item \textbf{Dirette}: Strade direttamente linkate al router.
+  \item \textbf{Statiche}: Le strade per altri network vengono definite manualmente.
+  \item \textbf{Dinamiche}: Definizione automatica delle strade tramite protocolli di routing e ICMP redirect.
+\end{itemize}
+
+\subsection{DHCP: \textit{Dynamic Host Configuration Protocol}} % 5 Gennaio 2017
+Tra i campi necessari introdotti nel capitolo \ref{subsec:hostconfig} abbiamo parlato dell'indirizzo IP. Vi sono due possibili soluzioni per ottenere, o viene definito manualmente (Static IP), o viene assegnato da un protocollo ``plug-and-play'' chiamato DHCP.\\
+L'iter è abbastanza semplice ed avviene alla connessione di un nuovo host (vedi figura \ref{fig:dhcp}):
+\begin{enumerate}
+  \item \textbf{Discover}: Il client appena connesso invia un messaggio broadcast (IP DEST 255.255.255.255) senza IP SRC.
+  \item \textbf{Offer}: Il server DHCP invia un pacchetto broadcast con l'indirizzo IP che vorrebbe assegnare al nuovo client. Pacchetto con lifetime $\neq$ 0.
+  \item \textbf{Request}: Il client risponde accettando l'indirizzo che gli viene assegnato (nel pacchetto non viene ancora messo come IP SRC). Pacchetto con lifetime $\neq$ 0.
+  \item \textbf{ACK}: Il server invia l'ultimo pacchetto, sempre broadcast, dove conferma l'assegnazione definitiva dell'IP in questione. Pacchetto con lifetime $\neq$ 0.
+\end{enumerate}
+
+\begin{figure}[!hbpt]
+  \includegraphics[width=\textwidth]{images/dhcp.png}
+  \caption{DHCP Flow}
+  \label{fig:dhcp}
+\end{figure}
+
+L'indirizzo assegnato, salvo diverse impostazioni da parte dell'amministratore di rete, non è permanente, viene infatti definito un \textbf{tempo di lease}. A metà di questo tempo, il DHCP, cerca di rinnovare l'indirizzo assegnato, se la procedura avviene con successo allora viene riavviato il cronometro del tempo di lease, altrimenti l'indirizzo viene segnato come libero dal server.\\
+Il ruolo del server DHCP non si limita solamente all'assegnazione dell'indirizzo IP, si occupa di comunicare anche l'indirizzo del router (\textit{first-hop address o default gateaway}), il nome e l'indirizzo dei server DNS e la netmask.\\
+Si potrebbe talvolta sentir parlare di DHCP Service in quanto spesso non è un hardware dedicato ma viene installato su altre apparecchiature, tipo router.
+
+\paragraph{Last hope} Nel caso in cui non sia stata definita nessuna informazione in modo statico, nel caso in cui il server DHCP non risponda o non esista, il nostro dispositivo tenterà una connessione STATELESS scegliendo un indirizzo a caso in 168.254.x.y/16, verificando prima se ARP request a quell'indirizzo non risponde, ed autoassegnandoselo.
+
+\subsection{IP Pubblici}
+Ad oggi la questione IP pubblici è molto delicata infatti non sono più disponibili spazi, questo è dovuto alle limitazioni della struttura IPv4 creata più di 40 anni fa quando non si sapeva nemmeno a cosa si sarebbe andati in contro. L'aumento esponenziale dei dispositivi IoT sicuramente non ha agevolato la cosa se ci aggiungiamo la transizione per nulla semplice ad IPv6 si capisce la situazione in cui siamo.\\
+L'ente che si occupa di assegnare i blocchi di IP agli operatori si chiama ICANN (\textit{Internet Corporation for Assigned Names and Numbers}) ed ha lo scopo di allocare indirizzi, gestire i DNS, assegnare i nomi ai domini e risolvere le dispute.
+
+\paragraph{Allocazione} L'allocazione di questi indirizzi avviene a livello geografico scalare, vengono asseganti blocchi continentali, dove esistono ulteriori enti di divisione, si passa poi alle divisioni nazionali tra operatori ed infine agli utenti finali.
+
+\subsection{NAT: \textit{Network Address Translation}} %  Gennaio 2017
+
+
+\section{DNS: \textit{Domain Name System}} \label{sec:dns} % 6 Gennaio 2017
+
+
+
+% \section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
+% Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
