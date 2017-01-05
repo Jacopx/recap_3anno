@@ -35,30 +35,116 @@
 \rightline{{\rm --- Albert Einstein}}
 \newpage
 
+% Parte A
+\section{Parte A}
+% PARTE A1 - a1-oscilloscopiodigitale
+\subsection{Parte A1}\label{A1} % 4 Gennaio 2017 - 11:20
+L'oscilloscopio è uno dei più importanti strumenti presenti in laboratorio per misurazioni di grandezze elettriche, sia a livello qualitativo (andamento segnale), sia a livello quantitativo (tensione, frequenza, ecc...).\\
+Inizialmente lo strumento era \textbf{analogico} a sfruttava la tecnologia a tubo catodico per la riproduzione dei segnali, si riporta uno schema in figura \ref{fig:osc_analog}, chiaramente essendo una riproduzione ``istantanea'' del segnale non è possibile effettuare calcoli o operazioni di alcun tipo su esso. Altri problemi di questo strumento erano:
+\begin{itemize}
+  \item Limiti di banda: alcune centinaia di MHz.
+  \item Alto costo.
+  \item CRT (dispaly) sensibile all'tempo.
+\end{itemize}
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/osc_analog.png}
+  \caption{Schema a blocchi Oscilloscopio Analogico}
+  \label{fig:osc_analog}
+\end{figure}
+
+L'avvento del \textbf{digitale} ha portato sicuramente a notevoli vantaggi, il nuovo strumento, \textit{oscilloscopio digitale}, si presenta, a livello funzionale, identico al precedente con molte funzioni aggiunte a livello matematico, ecc... Ma con importanti differenze strutturali infatti il segnale dopo essere stato trasdotto verrà campionato (cap. \ref{d1}), convertito, memorizzato ed infine visualizzato.\\
+L'intero strumento demanda tutte le operazioni di gestione e calcolo alla sua CPU interna per poi visualizzare il segnale in questione su un display non più a fosfori ma con semplici pixel (tubi raster).
+\paragraph{Acquisizione} Questa fase è fondamentale per la corretta rappresentazione del segnale infatti esso dovrà essere quantizzato, ovvero rappresentato con un numero finito di bit (introducendo anche un'errore). Una volta tradotto dovrà essere memorizzato in apposite memorie (SSD) che verranno gestite come buffer circolari.
+\paragraph{Campionamento} Verrà analizzato meglio nel capitolo \ref{d1} ma si tratta della procedura necessaria a tradurre un segnale da analogico a digitale. Questo processo, a patto che venga rispettato il teorema di Shannon, non introduce perdite.
+\paragraph{Aliasing} Esso è un fenomeno direttamente correlato al campionamento infatti esso introduce una periodicizzazione dello spettro del segnale, con periodo pari alla frequenza di campionamento $F_{C}$. Fin tanto che $F_{C}>2B$ non abbiamo sovrapposizione di questi alias e possiamo tranquillamente separarli tramite un filtro passa basso (figura \ref{fig:si_fc}). Se invece questa condizione non viene rispettata gli alias si sovrapporranno portando ad uno spettro da cui non sarà più possibile ricostruire il segnale originario (figura \ref{fig:no_fc}).
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/si_fc.png}
+  \caption{Teorema di Shannon rispettato}
+  \label{fig:si_fc}
+  \includegraphics[width=\textwidth]{images/no_fc.png}
+  \caption{Teorema di Shannon NON rispettato}
+  \label{fig:no_fc}
+\end{figure}
+
+\paragraph{Sequential/Random Sampling} E' un procedura con la quale il convertitore viene comando per campionare il segnale con ritardi crescenti rispetto all'istante di trigger, spesso viene anche realizzato mediante campionamento casuale. Sul pannello verrà visualizzato:
+\begin{itemize}
+  \item \textbf{ONE-SHOT}: Segnali transitori.
+  \item \textbf{NORMAL}: Segnali periodici o ripetitivi.
+\end{itemize}
+
+\paragraph{Altre opzioni del DSO} L'oscilloscopio digitale permette molte altre funzioni come:
+\begin{itemize}
+  \item Visualizzazione:
+  \begin{itemize}
+    \item \textbf{Average}: Media su più tracce
+    \item \textbf{Peak o Envelope}: Massimo e minimo per una serie di tracce
+    \item \textbf{Cumulative}: Mostre tutte le tracce senza ripulire il display
+  \end{itemize}
+  \item Misura:
+  \begin{itemize}
+    \item \textbf{FFT}
+    \item \textbf{Cursori}: sia asse tempi che asse tensioni
+    \item altro: Rise, fall, freuqnza, periodo, sfasamento, ecc...
+  \end{itemize}
+\end{itemize}
+
+Altra cararatteristica importate è la possibilità di utilizzare lo strumento in multicanale, il problema dell'acquisizione da più canali può essere risolto o con più memorie o con velocità doppia.
+
+\paragraph{Trigger} Durante il quotidiano utilizzo di un'oscilloscopio avremo a che fare con l'istante di trigger, con il vecchio oscilloscopio le uniche opzioni riguardavano il \textbf{livello}, la \textbf{pendenza} e sempre in \textbf{post-trigger}. Con lo strumento digitale invece il numero di opzioni aumenta enormemente, possiamo settare, oltre ai valori standar, anche trigger a due livelli (con isteresi), trigger a più canali, trigger da pattern, trigger automatici, ecc...
+
+\paragraph{Visualizzazione} Il numero di pixel disponibili sullo schermo è pari a $N_{V}$, mentre la memoria di acquisizione contiene $N_{I}$ campioni, va da se che ne il numero di campioni è maggiore del numero di pixel allora dovrò effettuare un ``selezione'' dei dati da visualizzare, se invece si presenta la situazione opposta sarà necessario gestirlo in modo appropriato.\\
+Nel caso di segnale $N_{I}<N_{V}$ le opzioni sono due, o visualizzo i campioni che effettivamente ho (modalità dot), oppure adotto un'algoritmo di interpolazione, illustrati nel successivo paragrafo, in modo da aver un numero di punti accettabile a visualizzare correttamente la traccia. Ovviamente il teorema di Shannon dovrà essere rispettato ($F_{EV}>2F_{S}$), se il rapporto dei due fattori risulta essere:
+\begin{itemize}
+  \item \textbf{Irrazionale}: Immagine confusa con campioni distribuiti in modo casuale.
+  \item \textbf{Razionale}: Nessuna SENSAZIONE di errore, forma d'onda correttamente vista, ampiezza coretta ma frequenza notevolmente diversa.
+\end{itemize}
+Da queste considerazioni derivano poi fenomeni come l'\textbf{aliasing percettivo} (il sistema di percezione visivo umano interpola in modo errato ciò che vede, figura \ref{fig:alias_perc}).
+
+\begin{figure}[!hpt]
+  \includegraphics[width=\textwidth]{images/alias_perc.png}
+  \caption{Esempio di aliasing percettivo}
+  \label{fig:alias_perc}
+\end{figure}
+Una corretta visualizzazione richiede almeno 20-25 punti per periodo.
+
+\paragraph{Interpolazione} Nel caso in cui non ci siano sufficenti campioni per la visualizzazione dobbiamo occuparci di interpolare al meglio in nostri campioni in modo da generare un segnale utilizzabile sul nostro display.\\
+Nel caso di \textbf{interpolazione lineare} sono necessari circa una decina ci punti, questo algoritmo potrebbe comunque portare ad errori grossolani.\\
+Parlando invece di \textbf{interpolazione Sinc} si utilizza una sommatoria infinita (dove i campioni più lontani hanno peso praticamente nullo) che permette una miglior approssimazione della curva, introducendo però problemi quali il fenomeno di Gibbs o fronti poco accurati.\\
+Sono disponibili altre tecniche che non verranno studiate, generalmente non viene reso disponibile all'utente final l'algoritmo di interpolazione.
+
+\paragraph{Specifiche DSO} Altre informazioni utili possono essere:
+\begin{itemize}
+  \item Bit equivalenti: Tutte le cause di errore introdotte dal convertitore A/D ideale con bit inferiori a quello reale.
+  \item Banda passante: Spesso riportate per one-shot e casuale costituiscono la banda di frequenza accettabile dallo strumento.
+  \item Frequenza di campionamento: Anche qui divisa in repetitive e one shot, espressa in Sample al secondo.
+  \item Accuratezza verticale: Come parametro unico o formula binomia.
+\end{itemize}
+
+\paragraph{Sonde} Le sonde sono gli strumenti attraverso i quali connettiamo i segnali al nostro strumento, spesso sono costituite da un cavo coassiale per essere connesse al terminale BNC. Le classiche sonde hanno una resistenza di ingresso elevata per ridurre l'effetto del carico ma la loro reattanza capacitiva introduce comunque una variazione nel segnale. Con l'utilizzo delle \textbf{sonde compensate} invece si riesce, routando direttamente una vite azionante il circuito di compensazione, a variare il polo introdotto dalla sonda in modo da rendere indipendente il segnale dalla frequenza.
+
+
+
 % Parte B
 \section{Parte B}
 % PARTE B1 - ELAPMISB1
 \subsection{Parte B1}\label{b1}
 I circuiti logici digitali sono caratterizzati da una tensione di alimentazione che varia dal GND a Val. I segnali di ingresso possono essere ricevuti in modo seriale o parallelo.\\
 Gli stati logici di uscita sono rappresentati da tensioni, solitamente la tensione alta ($V_{al}$) corrisponde al valore logico 1 e prende il nome di $V_{h}$, mentre la tensione bassa (GND) corrisponde al valore logico 0 e prende il nome di $V_{l}$.\\
+
 \begin{wrapfigure}{R}{0.38\textwidth}
   \centering
   \includegraphics[width=0.35\textwidth]{images/compat.png}
   \caption{Compatibilità tra porte logiche}
   \label{fig:compat}
 \end{wrapfigure}
+
 La capacità di riconoscimento dell’ingresso da parte di una porta logica è legata al confronto con una soglia. Per poter garantire il corretto funzionamento di un circuito vengono specificati dei campi di accettabilità degli ingressi. Se essi vengono rispettati ($V_{ol}$ $<$ $V_{il}$ e $V_{oh}$ $>$ $V_{ih}$) la dall’uscita precedente allora non vi saranno problemi di compatibilità tra le porte questo è infatti il principale vantaggio del mondo digitale, usando un semplice comparatore di soglia siamo in grado di rigenerare il segnale alla perfezione. I margini di rumore sono le fasce dove il segnale di entrata potrà ancora essere riconosciuto correttamente, esse sono commisurate al tipo di applicazione del circuito, le auto avranno NM molto ampi. Una rappresentazione grafica della compatibilità si può vedere in figura \ref{fig:compat}
 
 \paragraph{Transistor} I circuiti di tipo CMOS (MOS complementari) hanno una diversa resistenza di uscita nel caso in cui si parli di uscita alta o bassa, anche la tensione di uscita Vo è consistente solo in base ai valori di Io. Questo tipo di circuiti prevede solamente due tipi di uscita H o L. Nel circuito a tre stati abbiamo anche l’opzione Z = alta impedenza utile in casi in cui all’uscita non si voglia avere ne un valore H ne un valore L, questo tipo di circuito può essere implementato anche con un doppio switch. Molto considerazioni fatte tralasciano il fattore realtà infatti dobbiamo tenere in considerazione alcuni fattori. I segnali reali hanno fronti con pendenza finita e quindi il riconoscimento del nuovo stato logico non è immediato, allo stesso modo anche le variazioni di tensioni o correnti nei moduli stessi non lo possono essere. La combinazione di tutti questi parametri limita la velocità di operatività e porta a ritardi di propagazione.\\
 Il tempo di propagazione è il tempo necessario, per un segnale in ingresso a propagarsi nel modulo fino alla sua uscita. Questo valore non sempre è uguale per le due transizioni, lo è nel caso di strutture simmetriche come i CMOS, non lo è nel caso di uscita R-SW (dove abbiamo un transitorio in carica molto lento). Il FAN OUT rappresenta il massimo numero di ingressi che possono essere collegati ad una uscita.
 \paragraph{Segnali Differenziali} I segnali differenziali hanno numerosi vantaggi in quanto sono protetti dai disturbi, o meglio essendo un doppia canale tutti e due vengono disturbati allo stesso modo mantenendo così il valore differenziale uguale. Ci permettono inoltre di usare una differenza di tensione molto più bassa aumentando così la velocità e riducendo i consumi.
-
-\paragraph{Domande} (vedi slide)\\
-1) Perché il digitale ci permette di compensare facilmente il rumore.\\
-2) Dobbiamo fare in modo che vengano rispettate le compatibilità sia delle correnti che delle tensioni.\\
-3) Le uscite a tre stati vengono utilizzate quando il nostro dispositivo deve rimanere in una situazione in cui non trasmette ne zero ne uno.\\
-4) Il FAN-OUT dipende direttamente dalle caratteristiche del circuito ed è il numero di porte logiche che potremmo connettere all’uscita mantenendo un funzionamento corretto.\\
-5) Il principale vantaggio dei segnali differenziali è legato alla loro resistenza ai disturbi.
 
 % PARTE B2 - ELAPMISB2
 \subsection{Parte B2}\label{b2}
@@ -746,6 +832,212 @@ In quello serie invece si modificherà il rapport agendo sul ramo serie. Questo 
 
 % PARTE E3 - ELAPMISE3
 \subsection{Parte E3}\label{e3} % 3 gennaio 2017 - 19:18
+Il compito dei regolatori a commutazione è quello di permettere, come uno SW, di controllare la potenza erogata.
+\begin{itemize}
+  \item \textbf{ON}$\rightarrow$Piena Potenza (con filtro)
+  \item \textbf{OFF}$\rightarrow$Potenza Zero
+\end{itemize}
+Idealmente dovrebbe essere fatto senza perdite ma non è possibile. L'energia filtrata dal passa-basso viene fornita al carico come onda rettangolare, con valor medio legato al duty cycle. Il filtro può essere di due tipi, RC (perdite nella R, basse potenze) o LC (basse perdite, potenze elevate).\\
+Vi sono diverse possibilità nella scelta della topologia dei regolatori. Il vantaggio è il loro alto rendimento, l'uniche note negative sono invece la generazione di ondulazioni ed interferenze.
+
+\paragraph{Buck} Questo regolatore presenta due interruttori complementari, nel caso di SW1=ON la lorrente in L (induttore) cresce e viceversa con SW2=ON. Spesso SW2 viene realizzato con un diodo che, polarizzato inversamente, regolerà correttamente il flusso. In generale $V_{OUT}<V_{IN}$. (Figura \ref{fig:buck})
+
+\paragraph{Boost} Molto simile al buck, ma scambia SW1 con l'induttanza mentre SW2 viene realizzato con un diodo. In generale $V_{OUT}>V_{IN}$. (Figura \ref{fig:boost})
+
+\paragraph{Buck-Boost} Combina le due tipologie precedentemente descritte generando una tensione di polarità invertita. (Figura \ref{fig:buckboost})
+
+\paragraph{Fly-Back} La caratteristica principale è l'isolamento galvanico, si presenta come un regolatore buck-boot con un trasformatore al posto dell'induttanza. Per la regolazione invece occorre una reazione isolata. (Figura \ref{fig:flyback})
+
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/buck.png}
+    \caption{Regolatore Buck}
+    \label{fig:buck}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/boost.png}
+    \caption{Regolatore Boost}
+    \label{fig:boost}
+  \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/buckboost.png}
+    \caption{Regolatore Buck-Boost}
+    \label{fig:buckboost}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/flyback.png}
+    \caption{Regolatore Fly-Back}
+    \label{fig:flyback}
+  \end{minipage}\hfill
+\end{figure}
+
+% PARTE E4 - ELAPMISE4
+\subsection{Parte E4}\label{e4} % 4 gennaio 2017 - 10:57
+Le techniche di alimentazione di un circuito sono molteplici, batterie, accumulatori, celle solari, ecc... Andiamo ora ad analizzare alcune sorgenti DC.
+\paragraph{Batterie} Le principali caratteristiche di una batterie sono:
+\begin{itemize}
+  \item Struttura chimico/fisica
+  \item Tensione della singola cella
+  \item Corrente erogabile: curva di scarica V(I,t)
+  \item Durata
+  \item Capacità per unità di peso/volume
+  \item Modalità e parametri di ricarica (per ricaricabili)
+\end{itemize}
+Nel caso di batterie \textbf{non ricaricabili} (\textit{primarie}) i parametri chiave saranno $\frac{Wh}{kg}$ e la tensione, citiamo (valori classici):
+
+\begin{center}
+\begin{tabular}{ |c|c|c| }
+ \hline
+ Piombo [Pb] & Nickel [Ni] & Litio [Li] \\
+ \hline
+ \hline
+ 2V & 1.2V & 3V \\
+ \hline
+\end{tabular}
+\end{center}
+
+Per quanto riguarda invece le batterie \textbf{ricaricabili} (\textit{secondarie o accumulatori}) un'altro importante parametro da conoscere è il numero di cicli carica/scarica effettuabili. Ne conosciamo diverse tipologie:
+\begin{itemize}
+  \item \textbf{Piombo [Pb]}: (Lead Acid)
+  \begin{itemize}
+    \item Grandi capacità basso costo (automobili)
+    \item Gruppi continuità (UPS)
+  \end{itemize}
+  \item \textbf{Nickel - Metal Hydride [Ni-MH]}:
+  \begin{itemize}
+    \item Media densità di energia
+    \item Variante Ni-Cd (Nickel-Cadmio)
+  \end{itemize}
+  \item \textbf{Lithium Ion [Li-Ion]}
+  \begin{itemize}
+    \item Doppia densità rispetto alle Ni-xx
+    \item Molto diffuse su apparati portatili
+    \item In espansione
+    \item Costo alto
+  \end{itemize}
+\end{itemize}
+
+Le modalità di ricarica di una Ni-MH prevedono una carica costante da 1c a 2c ed un mantenimento a batteria carica da c/10 a c/40. Nella batterie Li-Ion la ricarica viene effettuata ad una tensione costante di circa 4.2V con una corrente di 1c (generalmente c/5).
+
+% Parte F
+\section{Parte F}\label{F}
+Sezione riguardante i voltmetri e le misure in frequenza.
+% PARTE F1 - f1-voltmetridigitali
+\subsection{Parte F1}\label{f1} % 4 gennaio 2017
+Il voltmetro digitale da informazioni sulla tensione sotto forma di numero invece che su scala ad indice. I \textbf{vantaggi} di una soluzione digital sono:
+\begin{itemize}
+  \item Elimina incertezza di lettura
+  \item Facilità di lettura
+  \item Resistenza ad urti e vibrazioni
+  \item Tempo di risposta piccolo
+  \item Potenzialmente poca incertezza
+\end{itemize}
+I \textbf{difetti} invece possono essere:
+\begin{itemize}
+  \item Falso senso di precisione
+  \item Difficile valutazione di evoluzione (no lancetta in movimento)
+  \item Lettura a colpo d'occhio più difficile
+\end{itemize}
+
+L'utilizzo di questi strumenti è possibile grazie alla conversione A/D tratta con precisione nei capitoli \ref{d3} e \ref{d4}. Alcune informazioni aggiuntive riguardo al convertitore subranging costituito da una serie di convertitori flash.\\
+Da considerare invece con più precisione i convertitori ad integrazione. Nel caso di quelli a singola rampa viene fornita un'uscita legata al valor medio dell'ingresso in un certo intervallo di tempo, questa operazione permette una pulizia degli alias agendo dal filtro passa-basso. Il tempo di integrazione è seglibile dall'operatore, un valore interessante è $T=20 ms$ per eliminare tutti i derivati dalla frequenza di rete a 50Hz e multipli.\\
+I convertitori a doppia rampa invece sfruttano la maggior precisione nel calcolare dei tempi valutando la carica e scarica di un ben noto condensatore. Ulteriore evoluzione sono i sistemi a multirampa e gli altri visti nei capitoli \ref{d3} e \ref{d4}.
+
+\paragraph{ADC} L'accuratezza dei convertitori viene espressa dai costruttori un pò a loro favore, in condizioni ottimali. In qualsiasi caso ogni converter un'errore di:
+\begin{itemize}
+  \item \textbf{Quantizzazione}: Metà dell'intervallo di quantizzazione.
+  \item \textbf{Non-linearità differenziale}: Scostamento dalla risposta di un convertitore ideale di un singolo gradino.
+  \item \textbf{Non-linearità integrale}: Scostamento massimo della caratteristica di un ADC dal valore di uno ideale.
+\end{itemize}
+
+% PARTE F2 - f1-misure tempo e frequenza
+\subsection{Parte F2}\label{f2} % 4 gennaio 2017
+Tempo e frequenza sono, ad oggi, le grandezze fisiche misurabili con maggior precisione (minor incertezza) questo grazie alla grande disponibilità di campioni e agli ottimi ed economici strumenti.\\
+A causa della mancanza di sincronismo tra due segnali si ha sempre una incertezza assoluta di quantizzazione pari a $\pm$ 1 (in termini relativi $\pm\frac{1}{n}$), per ridurla è necessario che n sia il massimo possibile, per questo alle basse frequenze l'incertezza inizia ad avere un peso notevole.\\
+
+% PARTE F3 - f1-voltmetri ac
+\subsection{Parte F3}\label{f3} % 4 gennaio 2017
+Una qualsiasi grandezza tempo variante richiede molte (al limite infinite) misurazioni per essere caratterizzata. Per il motivo appena citato si preferisce fornire altre informazioni a livello globale, come il \textbf{valor efficace}.\\
+Questo valore è molto importante perchè indica il \textit{"valore di tensione costante al quale genereremo la stessa quantità di energia, nello stesso tempo del nostro segnale tempo-variante"}, calcolare questo valore non è però facile e vi sono 3 tipi di voltmetri per calcolarlo. Nel caso di segnali sinusoidali si possono sfruttare le semplice formule:\\
+\begin{equation}
+  \begin{gathered}
+    V_{eff}=\frac{V_{p}}{\sqrt{2}}=\frac{\pi V_{m}}{2\sqrt{2}}
+    \label{eq:veff}
+  \end{gathered}
+\end{equation}
+Nel caso di segnali \textbf{non} sinusoidali dobbiamo, dall'indicazione del voltmetro a valor medio divide per 1.11 (ricavando il valore corretto) e nel caso del voltmetro di picco moltiplicare per 1.41.
+
+\paragraph{Valor Medio (raddrizzato)} Questo tipo di strumenti è basato su un raddrizzatore in serie ad un voltmetro a valore medio in DC.
+
+\paragraph{di Cresta} Questo tipo di voltmetri sfrutta un condensatore. Una volta raggiunto il valore di picco come carica nel condensatore la tensione scende aprendo così il diodo, mantenendo il valore da misurare nella capacità. Per alte frequenze basta usare un piccolo condensatore in modo che si carichi velocemente, nella basse frequenze invece diventa più problematica la questione per via della prolungata apertura del diodo. Lo svantaggio principale di questi voltmetri è legato all'impossibilità di separare la componente continua. Una soluzione è quella di scambiare condensatore e diodo in modo da filtrare la DC.
+
+\paragraph{Valore Efficace: RMS - TRMS} Questi strumenti forniscono il valore efficace del segnale indipendentemente dalla forma d'onda. Sfruttano la trasformazione elettrotermica (termocoppia). Il funzionamento della termocoppia è direttamente correlato alla completa dissipazione in forma calore dell'energia elettrica, misurando tale valore possiamo risalire al valore efficace.
+
+% Parte G
+\section{Parte G}\label{G}
+Sezione riguardante i sensori.
+% PARTE G1 - g1-sensori
+\subsection{Parte G1}\label{g1} % 4 gennaio 2017
+Un \textbf{SENSORE} è un dispositivo che riceve un'informazione da un segnale di ingresso, costituito da una grandezza fisica, e la restituisce mediante un segnale d'uscita, costituito da una grandezza fisica diversa.\\
+Al segnale in ingresso risulta sempre associata un certa energia che è scambiata tra sensore e sistema misurato con conseguente perturbazione di entrambi.\\
+Esistono due tipi di sensori:
+\begin{itemize}
+  \item \textbf{ATTIVI}: Visti come generatori di tensione, corrente o carica
+  \begin{itemize}
+    \item Fotoelettrico
+    \item Termoelettrico
+    \item ecc...
+  \end{itemize}
+  \item \textbf{PASSIVI}: Visti come impedenze
+  \begin{itemize}
+    \item Temperatura $\rightarrow$ Resistività
+    \item Irraggiamento $\rightarrow$ Resistività
+    \item Umidità $\rightarrow$ Capacità
+    \item ecc...
+  \end{itemize}
+\end{itemize}
+\paragraph{Caratterizzazione} Ogni sensore presenta delle specifiche caratteristiche:
+\begin{itemize}
+  \item \textbf{Incertezza}: Larghezza della fascia comprendente tutti i valori assumibili in una determinata condizione di funzionamento.
+  \begin{itemize}
+    \item Sensibilità
+    \item Linearità
+    \item Risoluzione
+    \item Isteresi
+  \end{itemize}
+  \item \textbf{Funzione di taratura}: Relazione che permette di ricavare da goni valore dell'uscita la corrispondente fascia di valori del misurando.
+  \item \textbf{Ripetibilità}: Variazione dei valori dell'uscita, applicando più volte lo stesso misurando nelle stesse condizioni operative.
+  \item \textbf{Stabilità}: Capacità di conservare inalterate le caratteristiche di funzionamento per un lungo intervallo di tempo.
+  \item \textbf{Condizioni Operative di impiego}: Definiscono i campi di valore in cui devono essere mantenute le grandezze di influenza (Temperatura, pressione, umidità, accellerazione, ecc...) affinchè vengano rispettate le specifiche di funzionamento.
+  \item \textbf{Tempo di vita}: Numero di cicli, tempo di funzionamento, ecc...
+  \item \textbf{Affidabilità}: Guasti indotti da debolezza strutturale o robe simili.
+\end{itemize}
+
+\paragraph{Termometria a resistenza} Le termo resistenze sfruttano la variazione di resistività con la temperatura di metalli puri, questi metalli devono avere un andamento il più lineare possibile. Vengono usati metalli come Rame, Nickel, Platino e leghe.\\
+Vengono realizzate principalmente in due modi, a \textbf{filo avvolto} (costose, staili e molto costanti nel tempo) o a \textbf{film} (piccole, meno stabili e meno costanti). Per tarare con assoluta precisione questi sensori vengono usate le formule di Calendar-Van Dusen. La precisione di questo tipo di sensori viene misurata in gradi o classi.\\
+Questo tipo di sensori non è però esente da imprecisione infatti soffrono di autoriscaldamento e le resistenze dei cavi non sono trascurabili. La più comune soluzione al problema dei cavi è quella di usare un ponte di Wheatstone.
+
+\paragraph{Termocoppie} Questi sensori sfruttano l'effetto Seebek ovvero che \textit{"tra due giunzioni di materiali diversi poste a temperatura diversa nasce una differenza di potenziale"}. Il vantaggio di questo componente è la sua costante termica molto piccola per termocoppie esposte (delicate), mentre lo svantaggio principale è la necessità di amplificare il segnale e la compensazione del giunto.
+
+\paragraph{a Liquido} Sono i ``classici'' termometri basati su mercurio o alcool con una discreta precisione.
+
+\paragraph{a Radiazione} Sfruttano la misura dell'energia irradiata emessa da ogni corpo caldo per calcolare la temperatura del corpo in esame.
+
+\paragraph{a Gas/Vapore} Il loro semplice funzionamento si basa su di un capillare in grado di trasmettere la pressione ad un indice.
+
+\paragraph{Altri} Esistono, a titolo informativo, anche termometri a bimetallo ed a cambiamento di colore.
+
+% PARTE G2 - g1-sensori-ii
+\subsection{Parte G2}\label{g2} % 4 gennaio 2017
 
 
 \bibliographystyle{abbrv}
