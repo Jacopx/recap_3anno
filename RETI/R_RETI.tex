@@ -355,7 +355,7 @@ Vi sono 3 tecniche di implementazione:
   \item Go back N
   \item Selective repeat
 \end{enumerate}
-Un'altro parametro da aggiungere prima di illustrare le tecniche è il \textbf{RTT} (Round Trip Time) una funzione del tempo che rappresenta il tempo necessario ad un pacchetto per essere inviato ed aver ricevuto la conferma, esso terrà conto dei ritardi introdotti da ogni elemento.\\
+Un'altro parametro da aggiungere prima di illustrare le tecniche è il \textbf{RTT} (Round Trip Time) una funzione del tempo che rappresenta il tempo necessario ad un pacchetto per essere inviato ed aver ricevuto la conferma, esso terrà conto dei ritardi introdotti da ogni elemento.
 
 \paragraph{Semantica ACK}
 Ogni protocollo ha la sua semantica per gli ACK, ovviamente TX ed RX devono preventivamente accordarsi su essa.\\
@@ -370,7 +370,7 @@ I più conosciuti sono:
   \item \textbf{Piggybacking}: Per risparmiare ACK, nel caso di comunicazioni bidirezionali, si permette di scrivere un riscontro ACK nella PDU di un'altro pacchetto.
 \end{itemize}
 
-\subsubsection{STOP \& WAIT}
+\paragraph{STOP \& WAIT}
 Questa algoritmo prevede semplicemente che il trasmettiroe dopo aver inviato la PDU resti in attesa (WAIT) dell'ACK di conferma da parte del ricevitore, nel caso qualcosa non vada secondo i piani si procederà alla ritrasmissione. Più precisamente prevede i seguenti step al \textbf{TRASMETTITORE}:
 \begin{itemize}
   \item Invio PDU (e salvo copia)
@@ -394,14 +394,16 @@ Durante l'utilizzo di questo algoritmo dobbiamo tenere in considerazione la nume
 Altro fattore molto critico riguarda il tempo di timeout, la necessità è quella di scegliere un valore non troppo alto in modo da evitare inutili ritardi, ma allo stesso tempo non può essere troppo breve altrimenti la consegna dell'ACK potrebbe non avvenire in tempo.\\
 Ulteriore improvement per S\&W potrebbe essere quello di utilizzare un time-to-live per ogni pacchetto.
 
-\subsubsection{Go back N}
-La differenza principale rispetto al precedente è che non attenderemo ACK dopo ogni invio, la invieremo N PDU prima di rimanere in attesa delle conferme.\\
-Dato il multiplo invio dobbiamo introdurre il concetto di finestra.
-\paragraph{Finestra TX}
-$W_{T}$ , rappresenta: ``\textit{La quantità massima di PDU che il trasmettitore è autorizzato ad inviare in rete senza aver ricevuto riscontro.}'', $W_{T}$ rappresenterà di conseguenza anche il massimo numero di PDU contemporaneamente presenti sul canale.\\
-La sua dimensione sarà $1<W_{T}\leq2^k$, il primo estremo non è compreso altrimenti sarebbe uguale a Stop \& Wait.
-\paragraph{Finestra RX}
-$W_{R}$ è: ``\textit{La sequenza di PDU che il ricevitore è disposto ad accettare e memorizzare.}'' ed è direttamente dipendente dalla memoria allocata alla ricezione.\\
+\paragraph{Go back N}
+La differenza principale rispetto al precedente è che non attenderemo ACK dopo ogni invio, la invieremo N PDU prima di rimanere in attesa delle conferme. Dato il multiplo invio dobbiamo introdurre il concetto di finestra.\\
+
+\noindent\fbox{
+  \parbox{\textwidth}{
+  La \textbf{finestra TX} ($W_{T}$), rappresenta: ``\textit{La quantità massima di PDU che il trasmettitore è autorizzato ad inviare in rete senza aver ricevuto riscontro.}'', $W_{T}$ rappresenterà di conseguenza anche il massimo numero di PDU contemporaneamente presenti sul canale. La sua dimensione sarà $1<W_{T}\leq2^k$, il primo estremo non è compreso altrimenti sarebbe uguale a Stop \& Wait.\\
+  La \textbf{finestra RX} ($W_{R}$) invece è: ``\textit{La sequenza di PDU che il ricevitore è disposto ad accettare e memorizzare.}'' ed è direttamente dipendente dalla memoria allocata alla ricezione.
+  }
+}\bigskip
+
 Il TRASMETTITORE con finestra N:
 \begin{itemize}
   \item Invia un numero di PDU corrispondenti alla $W_{T}$ facendo di ognugno la copia
@@ -417,7 +419,7 @@ Il RICEVITORE invece:
 \end{itemize}
 Come per S\&W la $W_{R}$=1. Chiaramente la logica a TX sarà più complessa per via della finestra ampia.
 
-\subsubsection{Selective Repeat}
+\paragraph{Selective Repeat}
 Possiamo definire questi algoritmi come uno sviluppo del precedente. In Go back N, il limite era dato dalla possibilità per il ricevitore di accettare solo PDU in sequenza. SR va proprio a compensare questo limite con $W_{R}>1$ solitamente di dimensioni pari. In generale $W_{T}+W_{R}\leq2^k$.\\
 Può essere implementata in diversi modi con ACK Cumulativi o selettivi, timer su singole PDU o alla finestra e con vari comportamenti di TX ed RX. Si descrive il caso con ACK cumulativi e timer a finestra.
 I compiti del TRASMETTITORE saranno:
@@ -870,11 +872,128 @@ L'ente che si occupa di assegnare i blocchi di IP agli operatori si chiama ICANN
 
 \paragraph{Allocazione} L'allocazione di questi indirizzi avviene a livello geografico scalare, vengono asseganti blocchi continentali, dove esistono ulteriori enti di divisione, si passa poi alle divisioni nazionali tra operatori ed infine agli utenti finali.
 
-\subsection{NAT: \textit{Network Address Translation}} %  Gennaio 2017
-
+%\subsection{NAT: \textit{Network Address Translation}} %  Gennaio 2017
 
 \section{DNS: \textit{Domain Name System}} \label{sec:dns} % 6 Gennaio 2017
+Questo capitolo si occuperà di descrivi i DNS e la loro utilità nelle operazioni di tutti i giorni.
 
+\subsection{Introduzione} % 6 Gennaio 2017
+Il servizio DNS è stato implementato per permettere all'utente di utilizzare nomi più ``human readable'' riespetto ad indirizzi IP numerici.\\
+Il servizio in questione è costituito da batabase distribuiti geograficamente (in tutto il mondo) in modo hierarchico ed opera a livello applicativo (LV.7). I suoi compiti sono la traduzione degli indirizzi testuali (es. \textit{google.it}) in indirizzi IP classici (es. 172.217.23.67), l'aliasing, l'aliasing per i mail server e la distribuzione del carico (multi-IP per singolo nome).
+
+\subsection{Struttura} % 6 Gennaio 2017
+La struttura dei DNS è molto importante al fine di gestire correttamente ed in modo efficente il traffico in entrata e uscita da essi.\\
+Quando un'utente chiedere di accedere ad un indirizzo come \textit{www.amazon.com} la procedura che si attiva non è per nulla banale (questa è la procedura completa, non considera caching):
+\begin{enumerate}
+  \item Il client interroga il \textbf{root server} per chiedere informazioni sul DNS \textbf{.com}.
+  \item Il client interroga il DNS \textbf{.com} per chiedere informazioni sul DNS \textbf{amazon.com}.
+  \item Il client interroga il DNS \textbf{amazon.com} per richiedere l'indirizzo IP di \textbf{www.amazon.com}.
+\end{enumerate}
+Riepilogando:
+
+\begin{figure}[!hbpt]
+  \includegraphics[width=\textwidth]{images/dnsflow.png}
+  \caption{DNS Flow}
+  \label{fig:dnsflow}
+\end{figure}
+
+I \textbf{Root DNS Servers} sono 13 ed hanno il compito della prima gestione di risoluzione DNS. Fortunamente non vengono interrogati ogni volta dal singolo utente ma vengono richiesti qualora un \textit{local name server} non riesca a risolvere automaticamente un nome. Questi server infatti possono contattare gli \textit{authoritative name server} per mappare e restituire il percorso al local server richiedente informazioni.
+
+\subsection{Tipologie} % 6 Gennaio 2017
+Esistono diversi tipi di DNS e non tutti svolgono lo stesso compito all'interno della rete.
+Vi sono:
+\begin{itemize}
+  \item \textbf{TLD}: \textit{top-level domain}
+  \begin{itemize}
+    \item Commerciali: .com, .org, .net, .jobs
+    \item Nazionali: .it, .us, .fr, .uk
+    \item Educativi: .edu
+  \end{itemize}
+  \item \textbf{Authoritative}: Di proprietà di aziende, ISP, ecc... ed hanno il commpito di fornire IP per mappare gli host nella rete.
+  \item \textbf{Local}: Non fanno per forza parte della struttura gerarchica e sono solitamente di ISP piccoli, università o simili. Chiamati spesso DEFAULT name server.
+\end{itemize}
+
+\subsection{Risoluzione Nomi}\label{subsec:dnsresolution} % 6 Gennaio 2017
+Vi sono due strategie principali per la risoluzioni dei nomi, una iterativa ed una ricorsiva.\\
+La strategia \textbf{iterativa} si basa sull'interrogazione, da parte dell'host che chiede la risoluzione di un nome, del \textit{local DNS server}, una volta partita la prima richiesta sarà il local ad eseguire tutti i passaggi, andando a chiedere al root, al TLD, ed infine al authoritative che ci risponderà con l'indirizzo; solo a quel punto il local DNS potrà restituirci l'indirizzo. Vedi figura \ref{fig:itedns}.\\
+Nel caso della strategia \textbf{ricorsiva} invece, una volta fatta la richiesta al local, verrà fatta la prima interrogazione al root, sarà poi il root stesso a fare la richiesta al TLD, di conseguenza il TLD la farà all'authoritative, una volta ricevuta risponda ogni server si occuperà di rispondere al livello superiore fino ad arrivare all'host. Vedi figura \ref{fig:recdns}.
+
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/itedns.png}
+    \caption{Risoluzione nomi iterativa}
+    \label{fig:itedns}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/recdns.png}
+    \caption{Risoluzione nomi ricorsiva}
+    \label{fig:recdns}
+  \end{minipage}\hfill
+\end{figure}
+
+\subsection{Caching} % 6 Gennaio 2017
+Fortunatamente la procedura descritta nel capitolo precedente non viene iterata tutte le volte altrimenti difficilmente si riuscirebbe a gestire il traffico generalo al giorno d'oggi. Infatti vengono usati moltissimi meccanismi di caching in modo da minimizzare il numero di ricerche.\\
+Ogni qualvolta un host richiede la risoluzione di un nome viene svolta la procedura del capitolo \ref{subsec:dnsresolution} danno una risposta all'utente ma salvando anche la risposta nella propria in cache in modo da non dover effettuare nuovamente la ricerca nel caso in cui quella risoluzione venga nuovamente richiesta, spesso infatti i server TLD vengono cached nei local. Questo algoritmo potrebbe portare a risoluzioni non funzionanti, in caso di cambiamenti di topologia esterna, quindi dopo un certo TTL (\textit{Time To Live}) vengono rimosse le entry dalla cache e viene rieffettuata la ricerca.
+
+\paragraph{Record} Come detto precedentemente il servizio DNS non si occupa solo di risolvere da Nome $\rightarrow$ Indirizzo, ma di gestire anche alias e server mail. Proprio per questo nella cache del DNS vanno tenute anche informazioni riguardanti la tipologia di record, il tipo, ecc... nel formato:
+\begin{equation}
+  \begin{gathered}
+    \textbf{RR}(name, value, type, ttl)
+  \end{gathered}
+\end{equation}
+Vengono categorizzata per TYPE =
+\begin{itemize}
+  \item \textbf{A}:
+  \begin{itemize}
+    \item name: Nome host
+    \item value: Indirizzo IP
+  \end{itemize}
+  \item \textbf{NS}:
+  \begin{itemize}
+    \item name: Dominio
+    \item value: Nome del server authoritative per quel dominio
+  \end{itemize}
+  \item \textbf{CNAME}:
+  \begin{itemize}
+    \item name: Alias per quale nome canonico (reale) [es. ibm.com]
+    \item value: Nome canonico [es. servereast.backup2.ibm.com]
+  \end{itemize}
+  \item \textbf{MX}:
+  \begin{itemize}
+    \item name: Nome
+    \item value: Mail server associato al nome
+  \end{itemize}
+\end{itemize}
+
+\section{Transport Layer - LV4} \label{LV4} % 6 Gennaio 2017
+\subsection{Introduzione} % 6 Gennaio 2017
+Il livello 4 di occupa di gestire le comunicazioni logiche tra applicativi presenti su host differenti. Come tutti gli altri livelli sfrutta il precedente (LV3) per fornire a sua volta funzioni al livello successivo (LV5).\\
+Questo protocollo di trasmissione lavora nei singoli terminali (to edge), nel lato sender si occupa di segmentare i messaggi del livello application per passarli a livello network, mentre, lato receiver, si occupa di prendere i pacchetti frammentati dal network layer e riassemblarli per l'application. In poche parole il LV3 si occupa della \textit{logica di comunicazione tra due host}, mentre il LV3 si occupa della \textit{logica di comunicazione tra processi applicativi}.\\
+Esistono due protocolli di trasmissione, TCP (resistente ed ordinato) ed UDP (debole e disordinato), che verrano successivamente analizzati.
+
+\subsection{Multiplexing} % 6 Gennaio 2017
+Un necessario passaggio durante le comunicazioni tra calcolatori è sicuramente la consegna e l'aggregazione dei pacchetti in arrivo ed uscita. Questo step è necessario per via della moltitudine di applicativi attivi contemporaneamente su ogni host. Lato sender significa gestire dati da più applicativi, aggiungerli l'header del corrente livello e passarli al livello network. Lato receiver invece significa leggere l'header, del pacchetto appena ricevuto dal livello network, e consegnarlo all'applicativo corretto.
+
+\paragraph{Flow} La consegna/raggruppamento si basa su due ulteriori campi, diversi da tutti i precedenti visti, la \textit{source} e \textit{destination ports}. Da qui poi derivano due possibili tecniche di mux/demux:
+\begin{itemize}
+  \item \textbf{Connectionless} (UDP): Usa IP e \#Port di destinazione e sorgente, riferendosi direttamente al socket, per la gestione della comunicazione. [\textit{fig. }\ref{fig:udp_mux}]
+  \item \textbf{Connection-oriented} (TCP): Usa tutti e 4 i campi IP e \#Port sia di destinazione che di sorgente per capire a quale socket consegnare i pacchetti. Permette di gestire più connessioni simultanee. [\textit{fig. }\ref{fig:tcp_mux}]
+\end{itemize}
+
+\begin{figure}[!hbpt]
+  \includegraphics[width=\textwidth]{images/udp_mux.png}
+  \caption{UDP Muxltiplexing/Demultiplezing Flow}
+  \label{fig:udp_mux}
+
+  \includegraphics[width=\textwidth]{images/tcp_mux.png}
+  \caption{TCP Muxltiplexing/Demultiplezing Flow}
+  \label{fig:tcp_mux}
+\end{figure}
+
+\subsection{UDP: \textit{User Datagram Protocol} [RFC 768]} % 7 Gennaio 2017
 
 
 % \section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
