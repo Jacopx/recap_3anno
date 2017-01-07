@@ -974,7 +974,7 @@ Il livello 4 di occupa di gestire le comunicazioni logiche tra applicativi prese
 Questo protocollo di trasmissione lavora nei singoli terminali (to edge), nel lato sender si occupa di segmentare i messaggi del livello application per passarli a livello network, mentre, lato receiver, si occupa di prendere i pacchetti frammentati dal network layer e riassemblarli per l'application. In poche parole il LV3 si occupa della \textit{logica di comunicazione tra due host}, mentre il LV3 si occupa della \textit{logica di comunicazione tra processi applicativi}.\\
 Esistono due protocolli di trasmissione, TCP (resistente ed ordinato) ed UDP (debole e disordinato), che verrano successivamente analizzati.
 
-\subsection{Multiplexing} % 6 Gennaio 2017
+\subsection{Multiplexing} \label{subsec:mpx} % 6 Gennaio 2017
 Un necessario passaggio durante le comunicazioni tra calcolatori è sicuramente la consegna e l'aggregazione dei pacchetti in arrivo ed uscita. Questo step è necessario per via della moltitudine di applicativi attivi contemporaneamente su ogni host. Lato sender significa gestire dati da più applicativi, aggiungerli l'header del corrente livello e passarli al livello network. Lato receiver invece significa leggere l'header, del pacchetto appena ricevuto dal livello network, e consegnarlo all'applicativo corretto.
 
 \paragraph{Flow} La consegna/raggruppamento si basa su due ulteriori campi, diversi da tutti i precedenti visti, la \textit{source} e \textit{destination ports}. Da qui poi derivano due possibili tecniche di mux/demux:
@@ -993,11 +993,34 @@ Un necessario passaggio durante le comunicazioni tra calcolatori è sicuramente 
   \label{fig:tcp_mux}
 \end{figure}
 
+La comunicazione, utilizzando le porte, prevede che il sender sappia a quale porta inviare i pacchetti. Alcune di queste porte son state definite dagli enti (SSH 22, FTP 21, HTTP 80, HTTPS 8080, ecc...), altre vengono scelte dalle app direttamente in modo casuale oppure possono essere definite dall'utente manualmente.
+
 \subsection{UDP: \textit{User Datagram Protocol} [RFC 768]} % 7 Gennaio 2017
+Il protocollo UDP è attualmente molto utilizzato, insieme a TCP, a livello trasporto per le comunicazioni. Bisogna però fare alcune considerazioni in merito a questo protocollo in modo da poterlo utilizzare correttamente.\\
 
+\paragraph{Caratteristiche} Questo tipo di protocollo viene definito \textit{connectionless} ovvero che, come definito in \ref{subsec:mpx}, non prevede nessun tipo di handshaking prima di avviare la comunicazione tra TX ed RX ed ogni pacchetto risulta essere gestito indipendentemente dagli altri pacchetti anche se provenienti dalla stessa comunicazione (spesso disordinati). Il non utilizzo di \textit{handshaking} porta sicuramente a problemi di connessione infatti il pacchetto potrebbe essere stato inviato dove non c'è nessuno in ascolto, potrebbe non essere nemmeno uscito dalla rete e tante altre cose da tenere in considerazione.\\
+Essnedo una connessione poco ``affidabile'' viene utilizzata in tutti quei campi in cui la perdita non provocherebbe grossi danni come streaming multimediale, DNS, DHCP, ecc...\\
+Tutte questo considerazioni non vanno interpretate come negative infatti questo protocollo essendo molto semplice e facile da gestire permette meno congestione, non necessità di connessione quindi niente ritardi ed ha un header più piccolo.
 
-% \section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
-% Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
+\paragraph{Header} I campi aggiunti da questo protocollo sono:
+\begin{center}
+\begin{tabular}{ |c||c|c|c|c|c| }
+ \hline
+ \textbf{Field} & SRC Port\# & DEST Port\# & Length & Checksum & Payload \\
+ \hline
+ \hline
+ \textbf{Bit} & 16 & 16 & 16 & 16 & --- \\
+ \hline
+\end{tabular}
+\end{center}
+
+\paragraph{Checksum} Il protocollo UDP prevede un campo per la checksum essa viene calcolata eseguento la somma in \textbf{complemento a 1} dei dati di informazione, questo meccanismo permette di rilevare errori nel pacchetto trasmesso.
+
+\section{TESTO NON COMPLETO} % 7 Gennaio 2017 - 16:34
+La presente edizione si ferma alle lezioni PRIMA della pausa invernale. Verrà completato appena verranno svolte le lezioni in aula.
+
+\section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
+Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
