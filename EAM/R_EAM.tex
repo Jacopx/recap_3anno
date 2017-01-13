@@ -3,7 +3,8 @@
 \author{Jacopo Nasi\\
         Ingegneria Informatica\\
         Politecnico di Torino}
-\date{I Periodo - 2016}
+\date{I Periodo - 2016\\\bigskip\bigskip\today}
+
 
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -259,7 +260,7 @@ I vari segnali possono essere ritardati, per farlo possono essere usate diverse 
 Si riporta anche la formula per calcolare il tempo di raggiungimento della soglia:\\
 \begin{equation}
   \begin{gathered}
-    T' = RC\cdot ln\frac {(V_{H}-V_{S})} {(V_{H}-V_{L})}
+    T' = -RC\cdot ln\frac {(V_{H}-V_{S})} {(V_{H}-V_{L})}
     \label{eq:tsoglie}
   \end{gathered}
 \end{equation}
@@ -357,6 +358,14 @@ L'andamento del sistema viene spesso schematizzato utilizzando un diagramma a tr
   \caption{Diagramma a traliccio}
   \label{fig:tralicc}
 \end{figure}
+
+Per calcolare il primo gradino si utilizza la formula:
+\begin{equation}
+  \begin{gathered}
+    V_{B}(0)=\frac{Z_{\infty}}{R_{O}+Z_{\infty}}V_{A}=V_{1}
+    \label{eq:veff}
+  \end{gathered}
+\end{equation}
 
 % PARTE C3 - ELAPMISC3
 \subsection{Parte C3}\label{c3} % 15 Dicembre 2016

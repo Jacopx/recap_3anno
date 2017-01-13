@@ -3,7 +3,7 @@
 \author{Jacopo Nasi\\
         Ingegneria Informatica\\
         Politecnico di Torino}
-\date{I Periodo - 2016}
+\date{I Periodo - 2016\\\bigskip\bigskip\today}
 
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
@@ -14,6 +14,7 @@
 \usepackage{placeins}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage[italian]{babel}
+\usepackage{cclicenses}
 
 % Misure Documento
 \geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
@@ -347,7 +348,7 @@ Vi sono più soluzioni da adottare per l'utilizzo dei parity in base alla quanit
 \end{itemize}
 La tecnica migliore dipende dal contesto in cui andiamo ad operare.
 
-\subsection{ARQ: \textit{Auto Retransmission}}
+\subsection{ARQ: \textit{Auto Retransmission}} \label{subsec:arq}
 Questa tecnica sfrutta un controllo congiunto su errore, flusso e sequenza. Dovremo andare ad aggiungere un campo di numerazione (sequenza) all'interno delle PDU.\\
 Vi sono 3 tecniche di implementazione:
 \begin{enumerate}
@@ -785,7 +786,7 @@ L'indirizzo IP, come detto precedentemente, si riferisce direttamente all'interf
 \end{equation}
 Come avvenga la connessione tra due interfacce non è interesse di LV3.\\
 L'indirizzo IP è costituito da due parti, la prima di NETWORK (spesso chiamata erroneamente SUBNET) costituita dai bit più significativi e da una parte di HOST costituita dai rimanenti. Host multipli sullo stesso NETWORK devono porter senza l'utilizzo di un router questo perchè risultano essere sulal stessa rete IP, quando invece parliamo di due network differenti allora necessitiamo di un router che ci permetta l'interconnessione fra più reti. In una visione molto pratica possiamo quasi dire che la rete IP sia sul ``filo stesso'' vista la sua natura.
-\paragraph{Indirizzi Riservati} All'interno di una qualsiasi struttura IP si presentano una moltitudine di indirizzi, è importante però che alcuni di questi rimangano riservati per questione che vedremo successivamente.
+\paragraph{Indirizzi Riservati} All'interno di una qualsiasi struttura IP si presentano una moltitudine di indirizzi, è importante però che alcuni di questi rimangano riservati per questione che vedremo successivamente. Sicuramente ogni rete IP necessità un per il nome della rete e di uno di broadcast.
 
 \subsection{Protocollo ARP} % 5 Gennaio 2017
 La rete LAN è il principale apparato sfruttato per le comunicazioni tra host, ogni interfaccia deve necessariamente possedere un proprio indirizzo IP ed un indirizzo MAC unico. Chiaramente questo porta, da parte di un router, a dover conoscere le destinazioni per la corretta consegna dei pacchetti.\\
@@ -809,14 +810,14 @@ La procedura non è molto differente sarà necessario un'ulteriore passaggio att
 \end{enumerate}
 Questa procedura non prevede l'utilizzo di ARP.
 
-\subsection{Classi IP} % 5 Gennaio 2017
+\subsection{Classi IP} \label{subsec:ipclass} % 5 Gennaio 2017
 Abbiamo priam parlato delle due parti presenti a livello IP (network ed host) ma non di come distinguerle! Vi sono tre possibili soluzioni:
 \begin{itemize}
   \item \textbf{Classful addressing}: Divisione statica delle due parti, tre possibili dimensioni di rete IP, non sfrutta il concetto di subnetting ed è poco flessibile:
   \begin{itemize}
-    \item \textbf{Class A} (128 net): $10.0.0.0\rightarrow10.255.255.255$
-    \item \textbf{Class B} (16K net): $172.16.0.0\rightarrow172.31.255.255$
-    \item \textbf{Class C} (2M net): $192.168.0.0\rightarrow192.168.255.255$
+    \item \textbf{Class A} (128 net): $10.0.0.0\rightarrow10.255.255.255$ - PFL: 8
+    \item \textbf{Class B} (16K net): $172.16.0.0\rightarrow172.31.255.255$ - PFL: 12
+    \item \textbf{Class C} (2M net): $192.168.0.0\rightarrow192.168.255.255$ - PFL: 16
     \item \textbf{Class D}: Multicast Address
     \item \textbf{Class E}: Reserved for Future Use
   \end{itemize}
@@ -872,8 +873,30 @@ L'ente che si occupa di assegnare i blocchi di IP agli operatori si chiama ICANN
 
 \paragraph{Allocazione} L'allocazione di questi indirizzi avviene a livello geografico scalare, vengono asseganti blocchi continentali, dove esistono ulteriori enti di divisione, si passa poi alle divisioni nazionali tra operatori ed infine agli utenti finali.
 
-%\subsection{NAT: \textit{Network Address Translation}} %  Gennaio 2017
+\subsection{NAT: \textit{Network Address Translation}} %  13 Gennaio 2017
+Il crescente numero di device ha portato alla carenza di indirizzi IP per l'indirizzamento dei dispositivi. Per questo motivo è stato necessario trovare una soluzione al problema.\\
+Nella attuale struttura di indirizzamento vi sono alcuni indirizzi ``privati'' ovvero non annunciati pubblicamente sulla rete e di conseguenza non raggiungibili, vengono definite nello stesso modo delle reti classful (paragrafo \ref{subsec:ipclass}) ma comunque valide in CIDR.
+\paragraph{Traduzione} Spesso il concetto di NAT viene frainteso, il ruolo degli home gateaway ricopre molti ambiti tra cui NAT e PATH. Il NAT ha il compito di tradurre gli indirizzi della rete locale con un singolo indirizzo, rappresentante la rete, in tutta internet.
+\paragraph{Funzionamento} Il NAT ha il compito di rappresentare la nostra rete locale nel ``mondo internet'' per fare questo traduce tutti i pacchetti in uscita, costituiti da una porta sorgente e da un indirizzo IP interno alla rete, con un indirizzo rappresentante la nostra rete e con una differente porta. Esattamente allo stesso modo, al arrivo di un pacchetto nella nostra rete, il NAT si occuperà di recapitare al giusto host della rete locale il pacchetto. Il procedimento si basa sull'utilizzo di una tabella (\textit{NAT Translation Table}) contenente le varie entri di porta ed indirizzo ``interni'' e porta ``esterna''.
+\paragraph{Problema NAT} A livello pratico tutti i dispositivi di una rete vengo visti da internet come un singolo indirizzo IP, di conseguenza non si può indirizzare precisamente un host all'interno di una rete, per farlo bisogna gestire il tutto in modo opportuno, allocando staticamente una tabella per il forwarding oppure usando relaying server.
+La prima soluzione è abbastanza semplice e non necessità di essere spiegata.\\
+Servizi come Skype necessitano una connessione alla rete per funzionare ma l'utente chiamante non avrebbe modo di connettersi a chi vuole senza conoscerne la sua porta, per tanto vengono sfruttare i relaying server. Con la seguente procedura:
+\begin{itemize}
+  \item NAT e client1 stabiliscono una connessione con il realy server.
+  \item Client2 si connette anch'esso al relay server.
+  \item Il realy server farà da ponte tra le due connessioni permettendo ai due client di comunicare correttamente.
+\end{itemize}
 
+
+
+\subsection{ICMP}
+
+\subsection{IPv6}
+
+\subsection{Algoritmi di Routing}
+
+
+%----------------------------------------------------------------------------------------
 \section{DNS: \textit{Domain Name System}} \label{sec:dns} % 6 Gennaio 2017
 Questo capitolo si occuperà di descrivi i DNS e la loro utilità nelle operazioni di tutti i giorni.
 
@@ -1016,11 +1039,152 @@ Tutte questo considerazioni non vanno interpretate come negative infatti questo 
 
 \paragraph{Checksum} Il protocollo UDP prevede un campo per la checksum essa viene calcolata eseguento la somma in \textbf{complemento a 1} dei dati di informazione, questo meccanismo permette di rilevare errori nel pacchetto trasmesso.
 
-\section{TESTO NON COMPLETO} % 7 Gennaio 2017 - 16:34
-La presente edizione si ferma alle lezioni PRIMA della pausa invernale. Verrà completato appena verranno svolte le lezioni in aula.
+\subsection{TCP: \textit{Transmission Control Protocol}} % 11 Gennaio 2017
+La più importante differenza rispetto ad UDP è la sua stabilità di connessione infatti viene prima instaurata la comunicazione tra sender e receiver e successivamente poi inizierà la vera e propria trasmissione delle informazioni. Durante il tempo questo protocollo si è molto evoluto.
 
-\section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
-Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
+\paragraph{Struttura} Le caratteristi principali del protocollo sono:
+\begin{itemize}
+  \item Point-to-point: Un sender ed un receiver.
+  \item Reliable: Stream affidabile, gestito in byte e non a no. pacchetti, e senza delimitatori.
+  \item Pipilined: Gestione di flusso e dimensionamento della finestra.
+  \item Full-Duplex: Dati bidirezionali sulla stessa connessione.
+  \item Connection-oriented: Protocolli di handshaking.
+  \item Flow controlled: Non sovraccarica il ricevitore.
+\end{itemize}
+
+\paragraph{Header} I campi di questo protocollo sono più complessi rispetto ad UDP per garantire l'affidabilità della linea:
+\begin{center}
+\begin{tabular}{ |c||c|c|c|c| }
+ \hline
+ \textbf{Field} & SRC Port\# & DEST Port\# & Sequence \# & ACK \#\\
+ \hline
+ \hline
+ \textbf{Bit} & 16 & 16 & 32 & 32 \\
+ \hline
+\end{tabular}
+\end{center}
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c| }
+ \hline
+ \textcolor{Red}{\textbf{MIX}} & Receive Wind. & Checksum & URG data pointer & options\\
+ \hline
+ \hline
+ 16 & 16 & 16 & 16 & 32 \\
+ \hline
+\end{tabular}
+\end{center}
+
+Il campo \textcolor{Red}{\textbf{MIX}} è costituito da:
+\begin{itemize}
+  \item Head Length
+  \item Campo vuoto
+  \item Urgent Data
+  \item ACK\# Valid
+  \item Push: Spesso usato per notificare la fine ``del dato''
+  \item RST: Chiusura bidirezionale (non educata)
+  \item SYN: Apertura
+  \item FIN: Chiusura (educata)
+\end{itemize}
+Spesso questi campi non vengono utilizzati durante le trasmissioni TCP.\\
+Il campo \textbf{Sequence \#} rappresenta il numero, in byte, di dati trasmessi nei precedenti pacchetti. Il campo \textbf{ACK} (capitolo \ref{subsec:arq}) invece contiene il numero del prossimo byte di dati da ricevere in sequenza, seguendo una politica cumulativa (\textit{mi hai inviato per ora 42 byte, aspetto il 43esimo}). Nelle opzioni posso scegliere il tipo di ACK da cumulativo o selettivo, aumentare la dimensione della finestra di ricezione oltre ai 64k assegnando un moltiplicatore (WSO) al valore già presente.
+
+\paragraph{Flusso TCP} Il flusso di questo protocollo segue una serie di procedure in grado di mantenere l'affidabilità (\textbf{RDT}: \textit{Reliable Data Transfert}) della comunicazione sopra un livello che non studiato a garantirla (IP).\\
+In generale viene stabilita la connessione tra sender e receiver dopo di che viene avviata la trasmissione. Per ogni pacchetto trasmesso, il sender, si aspetterà di ricevere un ACK dal receiver. In caso di mancata consegna del pacchetto sarà RX a chiedere (con ACK) di ritrasmettere quello mancante, nel caso invece in cui venga perso l'ACK sarà il TX a ritrasmetterlo fino ad aver ricevuto l'ACK di conferma. Dopo la consegna di un pacchetto speciale di fine viene chiusa la connessione instaurata.\\
+Per il funzionamento più dettagliato di questa procedura si faccia riferimento al capitolo \ref{subsec:arq}.
+
+\paragraph{Fast Retransmit} Nel caso in cui abbia ricevuto 3 volte un'ACK duplicato (4 ACK uguali), lato sender, allora ritrasmetto immediatamente solo il pacchetto richiesto (non tutta la finestra) senza attendere lo scadere del timeout. In generale si cerca il più possibile di evitare di arrivare allo scadere del timeout in quanto comporta grandi perdite di tempo. Vedi figura \ref{fig:tcpfr}.
+
+\begin{figure}[!hbpt]
+  \centering
+  \includegraphics[width=5cm]{images/tcpfr.png}
+  \caption{TCP Fast Retransmit}
+  \label{fig:tcpfr}
+\end{figure}
+
+\paragraph{Handshaking} Come detto precedentemente questo protocollo prevede di stabilire la connessione prima di avviare la trasmissione in modo da accordarsi sui parametri di essa al fine di una corretta interpretazione dei dati.\\
+Questo tipo di handshake prendere il nome di 3-way e prevede il seguente flusso (figura \ref{fig:syn}):
+\begin{enumerate}
+  \item \textbf{TX}: Invia TCP SYN msg con seq=x.
+  \item \textbf{RX}: Risponde con seq=y, ACKbit=1 e \#ACK=x+1. (segnale server on)
+  \item \textbf{TX}: Invia ACK di risposta al RX con \#ACK=y+1. (segnale client on)
+\end{enumerate}
+La chiusura della connessione invece prenvede anch'essa un ``botta e risposta'' di pacchetti ed ACK (\ref{fig:fin}):
+\begin{enumerate}
+  \item \textbf{TX}: Invia TCP FIN msg con seq=x.
+  \item \textbf{RX}: Risponde con ACK per conferma di ricezione FIN ACKbit=1 e \#ACK=x+1.
+  \item (in questa fase il client non può più inviare dati al server, mentre il server può ancora inviare dati)
+  \item \textbf{RX}: Invia TCP FIN msg con seq=y.
+  \item \textbf{TX}: Risponde con ACK per conferma di ricezione FIN ACKbit=1 e \#ACK=y+1.
+\end{enumerate}
+I due numeri x ed y sono numeri generati casualmente per questioni di sicurezza, difficilmente vedremo quindi sequenze partenti da zero (son Wireshark vedremo il numero relativo di sequenza di default).\\
+Da questo momento in poi la connessione sarà terminata ed i due lati non potranno più comunicare fino a nuova connessione.
+
+\begin{figure}[!hbpt]
+  \centering
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/syn.png}
+    \caption{Apertura connessione}
+    \label{fig:syn}
+  \end{minipage}\hfill
+  \begin{minipage}{.45\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/fin.png}
+    \caption{Chiusura connessione}
+    \label{fig:fin}
+  \end{minipage}\hfill
+\end{figure}
+
+\paragraph{Congestionamento} TCP prevede il controllo del flusso di comunicazione. Inizialmente non era prevista la gestione, fu successivamente aggiunta la possibilità con ECN, il problema di utilizzo è dovuto al ritardo di introduzione per tanto si son preferite altre tecniche.\\
+Ad oggi la gestione si basa sul dimensionamento delle finestra di ricezione nei due lati.
+Lo stream di questo protocollo viene avviato a ``lentamente'' onde evitare di sovraccaricare il ricevitore e mano a mano alzerà la velocità, modificando il campo rwnd di ogni pacchetto TCP, con due tecniche:
+\begin{itemize}
+  \item \textbf{Additive Increase}: Aumenterà la dimensione della finestra di congestione (cwnd), ogni RTT, (di 1/cwnd ogni ACK ricevuto) fino alla rilevazione di una perdita.
+  \item \textbf{Mutiplicative Decrease}: Dimezza la porta ogni perdita (conservativa).
+\end{itemize}
+In realtà il throughput sarà fissato dal min(cwnd, rwnd). Questo permette una migliore gestione adattata al traffico in reale in quel momento. Il rate di TCP si calcolerà con $rate=\frac{cwnd}{RTT}$. Spesso l'andamento è, dopo una fase di accellerazione, costante nel tempo perchè arrivo al massimo valore della finestra (limitato dalla rete). \\
+Un'altra tecnica usata per la gestione del congestionamento è il \textbf{TCP Slow Start} dove il l'aumento del numero di pacchetti è esponenziale e non lineare come la tecnica precedente, aumentando la finestra di 1 MSS (1460 byte). In qualsiasi caso vi sarebbero moltissime soluzioni, per molti problemi, ma la scoglio più grande rimarrà comunque l'incapacità totale o quasi, per ethernet, di evolversi.
+
+\paragraph{Perdita Pacchetto} Nel caso venga rilevata una perdita ci son due comportamenti, perdita rilevata con:
+\begin{itemize}
+  \item \textbf{Timeout}: Parto nuovamente da 1 MSS, cresco esponenzialmente fino alla soglia (metà del rate) e successivamente cresco linearmente.
+  \item \textbf{Duplicate ACK}: Dimezzo la finestra e cresco linearmente.
+\end{itemize}
+E' molto più efficente quando rilevo per ACK duplicati (TCP Reno) piuttosto che da timeout (TCP Tahoe). Sono disponibili molte altre tecniche questo perchè sono dettagli di sola pertinenza lato sender.
+
+\paragraph{Fairness} Il protocollo cerca di offrire a tutti quanti lo stesso servizio, senza privilegiarne nessuna, fornendo un rate=bandwidth/n.connessioni.
+
+
+\section{Application Layer - LV5} \label{LV5} % 6 Gennaio 2017
+\subsection{Introduzione}
+Il livello applicativo è quello si può dire più vicino all'utente ed è costituito da tutto ciò che riguarda l'interazione con esso. Le applicazioni che fanno parte di questo livello son ad esempio le mail, il web, P2P, streaming video, ricerche, VOIP, ecc...\\
+Le strutture con cui possono essere gestite queste applicazioni sono due, quella client-server, ovvero dove l'utente accede ad un server always on per scaricare/caricare le informazioni necessarie (Netflix), oppure quella P2P dove non esiste un server always on ma dove sono gli utenti finali stessi a comunicare tra di loro senza bisogno di strutture esterne (BitTorrent).
+
+\subsection{Comunicazione}
+La comunicazione su questo livello è strutturata a processi (client-server), il \textit{client process} sarà il processo che inizierà la comunicazione mentre il \textit{server process} sarà quello ad attendere di essere contattato dal client process.\\
+Da qui si diramano moltissime tipologie, il messaggio può essere di risposta o di richiesta, devono essere definite le sintassi dei messaggi e la semantica, i protoccoli comunicativi (proprietari o no) ed altre numerose regole.\\
+Questo layer prevede vengano garantiti alcuni servizi dai layer sottostanti come ad esempio:
+\begin{itemize}
+  \item \textbf{Data Integrity}: Transfert affidabili senza perdite.
+  \item \textbf{Timing}: Bassi ritardi di comunicazione.
+  \item \textbf{Throughput}: Richieste di banda minima o gestione elastica.
+  \item \textbf{Security}: Integrità dei dati e criptografia.
+\end{itemize}
+
+\subsection{WEB e HTTP}
+
+\subsection{FTP}
+
+\subsection{Mail Exchange}
+
+\subsection{P2P}
+
+
+
+
+
+% \section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
+% Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
