@@ -14,7 +14,6 @@
 \usepackage{placeins}
 \usepackage[usenames, dvipsnames]{color}
 \usepackage[italian]{babel}
-\usepackage{cclicenses}
 
 % Misure Documento
 \geometry{ a4paper, total={170mm,257mm},left=35mm, right=35mm, top=35mm, bottom=35mm }
@@ -27,15 +26,42 @@
 \end{figure}
 
 \maketitle
-\bigskip
-\bigskip
-\noindent \textbf{No responsibility is carried about the contents of this document; the document can only be circulated among the students of the course. Use at your own risk. Please do not contact the author with any requests.}
+
 \newpage
 \tableofcontents
 \bigskip
 \bigskip
 ``The most compelling reason for most people to buy a computer for the home will be to link it to a nationwide communications network. We’re just in the beginning stages of what will be a truly remarkable breakthrough for most people– –as remarkable as the telephone.''\\
 \rightline{{\rm --- \textbf{Steve Jobs}, Feb. 1th 1985}}
+\newpage
+
+{\noindent \Large \textbf{License}\bigskip}
+
+This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.\\
+You are free:
+\begin{itemize}
+  \item \textbf{to Share}: to copy, distribute and transmit the work
+  \item \textbf{to Remix}: to adapt the work
+\end{itemize}
+Under the following conditions:
+\begin{itemize}
+  \item \textbf{Attribution}: you must attribute the work in the manner specified by the author or licensor (but not in any way that suggests that they endorse you or your use of the work)
+  \item \textbf{Noncommercial}: you may not use this work for commercial purposes.
+  \item \textbf{Share Alike}: if you alter, transform, or build upon this work, you may distribute the resulting work only under the same or similar license to this one.
+\end{itemize}
+
+\noindent More information on the Creative Commons website (http://creativecommons.org).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=3cm]{images/license.png}
+\end{figure}
+
+{\noindent \Large \textbf{Acknowledgments}\bigskip}
+
+Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo.\\
+Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
+Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
 \newpage
 
 \section{Concetti Generali}\label{subsubsec}
@@ -712,11 +738,11 @@ La rete può essere creata senza struttura WiFi Direct (comunicazione diretta tr
 802.11 lavora su bande NON LICENZIATE esse infatti sono condivise dal moltissimi strumenti come Bluetooth, Cordless, forni MW, ecc... Le frequenze in questione sono 2.4 GHz (14 channel) e 5 GHz (23 channel).
 \paragraph{Strato MAC}
 A questo livello la struttura si basa su DCF (\textit{Distributed Coordination Function}) direttamente derivato da CSMA/CA. Le differenze sono legate alla contesa, per una stazione, del possesso del canale. Essendo stazioni half-duplex il ricevitore dovra confermare con ACK la ricezione. Datenere in considerazione la collisione in caso di terminale nascosto, risolvibile però con handshaking, invianto una piccola trama contenente la durata del trasferimento.
+
 % TERMINE ARGOMENTI DI STRUTTURA - 20 Dicembre 2016
 % ------------------------------------------------------------------------------------ %
 
 % ARGOMENTI PROTOCOLLI - 20 Dicembre 2016
-
 \section{Network Layer - LV3} \label{LV3}
 \subsection{Introduzione}
 Il livello 2 (\ref{LV2}) presenta alcuni problemi come la bassa efficenza nella gestione dei collegamenti, ecc... Il livello 3 cerca di compensare alcune di queste carenze.\\
@@ -887,14 +913,25 @@ Servizi come Skype necessitano una connessione alla rete per funzionare ma l'ute
   \item Il realy server farà da ponte tra le due connessioni permettendo ai due client di comunicare correttamente.
 \end{itemize}
 
-
-
-\subsection{ICMP}
-
-\subsection{IPv6}
-
-\subsection{Algoritmi di Routing}
-
+\subsection{ICMP: \textit{Internet Control Message Protocol}}
+ICMP è un protocollo definito per per la comunicazione tra HOST e ROUTER a livello network (LV3: cap. \ref{LV3}).\\
+I messaggi ICMP sono incapsulati in datagram IP e sono costituiti da il tipo, il codice e i primi 8 bytes dell'IP datagram che ha causato l'errore. Alcuni esempi sono:
+\begin{center}
+\begin{tabular}{ |c|c|c| }
+ \hline
+ \textbf{Type} & \textbf{Code} & \textbf{Description} \\
+ \hline
+ \hline
+ 0 & 0 & echo reply (ping) \\
+ \hline
+ 3 & 0 & Destination network unreachable \\
+ \hline
+ 8 & 0 & echo request (ping) \\
+ \hline
+ 3 & 6 & Destination network Uunknown \\
+ \hline
+\end{tabular}
+\end{center}
 
 %----------------------------------------------------------------------------------------
 \section{DNS: \textit{Domain Name System}} \label{sec:dns} % 6 Gennaio 2017
@@ -1172,34 +1209,53 @@ Questo layer prevede vengano garantiti alcuni servizi dai layer sottostanti come
 \end{itemize}
 
 \subsection{WEB e HTTP}
+L'accesso ad un sito web è molto più complesso di quello che potrebbe sembrare. Tecnicamente è un semplice accesso ad un server dal quale vengono scaricati alcuni oggetti che verranno successivvamente parsificati (visualizzati) dal nostro browser.\\
+Una richiesta HTTP sfrutta il protocollo TCP:
+\begin{itemize}
+  \item Apertura connessione TCP (porta \#80).
+  \item Server accetta connessione TCP.
+  \item Scambio di dati tra S e C.
+  \item TCP chiude la connessione.
+\end{itemize}
+Anche HTTP è \textit{stateless} ovvero che non conosce la storia precedente a quella conessione.
+\paragraph{Persistenza} Vi sono due tipi, il protocollo \textit{non-persistent} invia un'oggetto con una connessione e poi \textbf{chiude}, questo sisgnifica che il donwload di oggetti multipli richiede connessioni multiple. Nel caso \textit{persistent} invece ogni connessione TCP viene aperta e mantenuta tale dopo il termine del downlaod inviando più oggetti per connessione.\\
+In alcuni casi possono essere aperte più connessioni TCP contemporanee di tipo \textit{persistent} per velocizzare la connessione (vedi Google Chrome).
 
-\subsection{FTP}
+\paragraph{Flow}
 
-\subsection{Mail Exchange}
+\paragraph{Codice Errore} Il campo codice errore è sempre presente, le possibilià sono:
+\begin{itemize}
+  \item \textbf{200}: OK (\textit{Request Secceeded})
+  \item \textbf{301}: Moved Permanently (\textit{Moved in a new location})
+  \item \textbf{400}: Bad Request (\textit{Msg non understood by server})
+  \item \textbf{404}: Not Found (\textit{Document not found on this server})
+  \item \textbf{505}: HTTP Version Not Supported
+\end{itemize}
 
-\subsection{P2P}
+\paragraph{Cookies} Sono l'implementazione del livello sessione (ISO-OSI) in TCP, essendo direttamente implementati da HTTP possono essere usati solo li. Servono per gestire più connessioni (sessioni) come se fossero appartenenti allo stesso aggregato.\\
+Vengono implementati come un numero con numerose cifre presente negli header dei pacchetti HTTP (sia \textit{response}, sia \textit{request}), vengono salvati lato host ed i corrispondenti dati nel back-end database di chi lo ha rilasciato.\\
+L'utilizzo di questi ``biscottini'' può essere molto utile, sia dal punto di vista della sicurezza (autorizzazioni), sia per comodità come shopping carts, pubblicità mirate o sessioni attive tipo Facebook.
 
+\paragraph{Proxy} Il loro obbiettivo è quello di soddisfare una richiesta del client senza richiedere le informazioni al server di origine. Se il proxy server ha in cache l'informazione per cui facciamo richiesta sarà lui a risponderci, altrimenti inoltrerà la richiesta al main server.\\
+Teoricamente andrebbe definito manualmente ma spesso viene usata la tecnica \textit{trasparent proxy server} dove il server, posto nel mezzo della linea di occupa di filtrare il traffico e se è in grado di soddisfare la richiesta sarà lui a rispondere (fingendo di essere il server originale), altrimenti inoltrerà la richiesta silenziosamente.
 
-
-
-
-% \section{Ringraziamenti} Questo breve riepilogo non ha alcuno scopo se non quello di agevolare lo studio di me stesso, se vi fosse di aiuto siete liberi di usarlo. Le fonti su cui mi sono basato sono quelle relative al corso offerto (\textbf{Reti di Calcolatori (12CDUOA)}) dal Politecnico di Torino durante l'anno accademico 2016/2017.\\
-% Non mi assumo nessuna responsabilità in merito ad errori o qualsiasi altra cosa. Fatene buon uso!
+\subsection{FTP e Mail}
+Questi due protocolli sono molto usati, il primo ha il compito di \textit{file transfert protocol}, ovvero viene usato per il trasferimento di dati tra host. Viene implementato come una semplice connessione TCP alla porta 21 per l'handshaking e alla porta 20 per il trasferimento vero e proprio.\\
+I protocolli per la mail sono stati appunto definiti per lo scambio di messaggi di posta elettronica e sono costituiti principalmente da tre parti:
+\begin{itemize}
+  \item User agents: Colui che legge le mail.
+  \item Mail server: mailbox e queue.
+  \item SMTP (\textit{Simple Mail Transfert Protocol}).
+\end{itemize}
+Il funzionamento è semplice, dopo i greeting iniziali avviene il trasferimento del messaggio, l'inserimento in coda e la chiusura della comunicazione.\\
+Lato ricezione invece si fruttano vari protocolli:
+\begin{itemize}
+  \item \textbf{POP} (\textit{Post Office Protocol}): Dopo l'autorizzazione scarica i messaggi senza ulteriori possibilità di gestione.
+  \item \textbf{IMAP} (\textit{Internet Mail Access Protocol}): Include le funzioni di POP aggiungendo la gestione dei messaggi (cancellazione, lettura, ecc...).
+  \item \textbf{HTTP}: Con servizi come GMail, Hotmail, Yahoo! Mail, ecc...
+\end{itemize}
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
 
 \end{document}
-
-% \begin{center}
-% \begin{tabular}{ |c|c|c| }
-%  \hline
-%  Column1 & Column2 & Column3 \\
-%  \hline
-%  \hline
-%  cell4 & cell5 & cell6 \\
-%  \hline
-%  cell7 & cell8 & cell9 \\
-%  \hline
-% \end{tabular}
-% \end{center}
